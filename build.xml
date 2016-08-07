@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="moto-stats" default="build">
+    <property name="workspace" value="${basedir}" />
+    <property name="build.dir" value="${basedir}"/>
+    <property name="root.dir" value="${build.dir}"/>
+    <property name="src.dir" value="${root.dir}/src"/>
+    <property name="features.dir" value="${root.dir}/features"/>
+    <property name="docs.dir" value="${root.dir}/docs"/>
+    <property name="reports.dir" value="${root.dir}/reports"/>
+
+    <target name="reset"
+            depends="vendors,prepare-db,assetic,clear-cache"
+    />
+
+    <target name="build"
+            depends="prepare,vendors,prepare-db,assetic,clear-cache-prod,lint,phploc,pdepend,phpcpd,phpmd,phpcs,phpcs,phpdoc,phpunit"
+    />
+
+    <target name="build-ci"
+            depends="prepare,vendors,prepare-db,assetic,clear-cache-prod,lint,phploc,pdepend,phpcpd,phpmd-ci,phpcs,phpcs-ci,phpdoc,phpunit-ci"
+    />
+
+    <target name="build-small"
+            depends="prepare,vendors,assetic,clear-cache-prod,phpunit,functional"
+    />
+
+    <target name="build-parallel" depends="prepare,lint,tools-parallel,phpunit"/>
+
+    <target name="tools-parallel" description="Run tools in parallel">
+        <parallel threadCount="2">
+            <sequential>
+                <antcall target="pdepend"/>
+                <antcall target="phpmd-ci"/>
+            </sequential>
+            <antcall target="phpcpd"/>
+            <antcall target="phpcs-ci"/>
+            <antcall target="phploc"/>
+            <antcall target="phpdoc"/>
+        </parallel>
+    </target>
+
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="${reports.dir}/api"/>
+        <delete dir="${reports.dir}/code-browser"/>
+        <delete dir="${reports.dir}/coverage"/>
+        <delete dir="${reports.dir}/logs"/>
+        <delete dir="${reports.dir}/pdepend"/>
+        <delete dir="${reports.dir}/docs/*"/>
+    </target>
+
+    <target name="prepare" depends="clean" description="Prepare for build">
+        <mkdir dir="${reports.dir}/api"/>
+        <mkdir dir="${reports.dir}/code-browser"/>
+        <mkdir dir="${reports.dir}/coverage"/>
+        <mkdir dir="${reports.dir}/logs"/>
+        <mkdir dir="${reports.dir}/pdepend"/>
+    </target>
+
+    <target name="prepare-db"
+            depends="drop-database,create-database,prepare-schema,prepare-fixtures"
+    />
+
+    <target name="prepare-fixtures">
+        <exec executable="php">
+            <arg value="app/console"/>
+            <arg value="doctrine:fixtures:load"/>
+            <arg value="--fixtures=features/DataFixtures/"/>
+        </exec>
+    </target>
+
+    <target name="drop-database">
+        <exec executable="php">
+            <arg value="app/console"/>
+            <arg value="doctrine:database:drop"/>
+            <arg value="--force"/>
+        </exec>
+    </target>
+
+    <target name="create-database">
+        <exec executable="php">
+            <arg value="app/console"/>
+            <arg value="doctrine:database:create"/>
+        </exec>
+    </target>
+
+    <target name="prepare-schema">
+        <exec executable="php">
+            <arg value="app/console"/>
+            <arg value="doctrine:schema:update"/>
+            <arg value="--force"/>
+        </exec>
+    </target>
+
+    <target name="lint" description="Perform syntax check of sourcecode files">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+            <fileset dir="${src.dir}">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+            <fileset dir="${basedir}/src/">
+                <include name="**/*Test.php" />
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="phploc">
+            <arg value="--log-csv" />
+            <arg value="${reports.dir}/logs/phploc.csv" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec executable="pdepend">
+            <arg value="--jdepend-xml=${reports.dir}/logs/jdepend.xml" />
+            <arg value="--jdepend-chart=${reports.dir}/pdepend/dependencies.svg" />
+            <arg value="--overview-pyramid=${reports.dir}/pdepend/overview-pyramid.svg" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpmd" description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="${basedir}/vendor/phpmd/phpmd/src/bin/phpmd" failonerror="true">
+            <arg path="${basedir}/src" />
+            <arg value="text" />
+            <arg value="${workspace}/build/phpmd.xml" />
+        </exec>
+    </target>
+
+    <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <exec executable="${basedir}/vendor/phpmd/phpmd/src/bin/phpmd" failonerror="true">
+            <arg path="${src.dir}" />
+            <arg value="xml" />
+            <arg value="${workspace}/build/phpmd.xml" />
+            <arg value="--reportfile" />
+            <arg value="${reports.dir}/logs/pmd.xml" />
+        </exec>
+    </target>
+
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="phpcs" failonerror="true">
+            <arg value="--standard=Symfony2" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+        <exec executable="phpcs" output="/dev/null">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${reports.dir}/logs/checkstyle.xml" />
+            <arg value="--standard=Symfony2" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <exec executable="phpcpd">
+            <arg value="--log-pmd" />
+            <arg value="${reports.dir}/logs/pmd-cpd.xml" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpdoc" description="Generate API documentation using phpDox">
+        <exec executable="phpdoc">
+            <arg line="-d '${src.dir}' -t '${reports.dir}/docs'" />
+        </exec>
+    </target>
+
+    <target name="phpunit" description="Run tests with PHPUnit">
+        <exec executable="${basedir}/vendor/phpunit/phpunit/phpunit" failonerror="true">
+            <arg value="-c" />
+            <arg path="${basedir}/build/phpunit.xml" />
+        </exec>
+    </target>
+
+    <target name="phpunit-ci" description="Run tests with PHPUnit">
+        <exec executable="${basedir}/vendor/phpunit/phpunit/phpunit" failonerror="true">
+            <arg value="-c" />
+            <arg path="${basedir}/build/phpunit_ci.xml" />
+        </exec>
+    </target>
+
+    <target name="vendors" description="Update vendors">
+        <exec executable="composer" failonerror="true">
+            <arg value="install" />
+        </exec>
+    </target>
+
+    <target name="assetic" description="Dump assetics">
+        <exec executable="php" failonerror="true">
+            <arg value="bin/console" />
+            <arg value="assetic:dump" />
+        </exec>
+    </target>
+
+    <target name="clear-cache-prod" >
+        <exec executable="php" failonerror="true">
+            <arg value="bin/console" />
+            <arg value="cache:clear" />
+            <arg value="--env=prod" />
+        </exec>
+    </target>
+
+    <target name="clear-cache" >
+        <exec executable="php" failonerror="true">
+            <arg value="bin/console" />
+            <arg value="cache:clear" />
+        </exec>
+    </target>
+
+    <target name="functional" depends="prepare-db"
+            description="Execute the behat tests"
+    >
+        <exec executable="${basedir}/bin/behat" failonerror="true">
+        </exec>
+    </target>
+
+    <target name="functional-ci" depends="prepare-db"
+            description="Execute the behat tests"
+    >
+        <exec executable="${basedir}/bin/behat" failonerror="true">
+            <arg value="--profile=ci"/>
+        </exec>
+    </target>
+
+</project>
