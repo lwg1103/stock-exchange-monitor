@@ -4,6 +4,7 @@
     <property name="build.dir" value="${basedir}"/>
     <property name="root.dir" value="${build.dir}"/>
     <property name="src.dir" value="${root.dir}/src"/>
+    <property name="bin.dir" value="${root.dir}/bin"/>
     <property name="features.dir" value="${root.dir}/features"/>
     <property name="docs.dir" value="${root.dir}/docs"/>
     <property name="reports.dir" value="${root.dir}/reports"/>
@@ -62,7 +63,7 @@
 
     <target name="prepare-fixtures">
         <exec executable="php">
-            <arg value="app/console"/>
+            <arg value="${bin.dir}/console"/>
             <arg value="doctrine:fixtures:load"/>
             <arg value="--fixtures=features/DataFixtures/"/>
         </exec>
@@ -70,7 +71,7 @@
 
     <target name="drop-database">
         <exec executable="php">
-            <arg value="app/console"/>
+            <arg value="${bin.dir}/console"/>
             <arg value="doctrine:database:drop"/>
             <arg value="--force"/>
         </exec>
@@ -78,14 +79,14 @@
 
     <target name="create-database">
         <exec executable="php">
-            <arg value="app/console"/>
+            <arg value="${bin.dir}/console"/>
             <arg value="doctrine:database:create"/>
         </exec>
     </target>
 
     <target name="prepare-schema">
         <exec executable="php">
-            <arg value="app/console"/>
+            <arg value="${bin.dir}/console"/>
             <arg value="doctrine:schema:update"/>
             <arg value="--force"/>
         </exec>
@@ -192,14 +193,14 @@
 
     <target name="assetic" description="Dump assetics">
         <exec executable="php" failonerror="true">
-            <arg value="bin/console" />
+            <arg value="${bin.dir}/console" />
             <arg value="assetic:dump" />
         </exec>
     </target>
 
     <target name="clear-cache-prod" >
         <exec executable="php" failonerror="true">
-            <arg value="bin/console" />
+            <arg value="${bin.dir}/console" />
             <arg value="cache:clear" />
             <arg value="--env=prod" />
         </exec>
@@ -207,7 +208,7 @@
 
     <target name="clear-cache" >
         <exec executable="php" failonerror="true">
-            <arg value="bin/console" />
+            <arg value="${bin.dir}/console" />
             <arg value="cache:clear" />
         </exec>
     </target>
