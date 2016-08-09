@@ -1,0 +1,6 @@
+{%  extends '::base.html.twig' %}
+{% block body %}
+{% for company in companies %}
+    <p>{{ company.name }} ({{ company.marketId }})</p>
+{% endfor %}
+{% endblock %}

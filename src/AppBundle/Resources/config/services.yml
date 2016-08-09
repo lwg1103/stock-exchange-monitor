@@ -1,0 +1,5 @@
+services:
+  app.use_case.list_companies:
+    class: AppBundle\UseCase\ListCompanies
+    arguments:
+      - '@doctrine.orm.default_entity_manager'

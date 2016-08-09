@@ -1,0 +1,8 @@
+default:
+    suites:
+        default:
+            contexts:
+                - CompanyContext:
+                    listCompanies:   '@app.use_case.list_companies'
+    extensions:
+        Behat\Symfony2Extension: ~
