@@ -3,7 +3,7 @@
 namespace AppBundle\UseCase;
 
 use AppBundle\Entity\Company;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class ListCompanies
@@ -13,18 +13,18 @@ use Doctrine\Common\Persistence\ObjectManager;
 class ListCompanies
 {
     /**
-     * @var ObjectManager
+     * @var EntityRepository
      */
-    private $em;
+    private $repository;
 
     /**
      * ListCompanies constructor.
      *
-     * @param ObjectManager $em
+     * @param EntityRepository $repository
      */
-    public function __construct(ObjectManager $em)
+    public function __construct(EntityRepository $repository)
     {
-        $this->em = $em;
+        $this->repository = $repository;
     }
 
     /**
@@ -32,6 +32,6 @@ class ListCompanies
      */
     public function execute()
     {
-        return $this->em->getRepository('AppBundle:Company')->findAll();
+        return $this->repository->findAll();
     }
 }

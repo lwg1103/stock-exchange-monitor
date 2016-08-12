@@ -1,6 +1,6 @@
 {%  extends '::base.html.twig' %}
 {% block body %}
 {% for company in companies %}
-    <p>{{ company.name }} ({{ company.marketId }})</p>
+    <p><a href="{{ path('company_get', {'marketId': company.marketId}) }}">{{ company.name }} ({{ company.marketId }})</a></p>
 {% endfor %}
 {% endblock %}

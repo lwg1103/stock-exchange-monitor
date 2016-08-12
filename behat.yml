@@ -3,6 +3,8 @@ default:
         default:
             contexts:
                 - CompanyContext:
-                    listCompanies:   '@app.use_case.list_companies'
+                    listCompanies:  '@app.use_case.list_companies'
+                    getCompany:     '@app.use_case.get_company'
+                    em:             '@doctrine.orm.entity_manager'
     extensions:
         Behat\Symfony2Extension: ~

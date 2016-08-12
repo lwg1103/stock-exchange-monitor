@@ -1,5 +1,9 @@
 <?php
 
+use AppBundle\UseCase\ListCompanies;
+use AppBundle\UseCase\GetCompany;
+use Doctrine\Common\Persistence\ObjectManager;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
@@ -11,18 +15,35 @@ use Behat\Gherkin\Node\TableNode;
 class CompanyContext extends FeatureContext
 {
     /**
-     * @var \AppBundle\UseCase\ListCompanies
+     * @var ListCompanies
      */
     private $listCompanies;
+    /**
+     * @var GetCompany
+     */
+    private $getCompany;
+    /**
+     * @var ObjectManager
+     */
+    private $em;
     private $result;
 
     /**
      * CompanyContext constructor.
-     * @param \AppBundle\UseCase\ListCompanies $listCompanies
+     *
+     * @param ListCompanies $listCompanies
+     * @param GetCompany $getCompany
+     * @param ObjectManager $em
      */
-    public function __construct(\AppBundle\UseCase\ListCompanies $listCompanies)
+    public function __construct(
+        ListCompanies $listCompanies,
+        GetCompany $getCompany,
+        ObjectManager $em
+    )
     {
         $this->listCompanies = $listCompanies;
+        $this->getCompany = $getCompany;
+        $this->em = $em;
     }
 
     /**
@@ -42,4 +63,22 @@ class CompanyContext extends FeatureContext
         assertContainsOnly('AppBundle\Entity\Company', $this->result);
     }
 
+
+    /**
+     * @When I enter :arg1 company site
+     */
+    public function iEnterCompanySite($arg1)
+    {
+        $this->result = $this->getCompany->byMarketId($arg1);
+    }
+
+    /**
+     * @Then I get :arg1 company details
+     */
+    public function iGetCompanyDetails($arg1)
+    {
+        $expected = $this->em->getRepository('AppBundle:Company')->findOneBy(['marketId' => $arg1]);
+
+        assertEquals($expected, $this->result);
+    }
 }

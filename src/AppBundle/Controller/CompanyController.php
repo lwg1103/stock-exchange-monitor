@@ -26,4 +26,19 @@ class CompanyController extends Controller
                 'companies' => $this->get('app.use_case.list_companies')->execute()
             ];
     }
+
+    /**
+     * @Route("/{marketId}", name="company_get")
+     * @Template
+     *
+     * @param string $marketId
+     *
+     * @return Response
+     */
+    public function getAction($marketId)
+    {
+        return [
+            'company' => $this->get('app.use_case.get_company')->byMarketId($marketId)
+        ];
+    }
 }
