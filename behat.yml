@@ -2,9 +2,15 @@ default:
     suites:
         default:
             contexts:
+                - FeatureContext
                 - CompanyContext:
                     listCompanies:  '@app.use_case.list_companies'
                     getCompany:     '@app.use_case.get_company'
                     em:             '@doctrine.orm.entity_manager'
+                - ReportContext:
+                    listReports:        '@app.use_case.list_reports'
+                    addReportManually:  '@app.use_case.add_report_manually'
+                    formFactory:        '@form.factory'
+                    em:                 '@doctrine.orm.entity_manager'
     extensions:
         Behat\Symfony2Extension: ~

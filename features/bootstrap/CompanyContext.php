@@ -1,19 +1,21 @@
 <?php
 
+use Behat\Behat\Context\Context;
 use AppBundle\UseCase\ListCompanies;
 use AppBundle\UseCase\GetCompany;
 use Doctrine\Common\Persistence\ObjectManager;
-use Behat\Behat\Tester\Exception\PendingException;
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 
 /**
  * Defines application features from the specific context.
  */
-class CompanyContext extends FeatureContext
+class CompanyContext implements Context
 {
+    protected $result;
+    /**
+     * @var ObjectManager
+     */
+    protected $em;
+
     /**
      * @var ListCompanies
      */
@@ -22,28 +24,23 @@ class CompanyContext extends FeatureContext
      * @var GetCompany
      */
     private $getCompany;
-    /**
-     * @var ObjectManager
-     */
-    private $em;
-    private $result;
 
     /**
      * CompanyContext constructor.
      *
      * @param ListCompanies $listCompanies
-     * @param GetCompany $getCompany
+     * @param GetCompany    $getCompany
      * @param ObjectManager $em
      */
     public function __construct(
-        ListCompanies $listCompanies,
-        GetCompany $getCompany,
-        ObjectManager $em
+        ListCompanies   $listCompanies,
+        GetCompany      $getCompany,
+        ObjectManager   $em
     )
     {
-        $this->listCompanies = $listCompanies;
-        $this->getCompany = $getCompany;
-        $this->em = $em;
+        $this->listCompanies    = $listCompanies;
+        $this->getCompany       = $getCompany;
+        $this->em               = $em;
     }
 
     /**

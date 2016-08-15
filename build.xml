@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="moto-stats" default="build">
+<project name="stock-exchange-monitor" default="build">
     <property name="workspace" value="${basedir}" />
     <property name="build.dir" value="${basedir}"/>
     <property name="root.dir" value="${build.dir}"/>
@@ -162,7 +162,7 @@
     </target>
 
     <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="phpcs" failonerror="true">
+        <exec executable="phpcs">
             <arg value="--standard=Symfony2" />
             <arg path="${src.dir}" />
         </exec>

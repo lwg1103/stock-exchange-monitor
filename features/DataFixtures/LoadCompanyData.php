@@ -1,12 +1,18 @@
 <?php
 
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Company;
 
-class LoadCompanyData implements FixtureInterface
+class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
 {
     private $manager;
+
+    public function getOrder()
+    {
+        return 1;
+    }
 
     public function load(ObjectManager $manager)
     {

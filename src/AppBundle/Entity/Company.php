@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,13 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Company
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="market_id", type="string", length=255, unique=true)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $marketId;
 
     /**
      * @var string
@@ -29,11 +29,11 @@ class Company
     private $name;
 
     /**
-     * @var string
+     * @var Report[]
      *
-     * @ORM\Column(name="market_id", type="string", length=255, unique=true)
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="company")
      */
-    private $marketId;
+    private $reports;
 
     /**
      * Company constructor.
@@ -45,16 +45,7 @@ class Company
     {
         $this->name     = $name;
         $this->marketId = $marketId;
-    }
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
+        $this->reports  = new ArrayCollection();
     }
 
     /**
@@ -75,6 +66,34 @@ class Company
     public function getMarketId()
     {
         return $this->marketId;
+    }
+
+    /**
+     * @return Report
+     */
+    public function getReports()
+    {
+        return $this->reports;
+    }
+
+    /**
+     * @param Report[] $reports
+     *
+     * @return self
+     */
+    public function setReports($reports)
+    {
+        $this->reports = $reports;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getMarketId();
     }
 }
 

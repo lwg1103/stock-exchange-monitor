@@ -1,4 +1,10 @@
 {%  extends '::base.html.twig' %}
 {% block body %}
+    <h2>Details</h2>
     <p>{{ company.name }} ({{ company.marketId }})</p>
+    <h2>Reports available</h2>
+    {% for report in reports %}
+        <p>{{ report }}</p>
+    {% endfor %}
+    <a href="{{ path('report_add') }}">add report</a>
 {% endblock %}
