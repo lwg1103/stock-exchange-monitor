@@ -35,7 +35,10 @@
         "symfony/phpunit-bridge": "^3.0",
         "phpmd/phpmd": "^2.4",
         "phpunit/phpunit": "^5.5",
-        "phpunit/php-code-coverage": "^4.0"
+        "phpunit/php-code-coverage": "^4.0",
+        "doctrine/doctrine-fixtures-bundle": "^2.3",
+        "behat/behat": "^3.1",
+        "behat/symfony2-extension": "^2.1"
     },
     "scripts": {
         "post-install-cmd": [
