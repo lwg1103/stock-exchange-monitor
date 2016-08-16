@@ -8,7 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class DefaultController
+ * Class CompanyController
+ *
+ * @Route("/company")
  * 
  * @package AppBundle\Controller
  */
@@ -28,17 +30,21 @@ class CompanyController extends Controller
     }
 
     /**
+     * @param string $marketId
+     * 
      * @Route("/{marketId}", name="company_get")
      * @Template
-     *
-     * @param string $marketId
      *
      * @return Response
      */
     public function getAction($marketId)
     {
+        $company = $this->get('app.use_case.get_company')->byMarketId($marketId);
+        $reports = $this->get('app.use_case.list_reports')->byCompany($company);
+
         return [
-            'company' => $this->get('app.use_case.get_company')->byMarketId($marketId)
+            'company' => $company,
+            'reports' => $reports
         ];
     }
 }

@@ -1,10 +1,11 @@
-services:
-  app.use_case.list_companies:
-    class: AppBundle\UseCase\ListCompanies
-    arguments:
-      - "@=service('doctrine.orm.entity_manager').getRepository('AppBundle:Company')"
+imports:
+    - { resource: "@AppBundle/Resources/config/use_case.yml" }
 
-  app.use_case.get_company:
-    class: AppBundle\UseCase\GetCompany
+services:
+  app.loader.report_loader:
+    class: AppBundle\Loader\ReportLoader
     arguments:
-      - "@=service('doctrine.orm.entity_manager').getRepository('AppBundle:Company')"
+      - '@doctrine.orm.entity_manager'
+
+  app.reader.form_report_reader:
+    class: AppBundle\Reader\FormReportReader

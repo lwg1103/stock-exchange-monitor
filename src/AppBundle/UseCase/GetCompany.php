@@ -7,6 +7,7 @@ use AppBundle\Entity\Company;
 
 /**
  * Class GetCompany
+ * 
  * @package AppBundle\UseCase
  */
 class GetCompany
