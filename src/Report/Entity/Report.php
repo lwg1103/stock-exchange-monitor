@@ -1,15 +1,16 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace Report\Entity;
 
-use AppBundle\Entity\Report\Period;
-use AppBundle\Entity\Report\Type;
+use Report\Entity\Report\Period;
+use Report\Entity\Report\Type;
+use Company\Entity\Company;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Report
  *
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ReportRepository")
+ * @ORM\Entity
  * @ORM\Table(name="report", uniqueConstraints={
  *      @ORM\UniqueConstraint(name="unique_report", columns={"identifier", "company_id", "type", "period"})
  * })
@@ -35,7 +36,7 @@ class Report
     /**
      * @var Company
      *
-     * @ORM\ManyToOne(targetEntity="Company", inversedBy="reports")
+     * @ORM\ManyToOne(targetEntity="Company\Entity\Company", inversedBy="reports")
      * @ORM\JoinColumn(name="company_id", referencedColumnName="market_id")
      */
     private $company;

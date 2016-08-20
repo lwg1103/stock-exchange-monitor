@@ -13,6 +13,10 @@
             depends="vendors,prepare-db,assetic,clear-cache"
     />
 
+    <target name="tests"
+            depends="phpunit, functional"
+    />
+
     <target name="build"
             depends="prepare,vendors,prepare-db,assetic,clear-cache,lint,phploc,pdepend,phpcpd,phpmd,phpcs,phpcs,phpdoc,phpunit,functional"
     />

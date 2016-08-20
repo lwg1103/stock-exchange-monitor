@@ -1,21 +1,21 @@
 services:
   app.use_case.list_companies:
-    class: AppBundle\UseCase\ListCompanies
+    class: Application\UseCase\ListCompanies
     arguments:
-      - "@=service('doctrine.orm.entity_manager').getRepository('AppBundle:Company')"
+      - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
 
   app.use_case.get_company:
-    class: AppBundle\UseCase\GetCompany
+    class: Application\UseCase\GetCompany
     arguments:
-      - "@=service('doctrine.orm.entity_manager').getRepository('AppBundle:Company')"
+      - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
 
   app.use_case.list_reports:
-    class: AppBundle\UseCase\ListReports
+    class: Application\UseCase\ListReports
     arguments:
-      - "@=service('doctrine.orm.entity_manager').getRepository('AppBundle:Report')"
+      - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
 
   app.use_case.add_report_manually:
-    class: AppBundle\UseCase\AddReport
+    class: Application\UseCase\AddReport
     arguments:
       - '@app.reader.form_report_reader'
       - '@app.loader.report_loader'

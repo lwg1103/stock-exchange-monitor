@@ -1,8 +1,6 @@
 <?php
 
-namespace AppBundle;
-
-use AppBundle\BaseEnum;
+namespace Application;
 
 class EnumStub extends BaseEnum
 {

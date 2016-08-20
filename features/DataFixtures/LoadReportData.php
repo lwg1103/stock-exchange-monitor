@@ -3,9 +3,9 @@
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Report;
-use AppBundle\Entity\Report\Period as PeriodType;
-use AppBundle\Entity\Report\Type as ReportType;
+use Report\Entity\Report;
+use Report\Entity\Report\Period as PeriodType;
+use Report\Entity\Report\Type as ReportType;
 
 class LoadReportData implements OrderedFixtureInterface, FixtureInterface
 {
@@ -120,7 +120,7 @@ class LoadReportData implements OrderedFixtureInterface, FixtureInterface
 
     private function getCompany($marketId)
     {
-        return $this->manager->getRepository('AppBundle:Company')->find($marketId);
+        return $this->manager->getRepository('CompanyContext:Company')->find($marketId);
     }
 
     private function addReport(array $source)

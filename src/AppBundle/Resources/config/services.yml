@@ -3,9 +3,9 @@ imports:
 
 services:
   app.loader.report_loader:
-    class: AppBundle\Loader\ReportLoader
+    class: Report\Loader\ReportLoader
     arguments:
       - '@doctrine.orm.entity_manager'
 
   app.reader.form_report_reader:
-    class: AppBundle\Reader\FormReportReader
+    class: Report\Reader\FormReportReader

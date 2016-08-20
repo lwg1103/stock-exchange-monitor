@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Entity\Report;
+namespace Report\Entity\Report;
 
-use AppBundle\BaseEnum;
+use Application\BaseEnum;
 
 /**
  * Class Type
