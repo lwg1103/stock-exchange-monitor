@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Report
  *
  * @ORM\Entity
- * @ORM\Table(name="report", uniqueConstraints={
+ * @ORM\Table(name="reports", uniqueConstraints={
  *      @ORM\UniqueConstraint(name="unique_report", columns={"identifier", "company_id", "type", "period"})
  * })
  */

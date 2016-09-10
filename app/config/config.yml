@@ -71,6 +71,12 @@ doctrine:
                 prefix: Report\Entity
                 is_bundle: false
                 alias: ReportContext
+            price_mapping:
+                type: annotation
+                dir: "%kernel.root_dir%/../src/Price/Entity"
+                prefix: Price\Entity
+                is_bundle: false
+                alias: PriceContext
 
 # Swiftmailer Configuration
 swiftmailer:

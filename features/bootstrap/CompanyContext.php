@@ -15,7 +15,6 @@ class CompanyContext implements Context
      * @var ObjectManager
      */
     protected $em;
-
     /**
      * @var ListCompanies
      */
