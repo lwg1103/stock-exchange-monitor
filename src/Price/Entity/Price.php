@@ -110,4 +110,9 @@ class Price
         
         return $this;
     }
+
+    public function __toString()
+    {
+        return sprintf("%.2f %s", $this->value / 100, $this->currency);
+    }
 }

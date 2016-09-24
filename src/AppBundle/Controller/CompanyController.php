@@ -40,10 +40,12 @@ class CompanyController extends Controller
     public function getAction($marketId)
     {
         $company = $this->get('app.use_case.get_company')->byMarketId($marketId);
+        $price   = $this->get('app.use_case.get_price')->lastByCompany($company);
         $reports = $this->get('app.use_case.list_reports')->byCompany($company);
 
         return [
             'company' => $company,
+            'price'   => $price,
             'reports' => $reports
         ];
     }

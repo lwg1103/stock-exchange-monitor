@@ -98,6 +98,51 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function isConvertableToFormattedString()
+    {
+        $value = 150;
+        $currency = 'PLN';
+
+        $this->whenMoneyValueIs($value);
+        $this->whenMoneyCurrencyIs($currency);
+        $this->whenNewObjectIsCreated();
+        
+        $this->assertEquals("1.50 PLN", (string)$this->sut);
+    }
+
+    /**
+     * @test
+     */
+    public function isConvertableToFormattedStringWithTwoDigits()
+    {
+        $value = 200;
+        $currency = 'PLN';
+
+        $this->whenMoneyValueIs($value);
+        $this->whenMoneyCurrencyIs($currency);
+        $this->whenNewObjectIsCreated();
+
+        $this->assertEquals("2.00 PLN", (string)$this->sut);
+    }
+
+    /**
+     * @test
+     */
+    public function isConvertableToFormattedStringForAmountBelowOne()
+    {
+        $value = 25;
+        $currency = 'PLN';
+
+        $this->whenMoneyValueIs($value);
+        $this->whenMoneyCurrencyIs($currency);
+        $this->whenNewObjectIsCreated();
+
+        $this->assertEquals("0.25 PLN", (string)$this->sut);
+    }
+
     private function whenMoneyValueIs($value)
     {
         $this->money->getAmount()->willReturn($value);

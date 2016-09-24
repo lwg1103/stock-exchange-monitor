@@ -2,6 +2,7 @@
 {% block body %}
     <h2>Details</h2>
     <p>{{ company.name }} ({{ company.marketId }})</p>
+    <p>Current price: {{ price }}</p>
     <h2>Reports available</h2>
     {% for report in reports %}
         <p>{{ report }}</p>

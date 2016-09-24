@@ -9,6 +9,11 @@ services:
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
 
+  app.use_case.get_price:
+    class: Application\UseCase\GetPrice
+    arguments:
+      - "@=service('doctrine.orm.entity_manager').getRepository('PriceContext:Price')"
+
   app.use_case.list_reports:
     class: Application\UseCase\ListReports
     arguments:
