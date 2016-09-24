@@ -8,4 +8,9 @@
         <p>{{ report }}</p>
     {% endfor %}
     <a href="{{ path('report_add') }}">add report</a>
+
+    <h2>Price history</h2>
+    {% for pastPrice in prices %}
+        <p>{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</p>
+    {% endfor %}
 {% endblock %}
