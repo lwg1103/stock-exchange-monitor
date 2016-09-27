@@ -46,3 +46,7 @@
 
 #phpstorm
 .idea
+
+#eclipse/aptana
+.project
+
