@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Loader;
+namespace Report\Loader;
 
-use AppBundle\Entity\Report;
+use Report\Entity\Report;
 use Doctrine\ORM\EntityManager;
 
 /**

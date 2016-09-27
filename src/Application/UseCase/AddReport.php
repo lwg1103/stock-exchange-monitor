@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\UseCase;
+namespace Application\UseCase;
 
-use AppBundle\Loader\ReportLoader;
-use AppBundle\Reader\ReportReader;
+use Report\Loader\ReportLoader;
+use Report\Reader\ReportReader;
 
 /**
  * Class AddReport

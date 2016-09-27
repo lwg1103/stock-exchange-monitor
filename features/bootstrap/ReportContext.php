@@ -1,10 +1,10 @@
 <?php
 
 use Behat\Behat\Context\Context;
-use AppBundle\UseCase\ListReports;
-use AppBundle\UseCase\AddReport;
+use Application\UseCase\ListReports;
+use Application\UseCase\AddReport;
 use Symfony\Component\Form\FormFactory;
-use AppBundle\Entity\Report;
+use Report\Entity\Report;
 use Doctrine\Common\Persistence\ObjectManager;
 use Behat\Behat\Tester\Exception\PendingException;
 
@@ -58,7 +58,7 @@ class ReportContext implements Context
      */
     public function iCheckReportsForCompany($arg1)
     {
-        $company = $this->em->getRepository('AppBundle:Company')->findOneBy(['marketId' => $arg1]);
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
         $this->result = $this->listReports->byCompany($company);
         $this->currentCount = count($this->result);
     }
@@ -68,7 +68,7 @@ class ReportContext implements Context
      */
     public function iAddReportManually($arg1)
     {
-        $company = $this->em->getRepository('AppBundle:Company')->findOneBy(['marketId' => $arg1]);
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
         
         $report = new Report();
 
@@ -96,7 +96,7 @@ class ReportContext implements Context
      */
     public function iSeeOneAdditionalReportForCompany($arg1)
     {
-        $company = $this->em->getRepository('AppBundle:Company')->findOneBy(['marketId' => $arg1]);
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
         $this->result = $this->listReports->byCompany($company);
 
         assertCount($this->currentCount+1, $this->result);
@@ -107,11 +107,11 @@ class ReportContext implements Context
      */
     public function iSeeAllReportsForCompany($arg1)
     {
-        $company = $this->em->getRepository('AppBundle:Company')->findOneBy(['marketId' => $arg1]);
-        $expectedResult = $this->em->getRepository('AppBundle:Report')->findBy(['company' => $company]);
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
+        $expectedResult = $this->em->getRepository('ReportContext:Report')->findBy(['company' => $company]);
 
         assertCount(count($expectedResult), $this->result);
-        assertContainsOnly('AppBundle\Entity\Report', $this->result);
+        assertContainsOnly('Report\Entity\Report', $this->result);
         assertEquals($expectedResult, $this->result);
     }
 }

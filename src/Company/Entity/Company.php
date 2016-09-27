@@ -1,15 +1,16 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace Company\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Report\Entity\Report;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Company
  *
- * @ORM\Table(name="company")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CompanyRepository")
+ * @ORM\Table(name="companies")
+ * @ORM\Entity
  */
 class Company
 {
@@ -31,7 +32,7 @@ class Company
     /**
      * @var Report[]
      *
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="company")
+     * @ORM\OneToMany(targetEntity="Report\Entity\Report", mappedBy="company")
      */
     private $reports;
 

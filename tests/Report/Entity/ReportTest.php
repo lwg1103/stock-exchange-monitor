@@ -1,9 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
-
-use AppBundle\Entity\Report;
-use phpDocumentor\Reflection\Types\This;
+namespace Report\Entity;
 
 class ReportTest extends \PHPUnit_Framework_TestCase
 {

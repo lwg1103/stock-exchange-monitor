@@ -3,7 +3,7 @@
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Company;
+use Company\Entity\Company;
 
 class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
 {

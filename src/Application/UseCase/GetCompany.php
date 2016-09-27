@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\UseCase;
+namespace Application\UseCase;
 
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Company;
+use Company\Entity\Company;
 
 /**
  * Class GetCompany

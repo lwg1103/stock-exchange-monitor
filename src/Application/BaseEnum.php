@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace Application;
 
 use ReflectionClass;
 

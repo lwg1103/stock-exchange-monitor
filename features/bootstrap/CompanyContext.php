@@ -1,8 +1,8 @@
 <?php
 
 use Behat\Behat\Context\Context;
-use AppBundle\UseCase\ListCompanies;
-use AppBundle\UseCase\GetCompany;
+use Application\UseCase\ListCompanies;
+use Application\UseCase\GetCompany;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
@@ -15,7 +15,6 @@ class CompanyContext implements Context
      * @var ObjectManager
      */
     protected $em;
-
     /**
      * @var ListCompanies
      */
@@ -57,7 +56,7 @@ class CompanyContext implements Context
     public function iSeeAllCompaniesInTheSystem()
     {
         assertEquals(4, count($this->result));
-        assertContainsOnly('AppBundle\Entity\Company', $this->result);
+        assertContainsOnly('Company\Entity\Company', $this->result);
     }
 
 
@@ -74,7 +73,7 @@ class CompanyContext implements Context
      */
     public function iGetCompanyDetails($arg1)
     {
-        $expected = $this->em->getRepository('AppBundle:Company')->findOneBy(['marketId' => $arg1]);
+        $expected = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
 
         assertEquals($expected, $this->result);
     }

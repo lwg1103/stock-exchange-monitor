@@ -1,16 +1,14 @@
 <?php
 
-namespace AppBundle\Reader;
+namespace Report\Reader;
 
-use AppBundle\Entity\Report;
-use AppBundle\Entity\Report\Type;
+use Report\Entity\Report;
+use Report\Entity\Report\Type;
 
 /**
  * Class FormReader
  *
  * Reads symfony form and returns Report
- *
- * @package AppBundle\Reader
  */
 class FormReportReader implements ReportReader
 {

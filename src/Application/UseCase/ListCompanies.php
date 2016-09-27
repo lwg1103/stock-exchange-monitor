@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\UseCase;
+namespace Application\UseCase;
 
-use AppBundle\Entity\Company;
-use AppBundle\Repository\CompanyRepository;
+use Company\Entity\Company;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class ListCompanies
@@ -13,16 +13,16 @@ use AppBundle\Repository\CompanyRepository;
 class ListCompanies
 {
     /**
-     * @var CompanyRepository
+     * @var EntityRepository
      */
     private $repository;
 
     /**
      * ListCompanies constructor.
      *
-     * @param CompanyRepository $repository
+     * @param EntityRepository $repository
      */
-    public function __construct(CompanyRepository $repository)
+    public function __construct(EntityRepository $repository)
     {
         $this->repository = $repository;
     }

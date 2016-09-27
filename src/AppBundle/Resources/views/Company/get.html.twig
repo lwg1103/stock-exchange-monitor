@@ -2,9 +2,15 @@
 {% block body %}
     <h2>Details</h2>
     <p>{{ company.name }} ({{ company.marketId }})</p>
+    <p>Current price: {{ price }}</p>
     <h2>Reports available</h2>
     {% for report in reports %}
         <p>{{ report }}</p>
     {% endfor %}
     <a href="{{ path('report_add') }}">add report</a>
+
+    <h2>Price history</h2>
+    {% for pastPrice in prices %}
+        <p>{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</p>
+    {% endfor %}
 {% endblock %}

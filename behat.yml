@@ -12,5 +12,8 @@ default:
                     addReportManually:  '@app.use_case.add_report_manually'
                     formFactory:        '@form.factory'
                     em:                 '@doctrine.orm.entity_manager'
+                - PriceContext:
+                    getPrice:     '@app.use_case.get_price'
+                    em:           '@doctrine.orm.entity_manager'
     extensions:
         Behat\Symfony2Extension: ~

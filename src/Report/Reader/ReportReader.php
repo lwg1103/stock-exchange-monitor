@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Reader;
+namespace Report\Reader;
 
-use AppBundle\Entity\Report;
+use Report\Entity\Report;
 
 /**
  * Interface ReportReader

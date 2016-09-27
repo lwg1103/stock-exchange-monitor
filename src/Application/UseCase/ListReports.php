@@ -1,10 +1,10 @@
 <?php
 
-namespace AppBundle\UseCase;
+namespace Application\UseCase;
 
-use AppBundle\Entity\Company;
-use AppBundle\Entity\Report;
-use AppBundle\Repository\ReportRepository;
+use Company\Entity\Company;
+use Report\Entity\Report;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class ListReports
@@ -14,16 +14,16 @@ use AppBundle\Repository\ReportRepository;
 class ListReports
 {
     /**
-     * @var ReportRepository
+     * @var EntityRepository
      */
     private $repository;
 
     /**
      * ListReports constructor.
      * 
-     * @param ReportRepository $repository
+     * @param EntityRepository $repository
      */
-    public function __construct(ReportRepository $repository)
+    public function __construct(EntityRepository $repository)
     {
         $this->repository = $repository;
     }
