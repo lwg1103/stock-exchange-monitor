@@ -18,10 +18,11 @@ class ParseOnlineReportsCommand extends ContainerAwareCommand {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		
 		$companies = $this->getContainer()->get('app.use_case.list_companies')->execute();
-		
+		$bankierReportParser = $this->getContainer()->get('app.utils.report_parser_bankier');
 		foreach($companies as $company) {
-			$bankier = new BankierReportParser();
-			$bankier->parse($company);
+			
+			$report = $bankierReportParser->parse($company);
+			
 		}
 	}
 }

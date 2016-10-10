@@ -9,3 +9,13 @@ services:
 
   app.reader.form_report_reader:
     class: Report\Reader\FormReportReader
+
+  app.utils.report_parser:
+    class: AppBundle\Utils\ReportParser
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      
+  app.utils.report_parser_bankier:
+    class: AppBundle\Utils\ReportParser\Bankier\BankierReportParser
+    arguments:
+      - '@doctrine.orm.entity_manager'    

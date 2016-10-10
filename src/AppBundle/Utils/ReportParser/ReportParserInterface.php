@@ -2,7 +2,7 @@
 
 namespace AppBundle\Utils\ReportParser;
 
-use AppBundle\Entity\Company;
+use Company\Entity\Company;
 
 interface ReportParserInterface {
 	
