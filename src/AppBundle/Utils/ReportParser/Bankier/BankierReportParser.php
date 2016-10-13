@@ -15,12 +15,31 @@ class BankierReportParser extends ReportParser {
         $html = $this->getData();
         //$dom = \Phpsimpledom\str_get_html($html);
         $cssConverter = new CssSelectorConverter();
-        $path = $cssConverter->toXPath('div.box615.boxBlue.boxTable.left > div');
-        echo $path;
+        //$path = $cssConverter->toXPath('.box615');
         $dom = new Crawler($html);
         
-        $dom = $dom->filter($path);
-        echo count($dom);die;
+        $header = null;
+        $headers = $dom->filter('div[class="boxHeader"] > h2')
+        			   ->each(function(Crawler $node, $i) {
+        	if($node->text() == "Skonsolidowane raporty kwartalne") {
+        		return $node;
+        	}
+        	return null;
+        });
+        //echo count($headers);echo $headers->html();die;
+        
+        foreach($headers as $h) {
+        	if($h != null) {
+        		$header = $h;
+        	}
+        }
+        
+        $table = $header->parents()->filter('div[class="boxContent boxTable"] > table');
+        echo count($table);
+        //echo $table->text();
+        
+        die;
+        
         $data = array();
         $data['company'] = $company;
         $data['identifier'] = new \DateTime('2015-06-30');
