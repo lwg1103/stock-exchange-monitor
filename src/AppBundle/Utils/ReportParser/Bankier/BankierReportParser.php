@@ -26,7 +26,6 @@ class BankierReportParser extends ReportParser {
         	}
         	return null;
         });
-        //echo count($headers);echo $headers->html();die;
         
         foreach($headers as $h) {
         	if($h != null) {
@@ -34,9 +33,38 @@ class BankierReportParser extends ReportParser {
         	}
         }
         
+        if($header == null) {
+        	throw new Exception('nie uda³o siê pobraæ danych');
+        }
+        
+        $ths = array();
         $table = $header->parents()->filter('div[class="boxContent boxTable"] > table');
-        echo count($table);
+        $quartersHeads = $table->filter('thead th')->each(function (Crawler $node, $i) {
+        	$quarterElement = $node->filter('strong');
+        	$quarterName = '';
+        	if($quarterElement && count($quarterElement)) {
+        		$quarterName = $quarterElement->text();
+        	}
+        	return $quarterName;
+        });
+        print_r($quartersHeads);
+        $availableQuarters = array();
+        
+        for($i=0; $i < count($quartersHeads); $i++) {
+        	$re = '/[I|V]+ Q \d{4}/';
+        	$match = preg_match($re, $quartersHeads[$i], $matches);
+        	if($match) {
+        		$availableQuarters[$i] = $quartersHeads[$i];
+        	}
+        }
         //echo $table->text();
+        
+        
+        $reportData = $table->filter('tbody tr')->each(function (Crawler $node, $i) {
+        	return $node;
+        });
+        
+        print_r($reportData);
         
         die;
         
@@ -65,7 +93,7 @@ class BankierReportParser extends ReportParser {
         try {
             $html = file_get_contents($this->getReportUrl());
         } catch (ContextErrorException $e) {
-            $html = '';
+            throw new Exception('nie uda³o siê pobraæ danych');
         }
 
         return $html;
