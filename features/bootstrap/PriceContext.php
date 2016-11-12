@@ -53,9 +53,9 @@ class PriceContext implements Context, SnippetAcceptingContext
     /**
      * @Given /^There are no prices for "([^"]*)"$/
      */
-    public function thereAreNoPricesFor($arg1)
+    public function thereAreNoPricesFor($date)
     {
-        $prices = $this->findAllPricesFor(new \DateTime($arg1));
+        $prices = $this->findAllPricesFor(new \DateTime($date));
 
         foreach ($prices as $price)
             $this->em->remove($price);
@@ -66,46 +66,46 @@ class PriceContext implements Context, SnippetAcceptingContext
     /**
      * @When /^I enter "([^"]*)" company price site$/
      */
-    public function iEnterCompanyPriceSite($arg1)
+    public function iEnterCompanyPriceSite($marketId)
     {
-        $company = $this->getCompanyRepository()->findOneBy(['marketId' => $arg1]);
+        $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
 
         $this->resultAll = $this->getPrice->allByCompany($company);
         $this->resultOne = $this->getPrice->lastByCompany($company);
     }
 
     /**
-     * @Then /^I see "([^"]*)" current company price$/
+     * @Then /^I see one current company price$/
      */
-    public function iSeeLastCompanyPrice($arg1)
+    public function iSeeLastCompanyPrice()
     {        
         assertInstanceOf(Price::class, $this->resultOne);
     }
 
     /**
-     * @Then /^The current "([^"]*)" company price is "([^"]*)" "([^"]*)"$/
+     * @Then /^The current company price is "([^"]*)" "([^"]*)"$/
      */
-    public function theCurrentCompanyPriceIs($arg1, $arg2, $arg3)
+    public function theCurrentCompanyPriceIs($value, $currency)
     {
-        assertEquals((integer)$arg2, $this->resultOne->getPrice()->getAmount());
-        assertEquals($arg3, $this->resultOne->getPrice()->getCurrency());
+        assertEquals((integer)$value, $this->resultOne->getPrice()->getAmount());
+        assertEquals($currency, $this->resultOne->getPrice()->getCurrency());
     }
 
     /**
-     * @Then /^I see "([^"]*)" "([^"]*)" company prices$/
+     * @Then /^I see "([^"]*)" company prices$/
      */
-    public function iSeeCompanyPrices($arg1, $arg2)
+    public function iSeeCompanyPrices($counter)
     {
         assertContainsOnly(Price::class, $this->resultAll);
-        assertCount((integer)$arg2, $this->resultAll);
+        assertCount((integer)$counter, $this->resultAll);
     }
 
     /**
      * @When /^I run script that pull price for "([^"]*)"$/
      */
-    public function iRunScriptThatPullPriceFor($arg1)
+    public function iRunScriptThatPullPriceFor($marketId)
     {
-        $company = $this->getCompanyRepository()->findOneBy(['marketId' => $arg1]);
+        $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
         $this->pullPrice->pullPrice($company->getMarketId());
     }
 
@@ -120,28 +120,28 @@ class PriceContext implements Context, SnippetAcceptingContext
     /**
      * @Then /^I see "([^"]*)" company price downloaded for "([^"]*)"$/
      */
-    public function iSeeCompanyPriceDownloadedFor($arg1, $arg2)
+    public function iSeeCompanyPriceDownloadedFor($marketId, $date)
     {
-        $company = $this->getCompanyRepository()->findOneBy(['marketId' => $arg1]);
+        $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
 
         assertNotNull(
-            $this->findPriceFor($company, new \DateTime($arg2)),
-            "No price for {$company->getMarketId()} for a day $arg2"
+            $this->findPriceFor($company, new \DateTime($date)),
+            "No price for {$company->getMarketId()} for a day $date"
         );
     }
 
     /**
      * @Then /^I see all company prices downloaded for "([^"]*)"$/
      */
-    public function iSeeAllCompanyPricesDownloadedFor($arg1)
+    public function iSeeAllCompanyPricesDownloadedFor($date)
     {
         /** @var Company[] $companies */
         $companies = $this->getCompanyRepository()->findAll();
 
         foreach ($companies as $company) {
             assertNotNull(
-                $this->findPriceFor($company, new \DateTime($arg1)),
-                "No price for {$company->getMarketId()} for a day $arg1"
+                $this->findPriceFor($company, new \DateTime($date)),
+                "No price for {$company->getMarketId()} for a day $date"
             );
         }
     }
