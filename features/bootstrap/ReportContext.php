@@ -54,21 +54,21 @@ class ReportContext implements Context
     }
 
     /**
-     * @When I check reports for :arg1 company
+     * @When I check reports for :marketId company
      */
-    public function iCheckReportsForCompany($arg1)
+    public function iCheckReportsForCompany($marketId)
     {
-        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
         $this->result = $this->listReports->byCompany($company);
         $this->currentCount = count($this->result);
     }
 
     /**
-     * @When I add report manually for :arg1 company
+     * @When I add report manually for :marketId company
      */
-    public function iAddReportManually($arg1)
+    public function iAddReportManually($marketId)
     {
-        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
         
         $report = new Report();
 
@@ -92,11 +92,11 @@ class ReportContext implements Context
     }
 
     /**
-     * @Then I see one additional report for :arg1 company
+     * @Then I see one additional report for :marketId company
      */
-    public function iSeeOneAdditionalReportForCompany($arg1)
+    public function iSeeOneAdditionalReportForCompany($marketId)
     {
-        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
         $this->result = $this->listReports->byCompany($company);
 
         assertCount($this->currentCount+1, $this->result);
@@ -105,9 +105,9 @@ class ReportContext implements Context
     /**
      * @Then /^I see all reports for "([^"]*)" company$/
      */
-    public function iSeeAllReportsForCompany($arg1)
+    public function iSeeAllReportsForCompany($marketId)
     {
-        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
         $expectedResult = $this->em->getRepository('ReportContext:Report')->findBy(['company' => $company]);
 
         assertCount(count($expectedResult), $this->result);

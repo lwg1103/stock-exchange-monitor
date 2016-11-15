@@ -56,13 +56,14 @@ class Price
 
     /**
      * Price constructor.
-     * @param Company $company
-     * @param Money $priceValue
+     * @param Company           $company
+     * @param Money             $priceValue
+     * @param null|DateTime     $identifier
      */
-    public function __construct(Company $company, Money $priceValue)
+    public function __construct(Company $company, Money $priceValue, $identifier = null)
     {
         $this->company = $company;
-        $this->identifier = Carbon::today('Europe/Warsaw');
+        $this->identifier = ($identifier) ? $identifier : Carbon::today('Europe/Warsaw');
         $this->setPriceValue($priceValue);
     }
 
