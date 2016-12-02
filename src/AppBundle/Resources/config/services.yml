@@ -19,3 +19,8 @@ services:
     class: AppBundle\Utils\ReportParser\Bankier\BankierReportParser
     arguments:
       - '@doctrine.orm.entity_manager'    
+      
+  app.utils.report_parser_biznesradar:
+    class: AppBundle\Utils\ReportParser\Biznesradar\BiznesradarReportParser
+    arguments:
+      - '@doctrine.orm.entity_manager'
