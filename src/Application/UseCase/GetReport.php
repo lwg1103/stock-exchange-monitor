@@ -2,6 +2,7 @@
 
 namespace Application\UseCase;
 
+use Company\Entity\Company;
 use Doctrine\ORM\EntityRepository;
 use Report\Entity\Report;
 
@@ -21,12 +22,40 @@ class GetReport
     }
 
     /**
-     * @param string $marketId
+     * @param Company       $company
+     * @param \DateTime     $identifier
+     * @param int           $period
      *
      * @return Report
      */
-    public function byMarketId($marketId)
+    public function oneByIdentifier($company, \DateTime $identifier, $period)
     {
-        return $this->entityRepository->findOneBy(['marketId' => $marketId]);
+        $manualReport = $this->entityRepository->findOneBy([
+            'company' => $company,
+            'identifier' => $identifier,
+            'period' => $period,
+            'type' => Report\Type::MANUAL
+        ]);
+
+
+        if (null != $manualReport)
+            return $manualReport;
+
+        return $this->entityRepository->findOneBy([
+            'company' => $company,
+            'identifier' => $identifier,
+            'period' => $period,
+            'type' => Report\Type::AUTO
+        ]);
+    }
+
+    /**
+     * @param Company $company
+     *
+     * @return Report[]
+     */
+    public function allByCompany(Company $company)
+    {
+        return $this->entityRepository->findBy(['company' => $company]);
     }
 }

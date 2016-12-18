@@ -14,8 +14,8 @@ services:
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('PriceContext:Price')"
 
-  app.use_case.list_reports:
-    class: Application\UseCase\ListReports
+  app.use_case.get_report:
+    class: Application\UseCase\GetReport
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
 
