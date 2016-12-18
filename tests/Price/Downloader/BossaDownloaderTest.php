@@ -62,7 +62,7 @@ class BossaDownloaderTest extends \PHPUnit_Framework_TestCase
     {
         $date = Carbon::now();
 
-        $date->subDay($date->dayOfWeek - Carbon::WEDNESDAY);
+        $date->subDay(abs($date->dayOfWeek - Carbon::WEDNESDAY));
 
         return $date;
     }
@@ -71,7 +71,7 @@ class BossaDownloaderTest extends \PHPUnit_Framework_TestCase
     {
         $date = Carbon::now();
 
-        $date->subDay($date->dayOfWeek - Carbon::SUNDAY);
+        $date->subDay(abs($date->dayOfWeek - Carbon::SUNDAY));
 
         return $date;
     }
