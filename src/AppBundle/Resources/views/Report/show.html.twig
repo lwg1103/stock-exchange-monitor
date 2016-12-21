@@ -1,0 +1,20 @@
+{%  extends '::base.html.twig' %}
+{% block body %}
+    <h2>Report</h2>
+    <h3>Info</h3>
+    <p>Company: {{ report.company.name }}</p>
+    <p> {{ report }}</p>
+    <h3>Profits</h3>
+    <p>Income: {{ report.income }}</p>
+    <p>Net Profit: {{ report.netProfit }}</p>
+    <p>Operational Net Profit: {{ report.operationalNetProfit }}</p>
+    <h3>Value</h3>
+    <p>Book Value: {{ report.bookValue }}</p>
+    <p>Shares Quantity: {{ report.sharesQuantity }}</p>
+    <h3>Assets</h3>
+    <p>Current Assets: {{ report.currentAssets }}</p>
+    <p>Total: {{ report.assets }}</p>
+    <h3>Liabilities</h3>
+    <p>Current Liabilities: {{ report.currentLiabilities }}</p>
+    <p>Total: {{ report.liabilities }}</p>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Company\Entity\Company;
 use Report\Entity\Report;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -43,6 +44,28 @@ class ReportController extends Controller
 
         return [
             'form' => $form->createView()
+        ];
+    }
+
+    /**
+     * @param string $marketId
+     * @param string $identifier
+     * @param int    $period
+     *
+     * @Route("/show/{marketId}/{identifier}/{period}", name="report_show")
+     * @Template
+     *
+     * @return Response
+     */
+    public function showAction($marketId, $identifier, $period)
+    {
+        $report = $this->get('app.use_case.get_report')->oneByIdentifier(
+            $this->get('app.use_case.get_company')->byMarketId($marketId), 
+            new \DateTime($identifier), 
+            $period);
+
+        return [
+            'report' => $report
         ];
     }
 }

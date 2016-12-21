@@ -28,7 +28,7 @@ class ReportType extends AbstractType
             ->add('identifier')
             ->add('period', ChoiceType::class, [
                 'choices' => [
-                    'annually' => Period::ANNUALLY,
+                    'annually' => Period::ANNUAL,
                     'biannually' => Period::BIANNUAL,
                     'quarterly' => Period::QUARTERLY,
                 ]
