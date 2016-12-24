@@ -1,6 +1,25 @@
 {%  extends '::base.html.twig' %}
 {% block body %}
-{% for company in companies %}
-    <p><a href="{{ path('company_get', {'marketId': company.marketId}) }}">{{ company.name }} ({{ company.marketId }})</a></p>
-{% endfor %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>GPW Market ID</th>
+            <th>Full Name</th>
+            <th>Current Price</th>
+            <th>Info</th>
+        </tr>
+        </thead>
+        {% for company in companies %}
+            <tr>
+                <th scope="row">{{ company.data.marketId }}</th>
+                <td>{{ company.data.name }}</td>
+                <td>{{ company.price }}</td>
+                <td>
+                    <a href="{{ path('company_get', {'marketId': company.data.marketId}) }}">
+                        Details
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
