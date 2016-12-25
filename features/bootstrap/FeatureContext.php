@@ -23,10 +23,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given /^the time is "([^"]*)"$/
+     * @Given the time is :relativeTime
      */
-    public function theTimeIs($time)
+    public function theTimeIs($relativeTime)
     {
-        Carbon::setTestNow(Carbon::createFromFormat("Y-m-d h:i", $time));
+        Carbon::setTestNow();
+        Carbon::setTestNow(new Carbon($relativeTime));
     }
 }

@@ -51,11 +51,11 @@ class PriceContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given /^There are no prices for "([^"]*)"$/
+     * @Given There are no prices for :relativeTime
      */
-    public function thereAreNoPricesFor($date)
+    public function thereAreNoPricesFor($relativeTime)
     {
-        $prices = $this->findAllPricesFor(new \DateTime($date));
+        $prices = $this->findAllPricesFor(new \Carbon\Carbon($relativeTime));
 
         foreach ($prices as $price)
             $this->em->remove($price);
@@ -118,30 +118,30 @@ class PriceContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then /^I see "([^"]*)" company price downloaded for "([^"]*)"$/
+     * @Then I see :marketId company price downloaded for :relativeTime
      */
-    public function iSeeCompanyPriceDownloadedFor($marketId, $date)
+    public function iSeeCompanyPriceDownloadedFor($marketId, $relativeTime)
     {
         $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
 
         assertNotNull(
-            $this->findPriceFor($company, new \DateTime($date)),
-            "No price for {$company->getMarketId()} for a day $date"
+            $this->findPriceFor($company, new \Carbon\Carbon($relativeTime)),
+            "No price for {$company->getMarketId()} for a $relativeTime"
         );
     }
 
     /**
      * @Then /^I see all company prices downloaded for "([^"]*)"$/
      */
-    public function iSeeAllCompanyPricesDownloadedFor($date)
+    public function iSeeAllCompanyPricesDownloadedFor($relativeTime)
     {
         /** @var Company[] $companies */
         $companies = $this->getCompanyRepository()->findAll();
 
         foreach ($companies as $company) {
             assertNotNull(
-                $this->findPriceFor($company, new \DateTime($date)),
-                "No price for {$company->getMarketId()} for a day $date"
+                $this->findPriceFor($company, new \Carbon\Carbon($relativeTime)),
+                "No price for {$company->getMarketId()} for a day $relativeTime"
             );
         }
     }
