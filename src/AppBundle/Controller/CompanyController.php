@@ -24,8 +24,17 @@ class CompanyController extends Controller
      */
     public function indexAction()
     {
+        $companies = [];
+        
+        $companiesWithoutPrices = $this->get('app.use_case.list_companies')->execute();
+        
+        foreach ($companiesWithoutPrices as $company) {
+            $companies[$company->getMarketId()]['data'] = $company;
+            $companies[$company->getMarketId()]['price'] = $this->get('app.use_case.get_price')->lastByCompany($company);
+        }
+        
         return [
-                'companies' => $this->get('app.use_case.list_companies')->execute()
+                'companies' => $companies
             ];
     }
 
