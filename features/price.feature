@@ -7,11 +7,11 @@ Feature: each company on the stock market has price history attached
   Scenario: I want to see last share price at company details as a User
        When I enter "PKO" company price site
        Then I see one current company price
-        And The current company price is "123" "PLN"
+        And The current company price is "124" "PLN"
 
   Scenario: I want to see all share prices at company details as a User
        When I enter "PKO" company price site
-       Then I see "3" company prices
+       Then I see "4" company prices
 
   Scenario: I want to pull share price for given Company as an Admin
       Given There are no prices for "yesterday"
