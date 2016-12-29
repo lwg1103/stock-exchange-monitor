@@ -7,7 +7,6 @@ use Price\Downloader;
 use GuzzleHttp\Client;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Finder\Finder;
 
 class BossaDownloader implements Downloader
 {

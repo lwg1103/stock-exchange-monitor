@@ -1,7 +1,6 @@
 <?php
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Doctrine\Common\Persistence\ObjectManager;
 use Application\UseCase\GetPrice;
 use Application\UseCase\PullPrice;
@@ -14,7 +13,7 @@ require_once 'vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
 /**
  * Defines application features from the specific context.
  */
-class PriceContext implements Context, SnippetAcceptingContext
+class PriceContext implements Context
 {
     /** @var  Price */
     protected $resultOne;
