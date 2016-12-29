@@ -33,7 +33,7 @@ class GetPrice
      */
     public function lastByCompany(Company $company)
     {
-        return $this->entityRepository->findOneBy(['company' => $company]);
+        return $this->entityRepository->findOneBy(['company' => $company], ['identifier' => 'desc']);
     }
 
     /**

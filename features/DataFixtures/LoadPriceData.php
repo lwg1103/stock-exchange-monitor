@@ -29,6 +29,9 @@ class LoadPriceData implements OrderedFixtureInterface, FixtureInterface
         Carbon::setTestNow(\Carbon\Carbon::create(2016,9,8));
         $this->addPrice("PKO", new Money(121, new \Money\Currency('PLN')));
 
+        Carbon::setTestNow(\Carbon\Carbon::create(2016,9,11));
+        $this->addPrice("PKO", new Money(124, new \Money\Currency('PLN')));
+
         $this->manager->flush();
     }
 
