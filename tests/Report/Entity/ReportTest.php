@@ -34,9 +34,9 @@ class ReportTest extends \PHPUnit_Framework_TestCase
      */
     public function setsPeriod()
     {
-        $this->sut->setPeriod(Report\Period::ANNUALLY);
+        $this->sut->setPeriod(Report\Period::ANNUAL);
 
-        $this->assertEquals(Report\Period::ANNUALLY, $this->sut->getPeriod());
+        $this->assertEquals(Report\Period::ANNUAL, $this->sut->getPeriod());
     }
 
     /**
@@ -56,9 +56,9 @@ class ReportTest extends \PHPUnit_Framework_TestCase
     {
         $this->sut->setIdentifier(new \DateTime('31-12-2015'))
             ->setType(Report\Type::MANUAL)
-            ->setPeriod(Report\Period::ANNUALLY);
+            ->setPeriod(Report\Period::ANNUAL);
 
-        $expected = "31-12-2015 (annually, manual)";
+        $expected = "31-12-2015 (annual, manual)";
 
         $this->assertEquals($expected, (string) $this->sut);
     }

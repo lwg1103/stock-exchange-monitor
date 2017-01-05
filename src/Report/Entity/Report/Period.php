@@ -11,7 +11,7 @@ use Application\BaseEnum;
  */
 class Period extends BaseEnum
 {
-    const ANNUALLY = 1;
+    const ANNUAL = 1;
     const BIANNUAL = 2;
     const QUARTERLY = 4;
 }

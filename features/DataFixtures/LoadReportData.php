@@ -129,7 +129,7 @@ class LoadReportData implements OrderedFixtureInterface, FixtureInterface
 
         //with default value
         $report->setType(isset($source['type']) ? $source['type'] : ReportType::MANUAL)
-            ->setPeriod(isset($source['period']) ? $source['period'] : PeriodType::ANNUALLY);
+            ->setPeriod(isset($source['period']) ? $source['period'] : PeriodType::ANNUAL);
 
         //without defaults
         $report->setIdentifier($source['identifier'])

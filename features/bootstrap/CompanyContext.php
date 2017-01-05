@@ -55,7 +55,7 @@ class CompanyContext implements Context
      */
     public function iSeeAllCompaniesInTheSystem()
     {
-        assertEquals(4, count($this->result));
+        assertEquals(31, count($this->result));
         assertContainsOnly('Company\Entity\Company', $this->result);
     }
 
@@ -63,17 +63,17 @@ class CompanyContext implements Context
     /**
      * @When I enter :arg1 company site
      */
-    public function iEnterCompanySite($arg1)
+    public function iEnterCompanySite($marketId)
     {
-        $this->result = $this->getCompany->byMarketId($arg1);
+        $this->result = $this->getCompany->byMarketId($marketId);
     }
 
     /**
      * @Then I get :arg1 company details
      */
-    public function iGetCompanyDetails($arg1)
+    public function iGetCompanyDetails($marketId)
     {
-        $expected = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $arg1]);
+        $expected = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
 
         assertEquals($expected, $this->result);
     }

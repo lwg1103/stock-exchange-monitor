@@ -123,7 +123,7 @@ class BiznesradarReportParser extends ReportParser {
         try {
             $html = file_get_contents($this->getReportUrl());
         } catch (ContextErrorException $e) {
-            throw new Exception('nie uda?o si?pobra?danych');
+            throw new Exception('nie udało się pobrać danych');
         }
 
         return $html;

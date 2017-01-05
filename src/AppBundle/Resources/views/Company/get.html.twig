@@ -5,7 +5,11 @@
     <p>Current price: {{ price }}</p>
     <h2>Reports available</h2>
     {% for report in reports %}
-        <p>{{ report }}</p>
+        <p>
+            <a href="{{ path('report_show', {'marketId': company.marketId, 'identifier': report.identifier|date("Y-m-d"), 'period': report.period}) }}">
+                {{ report }}
+            </a>
+        </p>
     {% endfor %}
     <a href="{{ path('report_add') }}">add report</a>
 

@@ -14,8 +14,8 @@ services:
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('PriceContext:Price')"
 
-  app.use_case.list_reports:
-    class: Application\UseCase\ListReports
+  app.use_case.get_report:
+    class: Application\UseCase\GetReport
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
 
@@ -24,3 +24,17 @@ services:
     arguments:
       - '@app.reader.form_report_reader'
       - '@app.loader.report_loader'
+
+  app.use_case.pull_price:
+    class: Application\UseCase\PullPrice
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@app.downloader.bossa_downloader'
+      - '@app.filter.bossa_filter'
+      - '@app.parser.bossa_parser'
+
+  app.use_case.pull_all_prices:
+    class: Application\UseCase\PullAllPrices
+    arguments:
+      - '@app.use_case.pull_price'
+      - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
