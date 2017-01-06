@@ -20,8 +20,8 @@ class BiznesradarReportParser extends ReportParser {
         $urlBilans = $this->getReportBilansUrl();
         $urlWR = $this->getReportWRUrl();*/
         $urls = array();
-        //$urls[] = $this->getReportWRUrl();
-        //$urls[] = $this->getReportBilansUrl();
+        $urls[] = $this->getReportWRUrl();
+        $urls[] = $this->getReportBilansUrl();
         $urls[] = $this->getReportRZISUrl();
         
         foreach($urls as $url) {
