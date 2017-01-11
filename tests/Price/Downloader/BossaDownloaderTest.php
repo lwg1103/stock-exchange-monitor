@@ -3,11 +3,18 @@
 namespace Price\Downloader;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
+use Prophecy\Argument;
+use Prophecy\Prophet;
+use Prophecy\Prophecy\ObjectProphecy;
 
 class BossaDownloaderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var BossaDownloader */
     private $sut;
+    /** @var Client|ObjectProphecy */
+    private $httpClient;
 
     /**
      * @test
@@ -43,9 +50,28 @@ class BossaDownloaderTest extends \PHPUnit_Framework_TestCase
         $this->sut->download($this->getLastSunday());
     }
 
+    /**
+     * @test
+     */
+    public function downloadsFileOnlyOnceForGivenDay()
+    {
+        $this->httpClient->get(Argument::any())->shouldBeCalledTimes(1)->willReturn(new Response());
+
+        $this->sut->setClient($this->httpClient->reveal());
+
+        $this->sut->download($this->getLastSunday());
+        $this->sut->download($this->getLastSunday());
+        $this->sut->download($this->getLastSunday());
+        
+        $this->httpClient->checkProphecyMethodsPredictions();
+    }
+    
     protected function setUp()
     {
+        $prophet = new Prophet();
+
         $this->sut = new BossaDownloader();
+        $this->httpClient = $prophet->prophesize(Client::class);
     }
 
     public function rowsDataProvider()
