@@ -25,6 +25,8 @@ class BiznesradarReportParser extends ReportParser {
         $urls[] = $this->getReportRZISUrl();
         
         foreach($urls as $url) {
+        	echo $url;
+        	//print_r($this->availableReports);
         	$this->parsePage($url);
         }
         	
@@ -92,7 +94,7 @@ class BiznesradarReportParser extends ReportParser {
 	    			return $value;
 	    		});
     		//$reportDataValue = $reportDataValue->text();
-    		var_dump($reportDataValue);
+    		//var_dump($reportDataValue);
     		if(count($reportDataValue)) {
     			$reportDataValue = preg_replace('/\D/', '', $reportDataValue[0]);
     		}
@@ -100,7 +102,9 @@ class BiznesradarReportParser extends ReportParser {
     			$reportDataValue = 0;
     		}
     		 
-    		$this->reports[$this->availableReports[$i]][$reportDataKey] = $reportDataValue;
+    		if($this->availableReports[$i]['active']) {
+    			$this->reports[$this->availableReports[$i]['caption']][$reportDataKey] = $reportDataValue;
+    		}
     	}
     }
 
@@ -122,14 +126,44 @@ class BiznesradarReportParser extends ReportParser {
     	$availableReports = array();
 
    		for($i=0; $i < count($reportsHeads); $i++) {
-   			$re = '/\d{4}/';
-   			$match = preg_match($re, $reportsHeads[$i], $matches);
-   			if($match) {
-   				$availableReports[$i] = $reportsHeads[$i];
+   			$year = false;
+   			if(strpos($reportsHeads[$i], "/Q") !== false) {
+   				$year = $this->extractYearFromQuarterHeader($reportsHeads[$i]);
+   			}
+   			else {
+   				$year = $this->extractYearFromHeader($reportsHeads[$i]);
+   			}
+   				
+   			if($year) {
+   				$availableReports[$i] = array('caption' => $year, 'active' => true);
+   				echo '+';
+   			}
+   			else {
+   				$availableReports[$i] = array('active' => false);
+   				echo '-';
    			}
    		}
-
+   		
    		return $availableReports;
+    }
+    
+    private function extractYearFromHeader($header) {
+    	$re = '/\d{4}/';
+    	$match = preg_match($re, $header, $matches);
+    	if($match) {
+    		return $matches[0];
+    	}
+    	return false;
+    }
+    
+    private function extractYearFromQuarterHeader($header) {
+    	$header = preg_replace('/\s+/', '', $header);
+    	if(strpos($header, '/Q4') === false) {
+    		return false;
+    	}
+    	$header = str_replace('/Q4', '', $header);
+    	echo $header;
+    	return $this->extractYearFromHeader($header);
     }
 
     private function getReportData($table) {
@@ -149,7 +183,8 @@ class BiznesradarReportParser extends ReportParser {
     		'BalanceCurrentLiabilities' => 'currentLiabilities',
     		'BalanceTotalLiabilities' => 'liabilities',
     		'ShareAmountCurrent' => 'sharesQuantity',
-    		'WKCurrent' => 'bookValue_per_share',
+    		//'WKCurrent' => 'bookValue_per_share',
+    		'BalanceCapital' => 'bookValue',
     		'IncomeEBIT' => 'operationalNetProfit',
     		'IncomeRevenues' => 'income_part1',
     		'IncomeOtherOperatingIncome' => 'income_part2',
