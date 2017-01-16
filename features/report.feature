@@ -1,8 +1,5 @@
 Feature: Each company has reports stored. User can CRUD them.
 
-    Background:
-        Given I am a User
-
     Scenario: I want to list reports for given company
         When  I check reports for "PKO" company
         Then  I see all reports for "PKO" company
