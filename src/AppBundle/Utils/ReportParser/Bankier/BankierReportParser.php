@@ -12,13 +12,14 @@ class BankierReportParser extends ReportParser {
 
     public function parse(Company $company) {
         $this->company = $company;
-        $html = $this->getData();
-        //$dom = \Phpsimpledom\str_get_html($html);
-        $cssConverter = new CssSelectorConverter();
-        //$path = $cssConverter->toXPath('.box615');
-        $dom = new Crawler($html);
+        $this->html = $this->getData();
+        
+        $this->processParser();
+    }
+    
+    private function processParser() {
 
-        $table = $this->getHtmlTable($dom);
+        $table = $this->getHtmlTable(new Crawler($this->html));
 
         $availableQuarters = $this->getAvailableQuarters($table);
 
@@ -49,7 +50,8 @@ class BankierReportParser extends ReportParser {
         	}
         }
 
-        print_r($reports);
+        
+        $this->saveReports($reports);
 
 
         //print_r($reportData);
@@ -68,6 +70,10 @@ class BankierReportParser extends ReportParser {
         //$report = $this->prepareReport($data);
         //$this->em->persist($report);
         //$this->em->flush();
+    }
+    
+    private function saveReports($reports) {
+    	
     }
 
     private function getHtmlTable(Crawler $dom) {

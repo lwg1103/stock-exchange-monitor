@@ -2,10 +2,12 @@
 namespace AppBundle\Utils\ReportParser;
 
 use Company\Entity\Company;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Report\Entity\Report;
 use Report\Entity\Report\Type;
 use Report\Entity\Report\Period;
+use Report\Reader\ReportReader;
+use Report\Loader\ReportLoader;
 
 
 abstract class ReportParser { //implements ReportParserInterface {
@@ -17,17 +19,36 @@ abstract class ReportParser { //implements ReportParserInterface {
     protected $company;
     
     /**
-     * @var EntityManager
+     * 
+     * @var EntityRepository
      */
-    protected $em;
+    protected $er;
+    
+    /**
+     * @var ReportLoader
+     */
+    protected $loader;
+    
+    /**
+     * @var ReportReader
+     */
+    protected $reader;
+    
+    /**
+     * @var html string
+     */
+    protected $html;
     
     /**
      * Loader constructor.
-     * @param EntityManager $em
+     * @param ReportReader $reader
+     * @param ReportLoader $loader
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityRepository $er, ReportReader $reader, ReportLoader $loader)
     {
-    	$this->em = $em;
+    	$this->er = $er;
+    	$this->reader = $reader;
+    	$this->loader = $loader;
     }
     
     
@@ -40,25 +61,24 @@ abstract class ReportParser { //implements ReportParserInterface {
      */
     abstract public function parse(Company $company);
     
-    protected function prepareReport($data) {
-    	$report = new Report();
-    	$report->setCompany($data['company']);
-    	$report->setIdentifier($data['identifier']);
-    	$report->setType(Type::AUTO);
-    	$report->setPeriod(Period::QUARTERLY);
-    	$report->setIncome($data['income']);
-    	$report->setAssets($data['assets']);
-    	$report->setNetProfit($data['netProfit']);
-    	$report->setOperationalNetProfit($data['operationalNetProfit']);
-    	$report->setBookValue($data['bookValue']);
-    	$report->setSharesQuantity($data['sharesQuantity']);
-    	/*$report->set($data['']);
-    	$report->set($data['']);
-    	$report->set($data['']);
-    	$report->set($data['']);
-    	$report->set($data['']);
-    	$report->set($data['']);
-    	*/
-    	return $report;
+    protected function saveReports($reports) {
+    	
+    	foreach($reports as $report) {
+    		$objReport = $this->reader->read($report);
+    		if($this->needStoreReport($objReport)) {
+    			$this->loader->load($objReport);
+    		}
+    	}
+    }
+    
+    protected function needStoreReport($report) {
+    	$storedReport = $this->er->findOneBy([
+    			'company' => $report->getCompany(),
+    			'identifier' => $report->getIdentifier(),
+    			'period' => $report->getPeriod(),
+    			'type' => Report\Type::AUTO
+    	]);
+    	
+    	return !(null != $storedReport);
     }
 }

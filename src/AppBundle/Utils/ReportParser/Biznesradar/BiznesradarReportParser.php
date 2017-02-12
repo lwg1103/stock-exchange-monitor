@@ -16,9 +16,6 @@ class BiznesradarReportParser extends ReportParser {
     public function parse(Company $company) {
         $this->company = $company;
         
-        /*$urlRZIS = $this->getReportRZISUrl();
-        $urlBilans = $this->getReportBilansUrl();
-        $urlWR = $this->getReportWRUrl();*/
         $urls = array();
         $urls[] = $this->getReportWRUrl();
         $urls[] = $this->getReportBilansUrl();
@@ -31,7 +28,20 @@ class BiznesradarReportParser extends ReportParser {
         }
         	
         print_r($this->reports);
-        //print_r($reportData);
+        
+        $years = array_keys($this->reports);
+
+        //add company info to parsed reports
+        //prepare income value from income parts
+        foreach($years as $year) {
+        	$this->reports[$year]['identifier'] = new \DateTime($year."-12-31");
+        	$this->reports[$year]['company'] = $this->company;
+        	if(isset($this->reports[$year]['income_part1'])) {
+        		$this->reports[$year]['income'] = $this->reports[$year]['income_part1'];
+        	}
+        }
+        	
+        $this->saveReports($this->reports);
 
         die;
 
@@ -53,11 +63,9 @@ class BiznesradarReportParser extends ReportParser {
     }
     
     private function parsePage($url) {
-    	$html = $this->getData($url);
-    	//$dom = \Phpsimpledom\str_get_html($html);
-    	$cssConverter = new CssSelectorConverter();
-    	//$path = $cssConverter->toXPath('.box615');
-    	$dom = new Crawler($html);
+    	
+    	$this->html = $this->getData($url);
+    	$dom = new Crawler($this->html);
     	
     	$table = $this->getHtmlTable($dom);
     	
@@ -87,7 +95,7 @@ class BiznesradarReportParser extends ReportParser {
     		if(count($this->availableReports) <= $i) {
     			continue;
     		}
-    		echo 'i';
+    		
     		$reportDataValue = $tds[$i]->filter('span[class="value"] > span[class="pv"]')
 	    		->each(function (Crawler $node, $i) {
 	    			$value = $node->text();
