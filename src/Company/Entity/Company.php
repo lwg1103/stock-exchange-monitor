@@ -35,17 +35,26 @@ class Company
      * @ORM\OneToMany(targetEntity="Report\Entity\Report", mappedBy="company")
      */
     private $reports;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="type", type="smallint")
+     */
+    private $type;
 
     /**
      * Company constructor.
      *
      * @param string $name
      * @param string $marketId
+     * @param string $type
      */
-    public function __construct($name, $marketId)
+    public function __construct($name, $marketId, $type)
     {
         $this->name     = $name;
         $this->marketId = $marketId;
+        $this->type 	= $type;
         $this->reports  = new ArrayCollection();
     }
 
@@ -67,6 +76,16 @@ class Company
     public function getMarketId()
     {
         return $this->marketId;
+    }
+    
+    /**
+     * Get type
+     *
+     * @return int
+     */
+    public function getType()
+    {
+    	return $this->type;
     }
 
     /**

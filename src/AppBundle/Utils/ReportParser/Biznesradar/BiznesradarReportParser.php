@@ -5,8 +5,8 @@ namespace AppBundle\Utils\ReportParser\Biznesradar;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use AppBundle\Utils\ReportParser\ReportParser;
 use Company\Entity\Company;
+use Company\Entity\Company\Type;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\CssSelector\CssSelectorConverter;
 
 class BiznesradarReportParser extends ReportParser {
 	
@@ -14,7 +14,11 @@ class BiznesradarReportParser extends ReportParser {
 	var $availableReports = array();
 
     public function parse(Company $company) {
+    	$this->reset();
         $this->company = $company;
+        if($this->company->getType() != Type::BANK) {
+        	return;
+        }
         
         $urls = array();
         $urls[] = $this->getReportWRUrl();
@@ -23,14 +27,11 @@ class BiznesradarReportParser extends ReportParser {
         
         foreach($urls as $url) {
         	echo $url;
-        	//print_r($this->availableReports);
         	$this->parsePage($url);
         }
-        	
-        print_r($this->reports);
         
         $years = array_keys($this->reports);
-
+print_r($this->reports);
         //add company info to parsed reports
         //prepare income value from income parts
         foreach($years as $year) {
@@ -39,27 +40,23 @@ class BiznesradarReportParser extends ReportParser {
         	if(isset($this->reports[$year]['income_part1'])) {
         		$this->reports[$year]['income'] = $this->reports[$year]['income_part1'];
         	}
+        	
+        	if($this->company->getType() == Type::BANK) {
+        		$this->reports[$year]['income'] = 
+        			$this->reports[$year]['income_part1_bank'] + $this->reports[$year]['income_part2_bank'];
+        		$this->reports[$year]['operationalNetProfit'] = $this->reports[$year]['operationalNetProfit_bank'];
+        		$this->reports[$year]['bookValue'] = $this->reports[$year]['bookValue_bank'];
+        		$this->reports[$year]['currentAssets'] = 0;//$this->reports[$year]['bookValue_bank'];
+        		$this->reports[$year]['currentLiabilities'] = 0;//$this->reports[$year]['bookValue_bank'];
+        	}
         }
         	
         $this->saveReports($this->reports);
-
-        die;
-
-        $data = array();
-        $data['company'] = $company;
-        $data['identifier'] = new \DateTime('2015-06-30');
-        $data['income'] = '12';
-        $data['netProfit'] = '13';
-        $data['operationalNetProfit'] = '';
-        $data['bookValue'] = '15';
-        $data['sharesQuantity'] = '16';
-        $data['assets'] = '17';
-        $data['currentAssets'] = '17';
-        $data['liabilities'] = '17';
-        $data['currentLiabilities'] = '17';
-        //$report = $this->prepareReport($data);
-        //$this->em->persist($report);
-        //$this->em->flush();
+    }
+    
+    private function reset() {
+    	$this->reports = array();
+    	$this->availableReports= array();
     }
     
     private function parsePage($url) {
@@ -78,7 +75,6 @@ class BiznesradarReportParser extends ReportParser {
     			$this->parseRow($tr);
     		} 
     		catch (\Exception $e) {
-    			echo 'e';
     			continue;
     		}
     	}
@@ -193,10 +189,14 @@ class BiznesradarReportParser extends ReportParser {
     		'ShareAmountCurrent' => 'sharesQuantity',
     		//'WKCurrent' => 'bookValue_per_share',
     		'BalanceCapital' => 'bookValue',
+    		'BalanceTotalCapital' => 'bookValue_bank',
     		'IncomeEBIT' => 'operationalNetProfit',
+    		'IncomeNetOtherOperatingIncome' => 'operationalNetProfit_bank',
     		'IncomeRevenues' => 'income_part1',
     		'IncomeOtherOperatingIncome' => 'income_part2',
-    		'IncomeFinanceIncome' => 'income_part3'
+    		'IncomeFinanceIncome' => 'income_part3',
+    		'IncomeFeeIncome' => 'income_part1_bank',
+    		'IncomeIntrestIncome' => 'income_part2_bank'
     	);
     	
     	if(!array_key_exists($reportDataName, $translation)) {
