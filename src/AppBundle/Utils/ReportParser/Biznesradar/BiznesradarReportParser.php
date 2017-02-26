@@ -4,9 +4,11 @@ namespace AppBundle\Utils\ReportParser\Biznesradar;
 
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use AppBundle\Utils\ReportParser\ReportParser;
+use AppBundle\Utils\ReportParser\InvalidCompanyTypeException;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
 use Symfony\Component\DomCrawler\Crawler;
+
 
 class BiznesradarReportParser extends ReportParser {
 	
@@ -16,9 +18,8 @@ class BiznesradarReportParser extends ReportParser {
     public function parse(Company $company) {
     	$this->reset();
         $this->company = $company;
-        if($this->company->getType() != Type::BANK) {
-        	return;
-        }
+        
+        $this->checkCompany($company);
         
         $urls = array();
         $urls[] = $this->getReportWRUrl();
@@ -31,7 +32,7 @@ class BiznesradarReportParser extends ReportParser {
         }
         
         $years = array_keys($this->reports);
-print_r($this->reports);
+
         //add company info to parsed reports
         //prepare income value from income parts
         foreach($years as $year) {
@@ -227,5 +228,11 @@ print_r($this->reports);
         }
 
         return $html;
+    }
+    
+    private function checkCompany() {
+    	if($this->company->getType() != Type::BANK && $this->company->getType() != Type::ORDINARY) {
+    		throw new InvalidCompanyTypeException();
+    	}
     }
 }

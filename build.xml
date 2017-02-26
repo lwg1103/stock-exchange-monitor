@@ -210,8 +210,8 @@
     </target>
 
     <target name="vendors" description="Update vendors">
-        <exec executable="composer" failonerror="true">
-            <arg value="install" />
+        <exec executable="php" failonerror="true">
+            
         </exec>
     </target>
 

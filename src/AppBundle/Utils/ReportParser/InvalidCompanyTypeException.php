@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Utils\ReportParser\Biznesradar;
+namespace AppBundle\Utils\ReportParser;
 
 class InvalidCompanyTypeException extends \Exception {
 	
