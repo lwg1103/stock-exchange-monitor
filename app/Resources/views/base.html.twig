@@ -8,7 +8,10 @@
     </head>
     <body>
         <h1>Stock Exchange Monitor</h1>
+        <hr>
         {% block body %}{% endblock %}
+        <hr>
+        <a href="{{ path('fos_user_security_logout') }}">logout</a>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
