@@ -86,7 +86,7 @@ class BiznesradarReportParser extends ReportParser {
     		return $node;
     	});
     	
-    	$tdsNewest = $tr->filter('td[class="h"]')->each(function(Crawler $node, $i) {
+    	$tdsNewest = $tr->filter('td[class="h newest"]')->each(function(Crawler $node, $i) {
     		return $node;
     	});
     	
