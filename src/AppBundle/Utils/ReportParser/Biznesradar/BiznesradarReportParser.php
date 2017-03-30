@@ -86,6 +86,15 @@ class BiznesradarReportParser extends ReportParser {
     		return $node;
     	});
     	
+    	$tdsNewest = $tr->filter('td[class="h"]')->each(function(Crawler $node, $i) {
+    		return $node;
+    	});
+    	
+    	if(count($tdsNewest)) {
+    		$tds[] = $tdsNewest[count($tdsNewest) - 1];
+    	}
+    			 
+    	
     	$reportDataKey = $this->getReportDataKey($tr->attr("data-field"));
     	
     	for($i=0; $i<count($tds); $i++) {
@@ -159,7 +168,7 @@ class BiznesradarReportParser extends ReportParser {
    				echo '-';
    			}
    		}
-   		
+
    		return $availableReports;
     }
     
