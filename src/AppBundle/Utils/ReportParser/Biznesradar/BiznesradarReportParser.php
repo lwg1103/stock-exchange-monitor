@@ -127,6 +127,17 @@ class BiznesradarReportParser extends ReportParser {
 	    		
 	    		return $reportName;
 	    	});
+    		
+    	$reportsHeadsNewest = $table->filter('th[class="thq h newest"]')
+    		->each(function (Crawler $node, $i) {
+    			$reportName = $node->text();
+    			 
+    			return $reportName;
+    		});
+    		
+    	if(count($reportsHeadsNewest)) {
+    		$reportsHeads[] = $reportsHeadsNewest[count($reportsHeadsNewest) - 1];
+    	}
 
     	$availableReports = array();
 
