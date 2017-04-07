@@ -11,26 +11,26 @@ use Symfony\Component\DomCrawler\Crawler;
 
 
 class BiznesradarReportParser extends ReportParser {
-	
+
 	var $reports = array();
 	var $availableReports = array();
 
     public function parse(Company $company) {
     	$this->reset();
         $this->company = $company;
-        
+
         $this->checkCompany($company);
-        
+
         $urls = array();
         $urls[] = $this->getReportWRUrl();
         $urls[] = $this->getReportBilansUrl();
         $urls[] = $this->getReportRZISUrl();
-        
+
         foreach($urls as $url) {
         	echo $url;
         	$this->parsePage($url);
         }
-        
+
         $years = array_keys($this->reports);
 
         //add company info to parsed reports
@@ -41,9 +41,9 @@ class BiznesradarReportParser extends ReportParser {
         	if(isset($this->reports[$year]['income_part1'])) {
         		$this->reports[$year]['income'] = $this->reports[$year]['income_part1'];
         	}
-        	
+
         	if($this->company->getType() == Type::BANK) {
-        		$this->reports[$year]['income'] = 
+        		$this->reports[$year]['income'] =
         			$this->reports[$year]['income_part1_bank'] + $this->reports[$year]['income_part2_bank'];
         		$this->reports[$year]['operationalNetProfit'] = $this->reports[$year]['operationalNetProfit_bank'];
         		$this->reports[$year]['bookValue'] = $this->reports[$year]['bookValue_bank'];
@@ -51,57 +51,57 @@ class BiznesradarReportParser extends ReportParser {
         		$this->reports[$year]['currentLiabilities'] = 0;//$this->reports[$year]['bookValue_bank'];
         	}
         }
-        	
+
         $this->saveReports($this->reports);
     }
-    
+
     private function reset() {
     	$this->reports = array();
     	$this->availableReports= array();
     }
-    
+
     private function parsePage($url) {
-    	
+
     	$this->html = $this->getData($url);
     	$dom = new Crawler($this->html);
-    	
+
     	$table = $this->getHtmlTable($dom);
-    	
+
     	$this->availableReports = $this->getAvailableReports($table);
-    	
+
     	$reportDataTrs = $this->getReportData($table);
-    	
+
     	foreach($reportDataTrs as $tr) {
     		try {
     			$this->parseRow($tr);
-    		} 
+    		}
     		catch (\Exception $e) {
     			continue;
     		}
     	}
     }
-    
+
     private function parseRow($tr) {
     	$tds = $tr->filter('td[class="h"]')->each(function(Crawler $node, $i) {
     		return $node;
     	});
-    	
+
     	$tdsNewest = $tr->filter('td[class="h newest"]')->each(function(Crawler $node, $i) {
     		return $node;
     	});
-    	
+
     	if(count($tdsNewest)) {
     		$tds[] = $tdsNewest[count($tdsNewest) - 1];
     	}
-    			 
-    	
+
+
     	$reportDataKey = $this->getReportDataKey($tr->attr("data-field"));
-    	
+
     	for($i=0; $i<count($tds); $i++) {
     		if(count($this->availableReports) <= $i) {
     			continue;
     		}
-    		
+
     		$reportDataValue = $tds[$i]->filter('span[class="value"] > span[class="pv"]')
 	    		->each(function (Crawler $node, $i) {
 	    			$value = $node->text();
@@ -110,12 +110,20 @@ class BiznesradarReportParser extends ReportParser {
     		//$reportDataValue = $reportDataValue->text();
     		//var_dump($reportDataValue);
     		if(count($reportDataValue)) {
-    			$reportDataValue = preg_replace('/\D/', '', $reportDataValue[0]);
+    			$reportDataValue = preg_replace('/\ /', '', $reportDataValue[0]);
+    			$reportDataValue = preg_match_all('/[-+]?[0-9]+/', $reportDataValue, $matches, PREG_SET_ORDER, 0);
+    			if(count($matches)) {
+    			    $reportDataValue = $matches[0];
+    			}
+    			else {
+    			    $reportDataValue = 0;
+    			}
+
     		}
     		else {
     			$reportDataValue = 0;
     		}
-    		 
+
     		if($this->availableReports[$i]['active']) {
     			$this->reports[$this->availableReports[$i]['caption']][$reportDataKey] = $reportDataValue;
     		}
@@ -133,17 +141,17 @@ class BiznesradarReportParser extends ReportParser {
     	$reportsHeads = $table->filter('th[class="thq h"]')
     		->each(function (Crawler $node, $i) {
 	    		$reportName = $node->text();
-	    		
+
 	    		return $reportName;
 	    	});
-    		
+
     	$reportsHeadsNewest = $table->filter('th[class="thq h newest"]')
     		->each(function (Crawler $node, $i) {
     			$reportName = $node->text();
-    			 
+
     			return $reportName;
     		});
-    		
+
     	if(count($reportsHeadsNewest)) {
     		$reportsHeads[] = $reportsHeadsNewest[count($reportsHeadsNewest) - 1];
     	}
@@ -158,7 +166,7 @@ class BiznesradarReportParser extends ReportParser {
    			else {
    				$year = $this->extractYearFromHeader($reportsHeads[$i]);
    			}
-   				
+
    			if($year) {
    				$availableReports[$i] = array('caption' => $year, 'active' => true);
    				echo '+';
@@ -171,7 +179,7 @@ class BiznesradarReportParser extends ReportParser {
 
    		return $availableReports;
     }
-    
+
     private function extractYearFromHeader($header) {
     	$re = '/\d{4}/';
     	$match = preg_match($re, $header, $matches);
@@ -180,7 +188,7 @@ class BiznesradarReportParser extends ReportParser {
     	}
     	return false;
     }
-    
+
     private function extractYearFromQuarterHeader($header) {
     	$header = preg_replace('/\s+/', '', $header);
     	if(strpos($header, '/Q4') === false) {
@@ -200,7 +208,7 @@ class BiznesradarReportParser extends ReportParser {
     }
 
     private function getReportDataKey($reportDataName) {
-    	
+
     	$translation = array(
     		'IncomeNetProfit' => 'netProfit',
     		'BalanceCurrentAssets' => 'currentAssets',
@@ -219,26 +227,26 @@ class BiznesradarReportParser extends ReportParser {
     		'IncomeFeeIncome' => 'income_part1_bank',
     		'IncomeIntrestIncome' => 'income_part2_bank'
     	);
-    	
+
     	if(!array_key_exists($reportDataName, $translation)) {
     		throw new \Exception('nieznana dana');
     	}
-    	
+
     	return $translation[$reportDataName];
     }
 
     private function getReportRZISUrl() {
 		return "http://www.biznesradar.pl/raporty-finansowe-rachunek-zyskow-i-strat/".$this->company->getMarketId();
     }
-    
+
     private function getReportBilansUrl() {
     	return "http://www.biznesradar.pl/raporty-finansowe-bilans/".$this->company->getMarketId();
     }
-    
+
     private function getReportWRUrl() {
     	return "http://www.biznesradar.pl/wskazniki-wartosci-rynkowej/".$this->company->getMarketId();
     }
-    
+
     private function getData($url) {
 
         try {
@@ -249,7 +257,7 @@ class BiznesradarReportParser extends ReportParser {
 
         return $html;
     }
-    
+
     private function checkCompany() {
     	if($this->company->getType() != Type::BANK && $this->company->getType() != Type::ORDINARY) {
     		throw new InvalidCompanyTypeException();
