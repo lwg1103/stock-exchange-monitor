@@ -8,6 +8,9 @@ use AppBundle\Utils\ReportParser\InvalidCompanyTypeException;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
 use Symfony\Component\DomCrawler\Crawler;
+use Doctrine\ORM\EntityRepository;
+use Report\Reader\ReportReader;
+use Report\Loader\ReportLoader;
 
 class BiznesradarReportParser extends ReportParser {
     var $reports = array ();
@@ -15,8 +18,14 @@ class BiznesradarReportParser extends ReportParser {
     
     const REPORT_HEADER_QUARTER_INDICATOR = "/Q";
     const REPORT_HEADER_FOURTH_QUARTER = "/Q4";
+    
+    private function log($message) {
+    	$this->logger->info($message);
+    	echo $message.'\n';
+    }
 
     public function parse(Company $company) {
+    	$this->log('[S] parse company: '.$company->getMarketId());
         $this->company = $company;
 
         $this->checkCompany($company);
@@ -60,6 +69,7 @@ class BiznesradarReportParser extends ReportParser {
     }
 
     private function parsePage($url) {
+    	$this->log('[S] parse page: '.$url);
         $this->html = $this->getData($url);
         $dom = new Crawler($this->html);
 
@@ -148,10 +158,13 @@ class BiznesradarReportParser extends ReportParser {
         if (count($reportsHeadsNewest)) {
             $reportsHeads[] = $reportsHeadsNewest[count($reportsHeadsNewest) - 1];
         }
+        
+        $this->log('reports table heads: '.print_r($reportsHeads, true));
 
         $availableReports = array ();
 
         for ($i = 0; $i < count($reportsHeads); $i++) {
+        	$this->log('checking head: '.$reportsHeads[$i]);
             $year = false;
             if (strpos($reportsHeads[$i], self::REPORT_HEADER_QUARTER_INDICATOR) !== false) {
                 $year = $this->extractYearFromQuarterHeader($reportsHeads[$i]);
@@ -160,10 +173,12 @@ class BiznesradarReportParser extends ReportParser {
             }
 
             if ($year) {
+            	$this->log('yearly head: '.$year);
                 $availableReports[$i] = array (
                     'caption' => $year,
                     'active' => true );
             } else {
+            	$this->log('not yearly head');
                 $availableReports[$i] = array (
                     'active' => false );
             }

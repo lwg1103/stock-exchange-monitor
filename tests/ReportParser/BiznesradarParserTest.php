@@ -11,6 +11,7 @@ use Report\Reader\PArserReportReader;
 use Report\Entity\Report;
 use Prophecy\Prophet;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Monolog\Logger;
 
 class BiznesradarParserTest extends KernelTestCase
 {
@@ -61,6 +62,7 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkIfOrdinaryCompanyHasReport() {
+    	$this->sut->parse($this->ordinaryCompany);
     	$this->checkIfCompanyHasReport($this->ordinaryCompany);
     }
     
@@ -68,15 +70,17 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkIfBankCompanyHasReport() {
+    	$this->sut->parse($this->bankCompany);
     	$this->checkIfCompanyHasReport($this->bankCompany);
     }
     	
     private function checkIfCompanyHasReport($company) {
+    	
     	$year = date('Y', strtotime('-1 year'));
     	
     	$storedReport = $this->em->getRepository('ReportContext:Report')->findOneBy([
     			'company' => $company,
-    			
+    			'identifier' => new \DateTime($this->sut->getReportIdentifier($year)),
     			'period' => Report\Period::ANNUAL,
     			'type' => Report\Type::AUTO
     	]);
@@ -97,21 +101,19 @@ class BiznesradarParserTest extends KernelTestCase
     protected function setUp()
     {
     	self::bootKernel();
-    	
+
     	$this->em = static::$kernel->getContainer()
 				    	->get('doctrine')
 				    	->getManager();
     	
     	$prophet = new Prophet();
     	$reportLoader = $prophet->prophesize(ReportLoader::class);
+    	$logger = $prophet->prophesize(Logger::class);
     	
-        $this->sut = new BiznesradarReportParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), new ReportLoader($this->em));
+        $this->sut = new BiznesradarReportParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), new ReportLoader($this->em), $logger->reveal());
         
         $this->ordinaryCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'ACP'));
         $this->bankCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'PKO'));
-       
-		$this->sut->parse($this->ordinaryCompany);
-		$this->sut->parse($this->bankCompany);
     }
 
 }
