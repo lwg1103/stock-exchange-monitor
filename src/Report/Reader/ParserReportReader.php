@@ -22,8 +22,6 @@ class ParserReportReader implements ReportReader
         
         $report->setCompany($input['company']);
         $report->setIdentifier($input['identifier']);
-        $report->setType(Type::AUTO);
-        $report->setPeriod(Period::QUARTERLY);
         $report->setIncome($input['income']);
         $report->setAssets($input['assets']);
         $report->setNetProfit($input['netProfit']);

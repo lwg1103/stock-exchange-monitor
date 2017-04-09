@@ -71,7 +71,7 @@ abstract class ReportParser { //implements ReportParserInterface {
     	}
     }
     
-    protected function needStoreReport($report) {
+    public function needStoreReport($report) {
     	$storedReport = $this->er->findOneBy([
     			'company' => $report->getCompany(),
     			'identifier' => $report->getIdentifier(),

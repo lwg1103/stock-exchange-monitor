@@ -12,9 +12,11 @@ use Symfony\Component\DomCrawler\Crawler;
 class BiznesradarReportParser extends ReportParser {
     var $reports = array ();
     var $availableReports = array ();
+    
+    const REPORT_HEADER_QUARTER_INDICATOR = "/Q";
+    const REPORT_HEADER_FOURTH_QUARTER = "/Q4";
 
     public function parse(Company $company) {
-        $this->reset();
         $this->company = $company;
 
         $this->checkCompany($company);
@@ -25,7 +27,6 @@ class BiznesradarReportParser extends ReportParser {
         $urls[] = $this->getReportRZISUrl();
 
         foreach ($urls as $url) {
-            echo $url;
             $this->parsePage($url);
         }
 
@@ -34,7 +35,7 @@ class BiznesradarReportParser extends ReportParser {
         // add company info to parsed reports
         // prepare income value from income parts
         foreach ($years as $year) {
-            $this->reports[$year]['identifier'] = new \DateTime($year . "-12-31");
+            $this->reports[$year]['identifier'] = new \DateTime($this->getReportIdentifier($year));
             $this->reports[$year]['company'] = $this->company;
             if (isset($this->reports[$year]['income_part1'])) {
                 $this->reports[$year]['income'] = $this->reports[$year]['income_part1'];
@@ -50,6 +51,7 @@ class BiznesradarReportParser extends ReportParser {
         }
 
         $this->saveReports($this->reports);
+        $this->reset();
     }
 
     private function reset() {
@@ -103,8 +105,7 @@ class BiznesradarReportParser extends ReportParser {
                 $value = $node->text();
                 return $value;
             });
-            // $reportDataValue = $reportDataValue->text();
-            // var_dump($reportDataValue);
+                
             if (count($reportDataValue)) {
                 $reportDataValue = preg_replace('/\ /', '', $reportDataValue[0]);
                 $reportDataValue = preg_match_all('/[-+]?[0-9]+/', $reportDataValue, $matches, PREG_SET_ORDER, 0);
@@ -152,7 +153,7 @@ class BiznesradarReportParser extends ReportParser {
 
         for ($i = 0; $i < count($reportsHeads); $i++) {
             $year = false;
-            if (strpos($reportsHeads[$i], "/Q") !== false) {
+            if (strpos($reportsHeads[$i], self::REPORT_HEADER_QUARTER_INDICATOR) !== false) {
                 $year = $this->extractYearFromQuarterHeader($reportsHeads[$i]);
             } else {
                 $year = $this->extractYearFromHeader($reportsHeads[$i]);
@@ -162,11 +163,9 @@ class BiznesradarReportParser extends ReportParser {
                 $availableReports[$i] = array (
                     'caption' => $year,
                     'active' => true );
-                echo '+';
             } else {
                 $availableReports[$i] = array (
                     'active' => false );
-                echo '-';
             }
         }
 
@@ -184,11 +183,10 @@ class BiznesradarReportParser extends ReportParser {
 
     private function extractYearFromQuarterHeader($header) {
         $header = preg_replace('/\s+/', '', $header);
-        if (strpos($header, '/Q4') === false) {
+        if (strpos($header, self::REPORT_HEADER_FOURTH_QUARTER) === false) {
             return false;
         }
-        $header = str_replace('/Q4', '', $header);
-        echo $header;
+        $header = str_replace(self::REPORT_HEADER_FOURTH_QUARTER, '', $header);
         return $this->extractYearFromHeader($header);
     }
 
@@ -239,7 +237,7 @@ class BiznesradarReportParser extends ReportParser {
         return "http://www.biznesradar.pl/wskazniki-wartosci-rynkowej/" . $this->company->getMarketId();
     }
 
-    private function getData($url) {
+    public function getData($url) {
         try {
             $html = file_get_contents($url);
         } catch(ContextErrorException $e) {
@@ -250,8 +248,16 @@ class BiznesradarReportParser extends ReportParser {
     }
 
     private function checkCompany() {
-        if ($this->company->getType() != Type::BANK && $this->company->getType() != Type::ORDINARY) {
+        if (!in_array($this->company->getType(), $this->getAvailableCompanyTypes())) {
             throw new InvalidCompanyTypeException();
         }
+    }
+    
+    public function getAvailableCompanyTypes() {
+    	return array(Type::ORDINARY, Type::BANK);
+    }
+    
+    public function getReportIdentifier($year) {
+    	return $year . "-12-31";
     }
 }

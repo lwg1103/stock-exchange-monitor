@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Utils\ReportParser\Bankier\BiznesradarReportParser;
 use Company\Entity\Company;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 
 class ParseOnlineReportsCommand extends ContainerAwareCommand {
@@ -20,9 +21,15 @@ class ParseOnlineReportsCommand extends ContainerAwareCommand {
 		
 		$companies = $this->getContainer()->get('app.use_case.list_companies')->execute();
 		
+		$progress = new ProgressBar($output, count($companies));
+		$progress->start();
+		
 		foreach($companies as $company) {
 			$biznesradarReportParser = $this->getContainer()->get('app.utils.report_parser_biznesradar');
 			$report = $biznesradarReportParser->parse($company);
+			$progress->advance();
 		}
+		
+		$progress->finish();
 	}
 }
