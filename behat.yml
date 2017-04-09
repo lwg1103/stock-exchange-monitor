@@ -8,7 +8,7 @@ default:
                     getCompany:     '@app.use_case.get_company'
                     em:             '@doctrine.orm.entity_manager'
                 - ReportContext:
-                    getReport:        '@app.use_case.get_report'
+                    getReport:          '@app.use_case.get_report'
                     addReportManually:  '@app.use_case.add_report_manually'
                     formFactory:        '@form.factory'
                     em:                 '@doctrine.orm.entity_manager'
@@ -18,6 +18,9 @@ default:
                     pullAllPrices:  '@app.use_case.pull_all_prices'
                     em:             '@doctrine.orm.entity_manager'
                 - SecurityContext
+                - ValueStatsContext:
+                    getTotalCompanyValue: '@app.use_case.get_total_company_value'
+                    em:                   '@doctrine.orm.entity_manager'
     extensions:
         Behat\Symfony2Extension: ~
         Behat\MinkExtension:
