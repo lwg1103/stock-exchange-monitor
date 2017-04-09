@@ -4,9 +4,8 @@ use Behat\Behat\Context\Context;
 use Report\Entity\Report;
 use Doctrine\Common\Persistence\ObjectManager;
 use Price\Entity\Price;
-use Money\Money;
-use Money\Currency;
 use Application\UseCase\GetTotalCompanyValue;
+use Application\UseCase\GetCZValue;
 
 /**
  * Defines application features from the specific context.
@@ -20,19 +19,24 @@ class ValueStatsContext implements Context
     protected $em;
     /** @var GetTotalCompanyValue */
     protected $getTotalCompanyValue;
+    /** @var GetCZValue */
+    protected $getCZValue;
 
     /**
      * ReportContext constructor.
      *
      * @param GetTotalCompanyValue  $getTotalCompanyValue
+     * @param GetCZValue            $getCZValue
      * @param ObjectManager         $em
      */
     public function __construct(
-        GetTotalCompanyValue    $getTotalCompanyValue, 
+        GetTotalCompanyValue    $getTotalCompanyValue,
+        GetCZValue              $getCZValue,
         ObjectManager           $em
     )
     {
         $this->getTotalCompanyValue = $getTotalCompanyValue;
+        $this->getCZValue           = $getCZValue;
         $this->em                   = $em;
     }
 
@@ -43,7 +47,7 @@ class ValueStatsContext implements Context
     {
         $price = new Price(
             $this->getCompany($marketId),
-            new Money((int)$price, new Currency('PLN'))
+            $price
         );
 
         $this->em->persist($price);
@@ -63,7 +67,23 @@ class ValueStatsContext implements Context
      */
     public function iShouldSeeTotalCompanyValue($value)
     {
-        assertEquals($value, $this->result->getAmount());
+        assertEquals($value, $this->result);
+    }
+
+    /**
+     * @When I check C\/Z value for :marketId
+     */
+    public function iCheckCZValueFor($marketId)
+    {
+        $this->result = $this->getCZValue->getCurrent($this->getCompany($marketId));
+    }
+
+    /**
+     * @Then I should see :value C\/Z value
+     */
+    public function iShouldSeeCZValue($value)
+    {
+        assertEquals($value, $this->result);
     }
 
     /**

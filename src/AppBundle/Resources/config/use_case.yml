@@ -50,3 +50,9 @@ services:
     arguments:
       - '@app.use_case.get_price'
       - '@app.use_case.get_report'
+
+  app.use_case.get_c_z_value:
+    class: Application\UseCase\GetCZValue
+    arguments:
+      - '@app.use_case.get_report'
+      - '@app.use_case.get_total_company_value'

@@ -6,8 +6,6 @@ use Carbon\Carbon;
 use Company\Entity\Company;
 use Company\Translator\BossaMarketIdTranslator;
 use Doctrine\ORM\EntityRepository;
-use Money\Currency;
-use Money\Money;
 use Price\Entity\Price;
 use Price\Filter\FilteredData;
 use Price\Parser;
@@ -36,7 +34,7 @@ class BossaParser implements Parser
     {
         return new Price(
             $this->findCompanyForId($this->getMarketId($filteredData->value)), 
-            new Money($this->getPrice($filteredData->value), new Currency('PLN')),
+            $this->getPrice($filteredData->value),
             $this->getDate($filteredData->value)
         );
     }
@@ -67,7 +65,7 @@ class BossaParser implements Parser
     {
         $price = explode(",", $filteredString)[5];
 
-        return (int)str_replace(".", "", $price);
+        return (float)$price;
     }
 
     private function getDate($filteredString)

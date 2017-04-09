@@ -26,13 +26,13 @@ class GetTotalCompanyValue
     /**
      * @param Company $company
      * 
-     * @return Money
+     * @return float
      */
     public function get(Company $company)
     {
-        $currentPrice = $this->getPriceUseCase->lastByCompany($company)->getPrice();
+        $currentPrice = $this->getPriceUseCase->lastByCompany($company)->getValue();
         $sharesQuantity = $this->getReportUseCase->lastByCompany($company)->getSharesQuantity();
         
-        return new Money($currentPrice->multiply($sharesQuantity)->getAmount(), $currentPrice->getCurrency());
+        return $currentPrice*$sharesQuantity;
     }
 }

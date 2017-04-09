@@ -20,6 +20,7 @@ default:
                 - SecurityContext
                 - ValueStatsContext:
                     getTotalCompanyValue: '@app.use_case.get_total_company_value'
+                    getCZValue:           '@app.use_case.get_c_z_value'
                     em:                   '@doctrine.orm.entity_manager'
     extensions:
         Behat\Symfony2Extension: ~

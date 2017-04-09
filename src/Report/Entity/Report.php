@@ -56,65 +56,65 @@ class Report
     private $period;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="income", type="integer")
+     * @ORM\Column(name="income", type="float")
      */
     private $income;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="netProfit", type="integer")
+     * @ORM\Column(name="netProfit", type="float")
      */
     private $netProfit;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="operationalNetProfit", type="integer", nullable=true)
+     * @ORM\Column(name="operationalNetProfit", type="float", nullable=true)
      */
     private $operationalNetProfit;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="bookValue", type="integer")
+     * @ORM\Column(name="bookValue", type="float")
      */
     private $bookValue;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="assets", type="integer")
+     * @ORM\Column(name="assets", type="float")
      */
     private $assets;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="currentAssets", type="integer", nullable=true)
+     * @ORM\Column(name="currentAssets", type="float", nullable=true)
      */
     private $currentAssets;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="liabilities", type="integer", nullable=true)
+     * @ORM\Column(name="liabilities", type="float", nullable=true)
      */
     private $liabilities;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="currentLiabilities", type="integer", nullable=true)
+     * @ORM\Column(name="currentLiabilities", type="float", nullable=true)
      */
     private $currentLiabilities;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="sharesQuantity", type="bigint")
+     * @ORM\Column(name="sharesQuantity", type="float")
      */
     private $sharesQuantity;
 
@@ -228,7 +228,7 @@ class Report
     /**
      * Set income
      *
-     * @param integer $income
+     * @param float $income
      *
      * @return Report
      */
@@ -242,7 +242,7 @@ class Report
     /**
      * Get income
      *
-     * @return int
+     * @return float
      */
     public function getIncome()
     {
@@ -252,7 +252,7 @@ class Report
     /**
      * Set netProfit
      *
-     * @param integer $netProfit
+     * @param float $netProfit
      *
      * @return Report
      */
@@ -266,7 +266,7 @@ class Report
     /**
      * Get netProfit
      *
-     * @return int
+     * @return float
      */
     public function getNetProfit()
     {
@@ -276,7 +276,7 @@ class Report
     /**
      * Set operationalNetProfit
      *
-     * @param integer $operationalNetProfit
+     * @param float $operationalNetProfit
      *
      * @return Report
      */
@@ -290,7 +290,7 @@ class Report
     /**
      * Get operationalNetProfit
      *
-     * @return int
+     * @return float
      */
     public function getOperationalNetProfit()
     {
@@ -300,7 +300,7 @@ class Report
     /**
      * Set bookValue
      *
-     * @param integer $bookValue
+     * @param float $bookValue
      *
      * @return Report
      */
@@ -314,7 +314,7 @@ class Report
     /**
      * Get bookValue
      *
-     * @return int
+     * @return float
      */
     public function getBookValue()
     {
@@ -324,7 +324,7 @@ class Report
     /**
      * Set assets
      *
-     * @param integer $assets
+     * @param float $assets
      *
      * @return Report
      */
@@ -338,7 +338,7 @@ class Report
     /**
      * Get assets
      *
-     * @return int
+     * @return float
      */
     public function getAssets()
     {
@@ -348,7 +348,7 @@ class Report
     /**
      * Set currentAssets
      *
-     * @param integer $currentAssets
+     * @param float $currentAssets
      *
      * @return Report
      */
@@ -362,7 +362,7 @@ class Report
     /**
      * Get currentAssets
      *
-     * @return int
+     * @return float
      */
     public function getCurrentAssets()
     {
@@ -372,7 +372,7 @@ class Report
     /**
      * Set liabilities
      *
-     * @param integer $liabilities
+     * @param float $liabilities
      *
      * @return Report
      */
@@ -386,7 +386,7 @@ class Report
     /**
      * Get liabilities
      *
-     * @return int
+     * @return float
      */
     public function getLiabilities()
     {
@@ -396,7 +396,7 @@ class Report
     /**
      * Set currentLiabilities
      *
-     * @param integer $currentLiabilities
+     * @param float $currentLiabilities
      *
      * @return Report
      */
@@ -410,7 +410,7 @@ class Report
     /**
      * Get currentLiabilities
      *
-     * @return int
+     * @return float
      */
     public function getCurrentLiabilities()
     {
@@ -420,7 +420,7 @@ class Report
     /**
      * Set sharesQuantity
      *
-     * @param integer $sharesQuantity
+     * @param float $sharesQuantity
      *
      * @return Report
      */
@@ -434,11 +434,11 @@ class Report
     /**
      * Get sharesQuantity
      *
-     * @return int
+     * @return float
      */
     public function getSharesQuantity()
     {
-        return $this->sharesQuantity;
+        return (int)$this->sharesQuantity;
     }
 
     /**

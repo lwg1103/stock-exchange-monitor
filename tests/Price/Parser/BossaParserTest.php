@@ -48,19 +48,8 @@ class BossaParserTest extends \PHPUnit_Framework_TestCase
     public function returnsProperPriceValue()
     {
         $this->assertEquals(
-            2710,
-            $this->sut->parse($this->filteredData)->getPrice()->getAmount()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function returnsProperPriceCurrency()
-    {
-        $this->assertEquals(
-            'PLN',
-            $this->sut->parse($this->filteredData)->getPrice()->getCurrency()->getName()
+            27.10,
+            $this->sut->parse($this->filteredData)->getValue()
         );
     }
 
