@@ -46,3 +46,6 @@
 
 #phpstorm
 .idea
+
+#eclipse
+.project
