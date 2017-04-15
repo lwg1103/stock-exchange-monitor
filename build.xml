@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="moto-stats" default="build">
+<project name="stock-exchange-monitor" default="build">
     <property name="workspace" value="${basedir}" />
     <property name="build.dir" value="${basedir}"/>
     <property name="root.dir" value="${build.dir}"/>
@@ -13,12 +13,16 @@
             depends="vendors,prepare-db,assetic,clear-cache"
     />
 
+    <target name="tests"
+            depends="phpunit, functional"
+    />
+
     <target name="build"
-            depends="prepare,vendors,prepare-db,assetic,clear-cache-prod,lint,phploc,pdepend,phpcpd,phpmd,phpcs,phpcs,phpdoc,phpunit"
+            depends="prepare,vendors,prepare-db,assetic,clear-cache,lint,phploc,pdepend,phpcpd,phpmd,phpcs,phpcs,phpdoc,phpunit,functional"
     />
 
     <target name="build-ci"
-            depends="prepare,vendors,prepare-db,assetic,clear-cache-prod,lint,phploc,phpunit-ci"
+            depends="prepare,vendors,prepare-db-ci,assetic,clear-cache-ci,lint,phploc,phpunit-ci,functional-ci"
     />
 
     <target name="clean" description="Cleanup build artifacts">
@@ -42,10 +46,23 @@
             depends="drop-database,create-database,prepare-schema,prepare-fixtures"
     />
 
+    <target name="prepare-db-ci"
+            depends="drop-database-ci,create-database-ci,prepare-schema-ci,prepare-fixtures-ci"
+    />
+
     <target name="prepare-fixtures">
         <exec executable="php">
             <arg value="${bin.dir}/console"/>
             <arg value="doctrine:fixtures:load"/>
+            <arg value="--fixtures=features/DataFixtures/"/>
+        </exec>
+    </target>
+
+    <target name="prepare-fixtures-ci">
+        <exec executable="php">
+            <arg value="${bin.dir}/console"/>
+            <arg value="doctrine:fixtures:load"/>
+            <arg value="--env=test"/>
             <arg value="--fixtures=features/DataFixtures/"/>
         </exec>
     </target>
@@ -58,6 +75,15 @@
         </exec>
     </target>
 
+    <target name="drop-database-ci">
+        <exec executable="php">
+            <arg value="${bin.dir}/console"/>
+            <arg value="doctrine:database:drop"/>
+            <arg value="--env=test"/>
+            <arg value="--force"/>
+        </exec>
+    </target>
+
     <target name="create-database">
         <exec executable="php">
             <arg value="${bin.dir}/console"/>
@@ -65,10 +91,27 @@
         </exec>
     </target>
 
+    <target name="create-database-ci">
+        <exec executable="php">
+            <arg value="${bin.dir}/console"/>
+            <arg value="doctrine:database:create"/>
+            <arg value="--env=test"/>
+        </exec>
+    </target>
+
     <target name="prepare-schema">
         <exec executable="php">
             <arg value="${bin.dir}/console"/>
             <arg value="doctrine:schema:update"/>
+            <arg value="--force"/>
+        </exec>
+    </target>
+
+    <target name="prepare-schema-ci">
+        <exec executable="php">
+            <arg value="${bin.dir}/console"/>
+            <arg value="doctrine:schema:update"/>
+            <arg value="--env=test"/>
             <arg value="--force"/>
         </exec>
     </target>
@@ -123,7 +166,7 @@
     </target>
 
     <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-        <exec executable="phpcs" failonerror="true">
+        <exec executable="phpcs">
             <arg value="--standard=Symfony2" />
             <arg path="${src.dir}" />
         </exec>
@@ -179,14 +222,6 @@
         </exec>
     </target>
 
-    <target name="clear-cache-prod" >
-        <exec executable="php" failonerror="true">
-            <arg value="${bin.dir}/console" />
-            <arg value="cache:clear" />
-            <arg value="--env=prod" />
-        </exec>
-    </target>
-
     <target name="clear-cache" >
         <exec executable="php" failonerror="true">
             <arg value="${bin.dir}/console" />
@@ -194,18 +229,26 @@
         </exec>
     </target>
 
-    <target name="functional" depends="prepare-db"
-            description="Execute the behat tests"
-    >
-        <exec executable="${basedir}/bin/behat" failonerror="true">
+    <target name="clear-cache-ci" >
+        <exec executable="php" failonerror="true">
+            <arg value="${bin.dir}/console" />
+            <arg value="cache:clear" />
+            <arg value="--env=test" />
         </exec>
     </target>
 
-    <target name="functional-ci" depends="prepare-db"
+    <target name="functional" depends="prepare-db"
             description="Execute the behat tests"
     >
-        <exec executable="${basedir}/bin/behat" failonerror="true">
-            <arg value="--profile=ci"/>
+        <exec executable="${basedir}/vendor/bin/behat" failonerror="true">
+        </exec>
+    </target>
+
+    <target name="functional-ci" depends="prepare-db-ci"
+            description="Execute the behat tests"
+    >
+        <exec executable="${basedir}/vendor/bin/behat" failonerror="true">
+            <!--<arg value="&#45;&#45;profile=ci"/>-->
         </exec>
     </target>
 

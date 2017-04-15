@@ -1,0 +1,27 @@
+default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext
+                - CompanyContext:
+                    listCompanies:  '@app.use_case.list_companies'
+                    getCompany:     '@app.use_case.get_company'
+                    em:             '@doctrine.orm.entity_manager'
+                - ReportContext:
+                    getReport:        '@app.use_case.get_report'
+                    addReportManually:  '@app.use_case.add_report_manually'
+                    formFactory:        '@form.factory'
+                    em:                 '@doctrine.orm.entity_manager'
+                - PriceContext:
+                    getPrice:       '@app.use_case.get_price'
+                    pullPrice:      '@app.use_case.pull_price'
+                    pullAllPrices:  '@app.use_case.pull_all_prices'
+                    em:             '@doctrine.orm.entity_manager'
+                - SecurityContext
+    extensions:
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension:
+            base_url:  'http://127.0.0.1:8000/'
+            sessions:
+              default:
+                  goutte: ~
