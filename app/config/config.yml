@@ -96,3 +96,6 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
     user_class: User\Entity\User
+    from_email:
+        address:        m.harbuz@x-coding.pl
+        sender_name:    SEM
