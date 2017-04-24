@@ -25,8 +25,7 @@ class ParseOnlineReportsCommand extends ContainerAwareCommand {
 		$progress->start();
 		
 		foreach($companies as $company) {
-			$biznesradarReportParser = $this->getContainer()->get('app.utils.report_parser_biznesradar');
-			$report = $biznesradarReportParser->parse($company);
+			$this->getContainer()->get('app.use_case.parse_report')->parseReportForCompany($company);
 			$progress->advance();
 		}
 		

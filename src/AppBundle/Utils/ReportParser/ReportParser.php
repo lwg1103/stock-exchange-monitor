@@ -67,30 +67,4 @@ abstract class ReportParser { //implements ReportParserInterface {
      * return Report
      */
     abstract public function parse(Company $company);
-    
-    protected function saveReports($reports) {
-    	$this->log('[S] saving reports');
-    	foreach($reports as $report) {
-    		$objReport = $this->reader->read($report);
-    		if($this->needStoreReport($objReport)) {
-    			$this->loader->load($objReport);
-    		}
-    	}
-    	$this->log('[E] saving reports');
-    }
-    
-    public function needStoreReport($report) {
-    	$this->log('checking report needs to be stored: '.$report->getCompany()->getMarketId(). " " . $report->getIdentifier());
-    	
-    	$storedReport = $this->er->findOneBy([
-    			'company' => $report->getCompany(),
-    			'identifier' => $report->getIdentifier(),
-    			'period' => $report->getPeriod(),
-    			'type' => Report\Type::AUTO
-    	]);
-    	
-    	$this->log('check result: '.$storedReport);
-    	
-    	return !(null != $storedReport);
-    }
 }

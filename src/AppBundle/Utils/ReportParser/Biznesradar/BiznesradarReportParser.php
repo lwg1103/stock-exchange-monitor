@@ -4,15 +4,13 @@ namespace AppBundle\Utils\ReportParser\Biznesradar;
 
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use AppBundle\Utils\ReportParser\ReportParser;
+use AppBundle\Utils\ReportParser\ReportParserInterface;
 use AppBundle\Utils\ReportParser\InvalidCompanyTypeException;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
 use Symfony\Component\DomCrawler\Crawler;
-use Doctrine\ORM\EntityRepository;
-use Report\Reader\ReportReader;
-use Report\Loader\ReportLoader;
 
-class BiznesradarReportParser extends ReportParser {
+class BiznesradarReportParser extends ReportParser implements ReportParserInterface {
     var $reports = array ();
     var $availableReports = array ();
     
