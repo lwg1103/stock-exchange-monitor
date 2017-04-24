@@ -1,0 +1,24 @@
+.h600 {
+	height: 700px;
+	overflow:hidden;
+}
+
+.h600 .ibox-content {
+	height:100%;
+}
+
+.timeline-time {
+	position:relative;
+}
+
+.timeline-item img {
+	position:absolute;
+	top: 5px;
+	right: 5px;
+	width: 100px;
+}
+
+.prezka-slide {
+	 width:100%;
+	 height:100%;
+}
