@@ -1,17 +1,15 @@
 <?php
-namespace AppBundle\Utils\ReportParser;
+namespace Report;
 
 use Company\Entity\Company;
 use Doctrine\ORM\EntityRepository;
 use Report\Entity\Report;
-use Report\Entity\Report\Type;
-use Report\Entity\Report\Period;
 use Report\Reader\ReportReader;
 use Report\Loader\ReportLoader;
 use Monolog\Logger;
 
 
-abstract class ReportParser { //implements ReportParserInterface {
+abstract class Parser implements ParserInterface {
 
 	/**
 	 * 
@@ -58,8 +56,6 @@ abstract class ReportParser { //implements ReportParserInterface {
     	$this->logger = $logger;
     }
     
-    
-    
     /**
      * 
      * @param Company $company
@@ -67,4 +63,37 @@ abstract class ReportParser { //implements ReportParserInterface {
      * return Report
      */
     abstract public function parse(Company $company);
+    
+    protected function saveReports($reports) {
+    
+    	$this->log('[S] saving reports');
+    	foreach($reports as $report) {
+    
+    		$objReport = $this->reader->read($report);
+    		if($this->needStoreReport($objReport)) {
+    			$this->loader->load($objReport);
+    		}
+    	}
+    	$this->log('[E] saving reports');
+    }
+    
+    public function needStoreReport($report) {
+    	$this->log('checking report needs to be stored: '.$report->getCompany()->getMarketId(). " " . $report->getIdentifier()->format('Y-m-d'));
+    
+    	$storedReport = $this->er->findOneBy([
+    			'company' => $report->getCompany(),
+    			'identifier' => $report->getIdentifier(),
+    			'period' => $report->getPeriod(),
+    			'type' => Report\Type::AUTO
+    	]);
+    
+    	$this->log('check result: '.$storedReport);
+    
+    	return !(null != $storedReport);
+    }
+    
+    protected function log($message) {
+    	$this->logger->info($message);
+    	echo $message.'\n';
+    }
 }

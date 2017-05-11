@@ -4,7 +4,6 @@ namespace AppBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use AppBundle\Utils\ReportParser\Bankier\BiznesradarReportParser;
 use Company\Entity\Company;
 use Symfony\Component\Console\Helper\ProgressBar;
 

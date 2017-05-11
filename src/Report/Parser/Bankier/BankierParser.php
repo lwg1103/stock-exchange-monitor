@@ -1,14 +1,13 @@
 <?php
 
-namespace AppBundle\Utils\ReportParser\Bankier;
+namespace Report\Parser\Bankier;
 
 use Symfony\Component\Debug\Exception\ContextErrorException;
-use AppBundle\Utils\ReportParser\ReportParser;
+use Report\Parser;
 use Company\Entity\Company;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\CssSelector\CssSelectorConverter;
 
-class BankierReportParser extends ReportParser {
+class BankierParser extends Parser {
 
     public function parse(Company $company) {
         $this->company = $company;

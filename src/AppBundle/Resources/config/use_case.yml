@@ -38,3 +38,8 @@ services:
     arguments:
       - '@app.use_case.pull_price'
       - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
+      
+  app.use_case.parse_report:
+    class: Application\UseCase\ParseReport
+    arguments:
+      - '@app.report.parser'

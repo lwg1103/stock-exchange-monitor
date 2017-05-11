@@ -13,8 +13,8 @@ services:
   app.reader.parser_report_reader:
     class: Report\Reader\ParserReportReader  
 
-  app.utils.report_parser:
-    class: AppBundle\Utils\ReportParser\Biznesradar\BiznesradarReportParser
+  app.report.parser:
+    class: Report\Parser\Biznesradar\BiznesradarParser
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
       - '@app.reader.parser_report_reader'

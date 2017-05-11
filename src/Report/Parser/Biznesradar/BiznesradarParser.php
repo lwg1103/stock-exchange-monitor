@@ -1,26 +1,21 @@
 <?php
 
-namespace AppBundle\Utils\ReportParser\Biznesradar;
+namespace Report\Parser\Biznesradar;
 
 use Symfony\Component\Debug\Exception\ContextErrorException;
-use AppBundle\Utils\ReportParser\ReportParser;
-use AppBundle\Utils\ReportParser\ReportParserInterface;
-use AppBundle\Utils\ReportParser\InvalidCompanyTypeException;
+use Report\Parser;
+use Report\ParserInterface;
+use Report\Parser\InvalidCompanyTypeException;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
 use Symfony\Component\DomCrawler\Crawler;
 
-class BiznesradarReportParser extends ReportParser implements ReportParserInterface {
+class BiznesradarParser extends Parser implements ParserInterface {
     var $reports = array ();
     var $availableReports = array ();
     
     const REPORT_HEADER_QUARTER_INDICATOR = "/Q";
     const REPORT_HEADER_FOURTH_QUARTER = "/Q4";
-    
-    private function log($message) {
-    	$this->logger->info($message);
-    	echo $message.'\n';
-    }
 
     public function parse(Company $company) {
     	$this->log('[S] parse company: '.$company->getMarketId());

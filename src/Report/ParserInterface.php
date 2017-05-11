@@ -1,10 +1,10 @@
 <?php 
 
-namespace AppBundle\Utils\ReportParser;
+namespace Report;
 
 use Company\Entity\Company;
 
-interface ReportParserInterface {
+interface ParserInterface {
 	
 	public function parse(Company $company);
 	
