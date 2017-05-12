@@ -37,7 +37,7 @@ abstract class Parser implements ParserInterface
 
     /**
      *
-     * @var html string
+     * @var string
      */
     protected $html;
 

@@ -4,6 +4,7 @@ namespace Company\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Report\Entity\Report;
+use Compane\Entity\Company\Type;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,7 +51,7 @@ class Company
      * @param string $marketId
      * @param string $type
      */
-    public function __construct($name, $marketId, $type)
+    public function __construct($name, $marketId, $type = Type::ORDINARY)
     {
         $this->name     = $name;
         $this->marketId = $marketId;
