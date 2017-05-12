@@ -5,7 +5,7 @@ namespace Report;
 use Company\Entity\Company;
 
 interface ParserInterface {
-	
-	public function parse(Company $company);
-	
+
+    public function parse(Company $company);
+
 }

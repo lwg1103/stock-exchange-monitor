@@ -10,6 +10,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class BankierParser extends Parser {
 
     public function parse(Company $company) {
+        throw new \Exception('not implemented yet');
         $this->company = $company;
         $this->html = $this->getData();
         
