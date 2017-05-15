@@ -18,6 +18,8 @@ class BiznesradarParser extends Parser implements ParserInterface {
     const REPORT_HEADER_FOURTH_QUARTER = "/Q4";
 
     public function parse(Company $company) {
+        $this->reset();
+        
     	$this->log('[S] parse company: '.$company->getMarketId());
         $this->company = $company;
 
@@ -52,8 +54,16 @@ class BiznesradarParser extends Parser implements ParserInterface {
             }
         }
 
-        $this->saveReports($this->reports);
-        $this->reset();
+        return  $this->getParsedReports();
+    }
+    
+    private function getParsedReports() {
+        $parsedReports = array();
+        foreach ($this->reports as $report) {
+            $parsedReports[] = $this->reader->read($report);
+        }
+        
+        return $parsedReports;
     }
 
     private function reset() {

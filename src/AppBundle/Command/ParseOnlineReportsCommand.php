@@ -24,7 +24,7 @@ class ParseOnlineReportsCommand extends ContainerAwareCommand {
 		$progress->start();
 		
 		foreach($companies as $company) {
-			$this->getContainer()->get('app.use_case.parse_report')->parseReportForCompany($company);
+			$this->getContainer()->get('app.use_case.get_company_online_reports')->parseReportsForCompany($company);
 			$progress->advance();
 		}
 		

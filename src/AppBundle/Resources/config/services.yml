@@ -7,6 +7,11 @@ services:
     arguments:
       - '@doctrine.orm.entity_manager'
 
+  app.loader.parser_report_loader:
+    class: Report\Loader\ParserReportLoader
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
   app.reader.form_report_reader:
     class: Report\Reader\FormReportReader
     
@@ -18,9 +23,8 @@ services:
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
       - '@app.reader.parser_report_reader'
-      - '@app.loader.report_loader'
       - '@logger'
-      
+
   app.downloader.bossa_downloader:
     class: Price\Downloader\BossaDownloader
 

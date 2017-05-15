@@ -14,7 +14,7 @@ class BankierParser extends Parser {
         $this->company = $company;
         $this->html = $this->getData();
         
-        $this->processParser();
+        return $this->processParser();
     }
     
     private function processParser() {
@@ -50,30 +50,7 @@ class BankierParser extends Parser {
         	}
         }
 
-        
-        $this->saveReports($reports);
-
-
-        //print_r($reportData);
-
-        die;
-
-        $data = array();
-        $data['company'] = $company;
-        $data['identifier'] = new \DateTime('2015-06-30');
-        $data['income'] = '12';
-        $data['netProfit'] = '13';
-        $data['operationalNetProfit'] = '';
-        $data['bookValue'] = '15';
-        $data['sharesQuantity'] = '16';
-        $data['assets'] = '17';
-        //$report = $this->prepareReport($data);
-        //$this->em->persist($report);
-        //$this->em->flush();
-    }
-    
-    private function saveReports($reports) {
-    	
+        return $reports;
     }
 
     private function getHtmlTable(Crawler $dom) {

@@ -50,21 +50,21 @@ abstract class Parser implements ParserInterface
     /**
      * Loader constructor.
      * 
-     * @param ReportReader $reader            
-     * @param ReportLoader $loader            
+     * @param ReportReader $reader
+     * @param Logger $logger
+     * 
      */
-    public function __construct(EntityRepository $er, ReportReader $reader, ReportLoader $loader, Logger $logger)
+    public function __construct(EntityRepository $er, ReportReader $reader, Logger $logger)
     {
         $this->er = $er;
         $this->reader = $reader;
-        $this->loader = $loader;
         $this->logger = $logger;
     }
 
     /**
      *
      * @param Company $company
-     *            return Report
+     * @return Report[]
      */
     abstract public function parse(Company $company);
 
@@ -72,31 +72,10 @@ abstract class Parser implements ParserInterface
     {
         $this->log('[S] saving reports');
         foreach ($reports as $report) {
-            
             $objReport = $this->reader->read($report);
-            if ($this->needStoreReport($objReport)) {
-                $this->loader->load($objReport);
-            }
+            $this->loader->loadReportINeeded($objReport);
         }
         $this->log('[E] saving reports');
-    }
-
-    public function needStoreReport($report)
-    {
-        $this->log('checking report needs to be stored: ' . $report->getCompany()
-            ->getMarketId() . " " . $report->getIdentifier()
-            ->format('Y-m-d'));
-        
-        $storedReport = $this->er->findOneBy([
-            'company' => $report->getCompany(),
-            'identifier' => $report->getIdentifier(),
-            'period' => $report->getPeriod(),
-            'type' => Report\Type::AUTO
-        ]);
-        
-        $this->log('check result: ' . $storedReport);
-        
-        return ! (null != $storedReport);
     }
 
     protected function log($message)
