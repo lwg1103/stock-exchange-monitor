@@ -4,7 +4,7 @@ namespace Company\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Report\Entity\Report;
-use Compane\Entity\Company\Type;
+use Company\Entity\Company\Type;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
