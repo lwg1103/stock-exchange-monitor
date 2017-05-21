@@ -81,6 +81,6 @@ abstract class Parser implements ParserInterface
     protected function log($message)
     {
         $this->logger->info($message);
-        echo $message . '\n';
+        //echo $message . '\n';
     }
 }

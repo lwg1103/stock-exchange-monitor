@@ -32,9 +32,9 @@ class ParserReportLoader
         }
     }
     
-    private function needStoreReport(Report $report)
+    public function needStoreReport(Report $report)
     {
-        $storedReport = $this->er->findOneBy([
+        $storedReport = $this->em->getRepository('ReportContext:Report')->findOneBy([
             'company' => $report->getCompany(),
             'identifier' => $report->getIdentifier(),
             'period' => $report->getPeriod(),
