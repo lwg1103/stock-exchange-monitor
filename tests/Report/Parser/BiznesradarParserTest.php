@@ -7,7 +7,7 @@ use Company\Entity\Company\Type;
 use Report\Parser\Biznesradar\BiznesradarParser;
 use Report\Parser\InvalidCompanyTypeException;
 use Report\Loader\ReportLoader;
-use Report\Reader\PArserReportReader;
+use Report\Reader\ParserReportReader;
 use Report\Entity\Report;
 use Prophecy\Prophet;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
