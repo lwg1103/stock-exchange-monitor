@@ -13,13 +13,13 @@ use Symfony\Component\DomCrawler\Crawler;
 class BiznesradarParser extends Parser implements ParserInterface {
     var $reports = array ();
     var $availableReports = array ();
-    
+
     const REPORT_HEADER_QUARTER_INDICATOR = "/Q";
     const REPORT_HEADER_FOURTH_QUARTER = "/Q4";
 
     public function parse(Company $company) {
         $this->reset();
-        
+
     	$this->log('[S] parse company: '.$company->getMarketId());
         $this->company = $company;
 
@@ -56,13 +56,13 @@ class BiznesradarParser extends Parser implements ParserInterface {
 
         return  $this->getParsedReports();
     }
-    
+
     private function getParsedReports() {
         $parsedReports = array();
         foreach ($this->reports as $report) {
             $parsedReports[] = $this->reader->read($report);
         }
-        
+
         return $parsedReports;
     }
 
@@ -118,7 +118,7 @@ class BiznesradarParser extends Parser implements ParserInterface {
                 $value = $node->text();
                 return $value;
             });
-                
+
             if (count($reportDataValue)) {
                 $reportDataValue = preg_replace('/\ /', '', $reportDataValue[0]);
                 $reportDataValue = preg_match_all('/[-+]?[0-9]+/', $reportDataValue, $matches, PREG_SET_ORDER, 0);
@@ -161,7 +161,7 @@ class BiznesradarParser extends Parser implements ParserInterface {
         if (count($reportsHeadsNewest)) {
             $reportsHeads[] = $reportsHeadsNewest[count($reportsHeadsNewest) - 1];
         }
-        
+
         $this->log('reports table heads: '.print_r($reportsHeads, true));
 
         $availableReports = array ();
@@ -223,7 +223,7 @@ class BiznesradarParser extends Parser implements ParserInterface {
             'BalanceCurrentAssets' => 'currentAssets',
             'BalanceTotalAssets' => 'assets',
             'BalanceCurrentLiabilities' => 'currentLiabilities',
-            'BalanceTotalLiabilities' => 'liabilities',
+            'BalanceTotalEquityAndLiabilities' => 'liabilities',
             'ShareAmountCurrent' => 'sharesQuantity',
             // 'WKCurrent' => 'bookValue_per_share',
             'BalanceCapital' => 'bookValue',
@@ -270,11 +270,11 @@ class BiznesradarParser extends Parser implements ParserInterface {
             throw new InvalidCompanyTypeException();
         }
     }
-    
+
     public function getAvailableCompanyTypes() {
     	return array(Type::ORDINARY, Type::BANK);
     }
-    
+
     public function getReportIdentifier($year) {
     	return $year . "-12-31";
     }
