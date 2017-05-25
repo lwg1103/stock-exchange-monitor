@@ -129,6 +129,7 @@ class BiznesradarParserTest extends KernelTestCase
      */
     public function checkReportWithNegativeValues() {
         $negativeCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'KGH'));
+        $this->sut->parse($negativeCompany);
         $report = $this->getStoredReport($negativeCompany, 2016);
 
         $this->assertEquals($report->getIncome(), 19156000);
