@@ -21,6 +21,7 @@ class BiznesradarParserTest extends KernelTestCase
     private $ordinaryCompany;
     private $em;
     private $reportLoader;
+    private $parser;
 
 
     /**
@@ -40,7 +41,7 @@ class BiznesradarParserTest extends KernelTestCase
      */
     public function getsHtmlPageContentFromWeb() {
     	$url = "http://www.biznesradar.pl/wskazniki-wartosci-rynkowej/" . $this->ordinaryCompany->getMarketId();
-    	$html = $this->sut->getData($url);
+    	$html = $this->parser->getData($url);
 
     	$this->assertThat(
     			$html,
@@ -152,7 +153,7 @@ class BiznesradarParserTest extends KernelTestCase
     private function getStoredReport($company, $year) {
         $storedReport = $this->em->getRepository('ReportContext:Report')->findOneBy([
             'company' => $company,
-            'identifier' => new \DateTime($this->sut->getReportIdentifier($year)),
+            'identifier' => new \DateTime($this->parser->getReportIdentifier($year)),
             'period' => Report\Period::ANNUAL,
             'type' => Report\Type::AUTO
         ]);
@@ -180,8 +181,8 @@ class BiznesradarParserTest extends KernelTestCase
         $this->reportLoader = static::$kernel->getContainer()->get('app.loader.parser_report_loader');
     	$logger = $prophet->prophesize(Logger::class);
 
-        $parser = new BiznesradarParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), $logger->reveal());
-        $this->sut = new GetCompanyOnlineReports($parser, $this->reportLoader);
+        $this->parser = new BiznesradarParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), $logger->reveal());
+        $this->sut = new GetCompanyOnlineReports($this->parser, $this->reportLoader);
         $this->ordinaryCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'ACP'));
         $this->bankCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'PKO'));
     }
