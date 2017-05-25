@@ -9,6 +9,7 @@ use Report\Parser\InvalidCompanyTypeException;
 use Report\Loader\ReportLoader;
 use Report\Reader\ParserReportReader;
 use Report\Entity\Report;
+use Application\UseCase\GetCompanyOnlineReports;
 use Prophecy\Prophet;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Monolog\Logger;
@@ -30,7 +31,7 @@ class BiznesradarParserTest extends KernelTestCase
     public function throwsExceptionIfWrongCompanyType()
     {
     	$wrongCompany = new Company("Trolo", "TRL", "trtrt type");
-        $this->sut->parse($wrongCompany);
+        $this->sut->parseLoadReport($wrongCompany);
     }
 
     /**
@@ -63,7 +64,7 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkIfOrdinaryCompanyHasReport() {
-        $this->sut->parse($this->ordinaryCompany);
+        $this->sut->parseLoadReport($this->ordinaryCompany);
     	$this->checkIfCompanyHasReport($this->ordinaryCompany);
     }
 
@@ -71,7 +72,7 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkIfBankCompanyHasReport() {
-        $this->sut->parse($this->bankCompany);
+        $this->sut->parseLoadReport($this->bankCompany);
     	$this->checkIfCompanyHasReport($this->bankCompany);
     }
 
@@ -90,9 +91,10 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkReportForOrdinaryCompany() {
-        $this->sut->parse($this->ordinaryCompany);
+        $this->sut->parseLoadReport($this->ordinaryCompany);
         $report = $this->getStoredReport($this->ordinaryCompany, 2016);
 
+        $this->assertNotNull($report);
         $this->assertEquals($report->getIncome(), 7932000);
         $this->assertEquals($report->getNetProfit(), 543600);
         $this->assertEquals($report->getOperationalNetProfit(), 769400);
@@ -110,9 +112,10 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkReportForBankCompany() {
-        $this->sut->parse($this->bankCompany);
+        $this->sut->parseLoadReport($this->bankCompany);
         $report = $this->getStoredReport($this->bankCompany, 2016);
 
+        $this->assertNotNull($report);
         $this->assertEquals($report->getIncome(), 13544000);
         $this->assertEquals($report->getNetProfit(), 2876100);
         $this->assertEquals($report->getOperationalNetProfit(), 648500);
@@ -129,9 +132,10 @@ class BiznesradarParserTest extends KernelTestCase
      */
     public function checkReportWithNegativeValues() {
         $negativeCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'KGH'));
-        $this->sut->parse($negativeCompany);
+        $this->sut->parseLoadReport($negativeCompany);
         $report = $this->getStoredReport($negativeCompany, 2016);
 
+        $this->assertNotNull($report);
         $this->assertEquals($report->getIncome(), 19156000);
         $this->assertEquals($report->getNetProfit(), -4449000);
         $this->assertEquals($report->getOperationalNetProfit(), -3219000);
@@ -176,8 +180,8 @@ class BiznesradarParserTest extends KernelTestCase
         $this->reportLoader = static::$kernel->getContainer()->get('app.loader.parser_report_loader');
     	$logger = $prophet->prophesize(Logger::class);
 
-        $this->sut = new BiznesradarParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), $logger->reveal());
-
+        $parser = new BiznesradarParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), $logger->reveal());
+        $this->sut = new GetCompanyOnlineReports($parser, $this->reportLoader);
         $this->ordinaryCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'ACP'));
         $this->bankCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'PKO'));
     }

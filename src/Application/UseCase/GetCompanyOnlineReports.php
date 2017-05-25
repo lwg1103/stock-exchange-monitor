@@ -7,7 +7,7 @@ use Report\Loader\ParserReportLoader;
 
 /**
  * Class GetCompanyOnlineReports
- * 
+ *
  * @package AppBundle\UseCase
  */
 class GetCompanyOnlineReports
@@ -35,8 +35,7 @@ class GetCompanyOnlineReports
      * @param string $marketId
      * @return Report[]
      */
-    public function parseLoadReport($marketId) {
-        $this->getContainer()->get('app.use_case.get_company')->byMarketId($marketId);
+    public function parseLoadReport($company) {
 
         $reports = $this->parseReportsForCompany($company);
 
@@ -46,7 +45,7 @@ class GetCompanyOnlineReports
     }
 
     /**
-     * 
+     *
      * @param Company $company
      * @return Report[]
      */

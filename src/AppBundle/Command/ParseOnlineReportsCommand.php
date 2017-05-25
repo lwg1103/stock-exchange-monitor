@@ -9,7 +9,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 
 class ParseOnlineReportsCommand extends ContainerAwareCommand {
-	
+
 	protected function configure() {
 		$this->setName('app:parse-online-reports')
 				->setDescription('Gets new reports from online for each company')
@@ -17,17 +17,17 @@ class ParseOnlineReportsCommand extends ContainerAwareCommand {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		
+
 		$companies = $this->getContainer()->get('app.use_case.list_companies')->execute();
-		
+
 		$progress = new ProgressBar($output, count($companies));
 		$progress->start();
-		
+
 		foreach($companies as $company) {
-			$this->getContainer()->get('app.use_case.get_company_online_reports')->parseReportsForCompany($company);
+			$this->getContainer()->get('app.use_case.get_company_online_reports')->parseLoadReport($company);
 			$progress->advance();
 		}
-		
+
 		$progress->finish();
 	}
 }
