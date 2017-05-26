@@ -71,6 +71,12 @@ doctrine:
                 prefix: Report\Entity
                 is_bundle: false
                 alias: ReportContext
+            dividend_mapping:
+                type: annotation
+                dir: "%kernel.root_dir%/../src/Dividend/Entity"
+                prefix: Dividend\Entity
+                is_bundle: false
+                alias: DividendContext
             price_mapping:
                 type: annotation
                 dir: "%kernel.root_dir%/../src/Price/Entity"
