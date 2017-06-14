@@ -35,40 +35,40 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
     private function addWig30Companies()
     {
         $this->addCompany("Alior Bank", "ALR", Type::BANK);
-        $this->addCompany("Asseco Poland", "ACP", Type::ORDINARY);
+        $this->addCompany("Asseco Poland", "ACP");
         $this->addCompany("Bank Millenium", "MIL", Type::BANK);
-        $this->addCompany("Bogdanka", "LWB", Type::ORDINARY);
+        $this->addCompany("Bogdanka", "LWB");
         $this->addCompany("BZ WBK", "BZW", Type::BANK);
-        $this->addCompany("CCC", "CCC", Type::ORDINARY);
-        $this->addCompany("CD Projejkt", "CDR", Type::ORDINARY);
-        $this->addCompany("Cyfrowy Polsat", "CPS", Type::ORDINARY);
-        $this->addCompany("ENEA", "ENA", Type::ORDINARY);
-        $this->addCompany("Energa", "ENG", Type::ORDINARY);
-        $this->addCompany("Eurocash", "EUR", Type::ORDINARY);
-        $this->addCompany("Grupa Azoty", "ATT", Type::ORDINARY);
-        $this->addCompany("Grupa Lotos", "LTS", Type::ORDINARY);
-        $this->addCompany("GTC", "GTC", Type::ORDINARY);
+        $this->addCompany("CCC", "CCC");
+        $this->addCompany("CD Projejkt", "CDR");
+        $this->addCompany("Cyfrowy Polsat", "CPS");
+        $this->addCompany("ENEA", "ENA");
+        $this->addCompany("Energa", "ENG");
+        $this->addCompany("Eurocash", "EUR");
+        $this->addCompany("Grupa Azoty", "ATT");
+        $this->addCompany("Grupa Lotos", "LTS");
+        $this->addCompany("GTC", "GTC");
         $this->addCompany("ING Bank Slaski", "ING", Type::BANK);
-        $this->addCompany("Jastrzebska Spolka Weglowa", "JSW", Type::ORDINARY);
-        $this->addCompany("Kernel Holding", "KER", Type::ORDINARY);
-        $this->addCompany("KGHM Polska Miedz", "KGH", Type::ORDINARY);
-        $this->addCompany("LPP", "LPP", Type::ORDINARY);
+        $this->addCompany("Jastrzebska Spolka Weglowa", "JSW");
+        $this->addCompany("Kernel Holding", "KER");
+        $this->addCompany("KGHM Polska Miedz", "KGH");
+        $this->addCompany("LPP", "LPP");
         $this->addCompany("MBANK", "MBK", Type::BANK);
-        $this->addCompany("Orange Polska", "OPL", Type::ORDINARY);
+        $this->addCompany("Orange Polska", "OPL");
         $this->addCompany("PEKAO", "PEO", Type::BANK);
-        $this->addCompany("PGE", "PGE", Type::ORDINARY);
-        $this->addCompany("PGNiG", "PGN", Type::ORDINARY);
-        $this->addCompany("PKN Orlen", "PKN", Type::ORDINARY);
+        $this->addCompany("PGE", "PGE");
+        $this->addCompany("PGNiG", "PGN");
+        $this->addCompany("PKN Orlen", "PKN");
         $this->addCompany("PKO BP", "PKO", Type::BANK);
-        $this->addCompany("PKP Cargo", "PKP", Type::ORDINARY);
-        $this->addCompany("PZU", "PZU", Type::ORDINARY);
-        $this->addCompany("Synthos", "SNS", Type::ORDINARY);
-        $this->addCompany("Tauron Polska Energia", "TPE", Type::ORDINARY);
+        $this->addCompany("PKP Cargo", "PKP");
+        $this->addCompany("PZU", "PZU");
+        $this->addCompany("Synthos", "SNS");
+        $this->addCompany("Tauron Polska Energia", "TPE");
     }
 
     private function addWigBudowCompanies()
     {
-        $this->addCompany("Elektrobudowa", "ELB", Type::ORDINARY);
+        $this->addCompany("Elektrobudowa", "ELB");
     }
 
 }
