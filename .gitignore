@@ -44,8 +44,14 @@
 # Backup entities generated with doctrine:generate:entities command
 */Entity/*~
 
+# reports generated
+reports/*
+
 #phpstorm
 .idea
 
 #eclipse/aptana
 .project
+.settings
+.buildpath
+cache.properties
