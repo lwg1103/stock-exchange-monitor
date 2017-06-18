@@ -2,6 +2,7 @@
 
 namespace Report\Parser;
 
+use Carbon\Carbon;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
 use Report\Parser\Biznesradar\BiznesradarParser;
@@ -40,7 +41,8 @@ class BiznesradarParserTest extends KernelTestCase
      *
      */
     public function getsHtmlPageContentFromWeb() {
-    	$url = "http://www.biznesradar.pl/wskazniki-wartosci-rynkowej/" . $this->ordinaryCompany->getMarketId();
+        $ordinaryCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'ACP'));
+    	$url = "http://www.biznesradar.pl/wskazniki-wartosci-rynkowej/" . $ordinaryCompany->getMarketId();
     	$html = $this->parser->getData($url);
 
     	$this->assertThat(
@@ -65,16 +67,18 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkIfOrdinaryCompanyHasReport() {
-        $this->sut->parseLoadReport($this->ordinaryCompany);
-    	$this->checkIfCompanyHasReport($this->ordinaryCompany);
+        $ordinaryCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'ACP'));
+        $this->sut->parseLoadReport($ordinaryCompany);
+    	$this->checkIfCompanyHasReport($ordinaryCompany);
     }
 
     /**
      * @test
      */
     public function checkIfBankCompanyHasReport() {
-        $this->sut->parseLoadReport($this->bankCompany);
-    	$this->checkIfCompanyHasReport($this->bankCompany);
+        $bankCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'PKO'));
+        $this->sut->parseLoadReport($bankCompany);
+    	$this->checkIfCompanyHasReport($bankCompany);
     }
 
     private function checkIfCompanyHasReport($company) {
@@ -92,8 +96,9 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkReportForOrdinaryCompany() {
-        $this->sut->parseLoadReport($this->ordinaryCompany);
-        $report = $this->getStoredReport($this->ordinaryCompany, 2016);
+        $ordinaryCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'ACP'));
+        $this->sut->parseLoadReport($ordinaryCompany);
+        $report = $this->getStoredReport($ordinaryCompany, 2016);
 
         $this->assertNotNull($report);
         $this->assertEquals($report->getIncome(), 7932000);
@@ -113,8 +118,9 @@ class BiznesradarParserTest extends KernelTestCase
      * @test
      */
     public function checkReportForBankCompany() {
-        $this->sut->parseLoadReport($this->bankCompany);
-        $report = $this->getStoredReport($this->bankCompany, 2016);
+        $bankCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'PKO'));
+        $this->sut->parseLoadReport($bankCompany);
+        $report = $this->getStoredReport($bankCompany, 2016);
 
         $this->assertNotNull($report);
         $this->assertEquals($report->getIncome(), 13544000);
@@ -153,7 +159,7 @@ class BiznesradarParserTest extends KernelTestCase
     private function getStoredReport($company, $year) {
         $storedReport = $this->em->getRepository('ReportContext:Report')->findOneBy([
             'company' => $company,
-            'identifier' => new \DateTime($this->parser->getReportIdentifier($year)),
+            'identifier' => Carbon::createFromFormat("Y-m-d", $this->parser->getReportIdentifier($year), 'Europe/Warsaw'),
             'period' => Report\Period::ANNUAL,
             'type' => Report\Type::AUTO
         ]);
@@ -183,8 +189,6 @@ class BiznesradarParserTest extends KernelTestCase
 
         $this->parser = new BiznesradarParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), $logger->reveal());
         $this->sut = new GetCompanyOnlineReports($this->parser, $this->reportLoader);
-        $this->ordinaryCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'ACP'));
-        $this->bankCompany = $this->em->getRepository('CompanyContext:Company')->findOneBy(array('marketId' => 'PKO'));
     }
 
 }

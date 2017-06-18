@@ -3,6 +3,7 @@
 namespace Report\Parser\Biznesradar;
 
 use Symfony\Component\Debug\Exception\ContextErrorException;
+use Carbon\Carbon;
 use Report\Parser;
 use Report\ParserInterface;
 use Report\Parser\InvalidCompanyTypeException;
@@ -39,7 +40,7 @@ class BiznesradarParser extends Parser implements ParserInterface {
         // add company info to parsed reports
         // prepare income value from income parts
         foreach ($years as $year) {
-            $this->reports[$year]['identifier'] = new \DateTime($this->getReportIdentifier($year));
+            $this->reports[$year]['identifier'] = Carbon::createFromFormat("Y-m-d", $this->getReportIdentifier($year), 'Europe/Warsaw');
             $this->reports[$year]['company'] = $this->company;
             if (isset($this->reports[$year]['income_part1'])) {
                 $this->reports[$year]['income'] = $this->reports[$year]['income_part1'];
