@@ -3,7 +3,7 @@ namespace AppBundle\Command;
 
 interface CommandWithProgressbarInterface
 {
-    protected function doOneStep();
-    protected function prepare();
-    protected function configure();
+    public function doOneStep($item);
+    public function prepare();
+    public function configure();
 }
