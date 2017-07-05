@@ -1,14 +1,29 @@
 imports:
     - { resource: "@AppBundle/Resources/config/use_case.yml" }
 
-services:
+services:   
   app.loader.report_loader:
     class: Report\Loader\ReportLoader
     arguments:
       - '@doctrine.orm.entity_manager'
 
+  app.loader.parser_report_loader:
+    class: Report\Loader\ParserReportLoader
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
   app.reader.form_report_reader:
     class: Report\Reader\FormReportReader
+    
+  app.reader.parser_report_reader:
+    class: Report\Reader\ParserReportReader  
+
+  app.report.parser:
+    class: Report\Parser\Biznesradar\BiznesradarParser
+    arguments:
+      - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
+      - '@app.reader.parser_report_reader'
+      - '@logger'
 
   app.downloader.bossa_downloader:
     class: Price\Downloader\BossaDownloader
