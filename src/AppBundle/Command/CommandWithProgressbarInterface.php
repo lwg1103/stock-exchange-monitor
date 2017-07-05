@@ -5,5 +5,4 @@ interface CommandWithProgressbarInterface
 {
     public function doOneStep($item);
     public function prepare();
-    public function configure();
 }

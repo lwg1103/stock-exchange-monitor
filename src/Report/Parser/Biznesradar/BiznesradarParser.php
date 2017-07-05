@@ -81,9 +81,7 @@ class BiznesradarParser extends Parser implements ParserInterface
             return false;
         }
         
-        if (is_array($this->reports[$year]['operationalNetProfit']) || ! strlen($this->reports[$year]['operationalNetProfit'])) {
-            return false;
-        }
+        
         
         if ($this->company->getType() == Type::BANK) {
             if (is_array($this->reports[$year]['income_part1_bank']) || ! strlen($this->reports[$year]['income_part1_bank'])) {
@@ -93,24 +91,31 @@ class BiznesradarParser extends Parser implements ParserInterface
             if (is_array($this->reports[$year]['bookValue_bank']) || ! strlen($this->reports[$year]['bookValue_bank'])) {
                 return false;
             }
-        } else 
-            if ($this->company->getType() == Type::ORDINARY) {
-                if (is_array($this->reports[$year]['income_part1']) || ! strlen($this->reports[$year]['income_part1'])) {
-                    return false;
-                }
-                
-                if (is_array($this->reports[$year]['currentAssets']) || ! strlen($this->reports[$year]['currentAssets'])) {
-                    return false;
-                }
-                
-                if (is_array($this->reports[$year]['currentLiabilities']) || ! strlen($this->reports[$year]['currentLiabilities'])) {
-                    return false;
-                }
-                
-                if (is_array($this->reports[$year]['bookValue']) || ! strlen($this->reports[$year]['bookValue'])) {
-                    return false;
-                }
+            
+            if (is_array($this->reports[$year]['operationalNetProfit_bank']) || ! strlen($this->reports[$year]['operationalNetProfit_bank'])) {
+                return false;
             }
+        } elseif ($this->company->getType() == Type::ORDINARY) {
+            if (is_array($this->reports[$year]['income_part1']) || ! strlen($this->reports[$year]['income_part1'])) {
+                return false;
+            }
+            
+            if (is_array($this->reports[$year]['currentAssets']) || ! strlen($this->reports[$year]['currentAssets'])) {
+                return false;
+            }
+            
+            if (is_array($this->reports[$year]['currentLiabilities']) || ! strlen($this->reports[$year]['currentLiabilities'])) {
+                return false;
+            }
+            
+            if (is_array($this->reports[$year]['bookValue']) || ! strlen($this->reports[$year]['bookValue'])) {
+                return false;
+            }
+            
+            if (is_array($this->reports[$year]['operationalNetProfit']) || ! strlen($this->reports[$year]['operationalNetProfit'])) {
+                return false;
+            }
+        }
         
         if (is_array($this->reports[$year]['netProfit']) || ! strlen($this->reports[$year]['netProfit'])) {
             return false;

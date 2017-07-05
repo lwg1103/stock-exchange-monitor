@@ -3,7 +3,7 @@ namespace AppBundle\Command;
 
 use Company\Entity\Company;
 
-class ParseOnlineReportsCommand extends ContainerAwareCommandWithProgressbar implements CommandWithProgressbarInterface
+class ParseOnlineReportsCommand extends ContainerAwareCommandWithProgressbar
 {
 
     public function prepare()
@@ -16,7 +16,7 @@ class ParseOnlineReportsCommand extends ContainerAwareCommandWithProgressbar imp
     public function configure()
     {
         ini_set('max_execution_time', 0);
-        ini_set('memory_limit','1024M');
+        ini_set('memory_limit', '1024M');
         
         $this->setName('app:parse-online-reports')
             ->setDescription('Gets new reports from online for each company')
@@ -25,8 +25,12 @@ class ParseOnlineReportsCommand extends ContainerAwareCommandWithProgressbar imp
 
     public function doOneStep($item)
     {
-        $this->getContainer()
-            ->get('app.use_case.get_company_online_reports')
-            ->parseLoadReport($item);
+        try {
+            $this->getContainer()
+                ->get('app.use_case.get_company_online_reports')
+                ->parseLoadReport($item);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
