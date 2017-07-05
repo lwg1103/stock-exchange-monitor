@@ -19,7 +19,8 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
     {
         $this->manager = $manager;
         
-        $this->addAllCompanies();
+        $this->addWig30Companies();
+        $this->addWigBudowCompanies();
         
         $this->manager->flush();
     }
