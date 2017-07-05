@@ -1,33 +1,36 @@
 <?php
 namespace AppBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Company\Entity\Company;
-use Symfony\Component\Console\Helper\ProgressBar;
 
+class ParseOnlineReportsCommand extends ContainerAwareCommandWithProgressbar
+{
 
-class ParseOnlineReportsCommand extends ContainerAwareCommand {
+    public function prepare()
+    {
+        $this->items = $this->getContainer()
+            ->get('app.use_case.list_companies')
+            ->execute();
+    }
 
-	protected function configure() {
-		$this->setName('app:parse-online-reports')
-				->setDescription('Gets new reports from online for each company')
-				->setHelp("This command allows you to get new report from online sources");
-	}
+    public function configure()
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '1024M');
+        
+        $this->setName('app:parse-online-reports')
+            ->setDescription('Gets new reports from online for each company')
+            ->setHelp("This command allows you to get new report from online sources");
+    }
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-
-		$companies = $this->getContainer()->get('app.use_case.list_companies')->execute();
-
-		$progress = new ProgressBar($output, count($companies));
-		$progress->start();
-
-		foreach($companies as $company) {
-			$this->getContainer()->get('app.use_case.get_company_online_reports')->parseLoadReport($company);
-			$progress->advance();
-		}
-
-		$progress->finish();
-	}
+    public function doOneStep($item)
+    {
+        try {
+            $this->getContainer()
+                ->get('app.use_case.get_company_online_reports')
+                ->parseLoadReport($item);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 }

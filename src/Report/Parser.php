@@ -49,10 +49,10 @@ abstract class Parser implements ParserInterface
 
     /**
      * Loader constructor.
-     * 
+     *
      * @param ReportReader $reader
      * @param Logger $logger
-     * 
+     *
      */
     public function __construct(EntityRepository $er, ReportReader $reader, Logger $logger)
     {
@@ -81,6 +81,5 @@ abstract class Parser implements ParserInterface
     protected function log($message)
     {
         $this->logger->info($message);
-        //echo $message . '\n';
     }
 }
