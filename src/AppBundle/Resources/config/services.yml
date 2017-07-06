@@ -24,6 +24,9 @@ services:
       - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
       - '@app.reader.parser_report_reader'
       - '@logger'
+      
+  app.dividend.parser:
+    class: Dividend\Parser\Stockwatch\StockwatchParser
 
   app.downloader.bossa_downloader:
     class: Price\Downloader\BossaDownloader

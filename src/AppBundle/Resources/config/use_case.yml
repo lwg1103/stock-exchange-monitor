@@ -44,3 +44,9 @@ services:
     arguments:
       - '@app.report.parser'
       - '@app.loader.parser_report_loader'
+      
+  app.use_case.get_online_dividends_for_year:
+    class: Application\UseCase\GetOnlineDividendsForYear
+    arguments:
+      - '@app.dividend.parser'
+      - '@app.loader.parser_report_loader'

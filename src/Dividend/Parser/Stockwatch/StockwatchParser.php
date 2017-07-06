@@ -7,49 +7,62 @@ use Report\Parser\InvalidCompanyTypeException;
 use Company\Entity\Company;
 
 class StockwatchParser {
-    
-    const FIRST_YEAR = 2001;
+    const MIN_YEAR = 2001;
     const CLEAR_OLD_DATA = false;
-    
+    var $rows = array ();
+    var $parsedData = array ();
+
     public function parse() {
-        if(self::CLEAR_OLD_DATA) {
+        if (self::CLEAR_OLD_DATA) {
             $this->deleteDividends();
         }
         $now = (int)date("Y");
-        
-        for($i=MIN_YEAR; $i<=$now; $i++) {
+
+        for ($i = MIN_YEAR; $i <= $now; $i++) {
             $this->parseYear($i);
         }
     }
-    
+
     private function deleteDividends() {
         throw new \Exception('not implementen yet');
     }
 
     public function parseYear($year) {
         $this->reset();
-        
+
         $url = $this->getDividendsUrl($year);
-        
+
         $rawData = $this->getData($url);
-        
+
         $parsedData = $this->parseYearData($rawData);
-        
+
         $dividends = $this->getDividendsFromParsedData($parsedData);
-        
+
         $this->storeDividends($dividends);
-
-        $urls = array ();
-        $urls[] = $this->getReportWRUrl();
-
     }
 
-
     private function reset() {
+        $this->rows = array ();
+        $this->parsedData = array ();
+    }
+
+    private function parseYearData($data) {
+        $this->extractRows($data);
+    }
+
+    private function extractRows($data) {
+        $re = '/<tr[^>]*>(.*?)<\/tr>/s';
+        preg_match_all($re, $data, $matches, PREG_SET_ORDER, 0);
+        foreach ($matches as $match) {
+            //print_r($match[1]);
+            if (count($match) > 1) {
+                $this->rows[] = $match[1];
+            }
+        }
     }
 
     private function parsePage($url) {
-    	$this->log('[S] parse page: '.$url);
+        $this->log('[S] parse page: ' . $url);
         $this->html = $this->getData($url);
         $dom = new Crawler($this->html);
 
@@ -69,7 +82,6 @@ class StockwatchParser {
     }
 
     private function parseRow($tr) {
-        
     }
 
     private function getHtmlTable(Crawler $dom) {
@@ -106,7 +118,7 @@ class StockwatchParser {
     }
 
     private function getDividendsUrl($year) {
-        return "https://www.stockwatch.pl/async/dividendsview.aspx?year=".$year."&s=&pp=false";
+        return "https://www.stockwatch.pl/async/dividendsview.aspx?year=" . $year . "&s=&pp=false";
     }
 
     public function getData($url) {
@@ -118,5 +130,4 @@ class StockwatchParser {
 
         return $html;
     }
-
 }
