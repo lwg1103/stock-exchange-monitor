@@ -49,7 +49,8 @@
         "behat/symfony2-extension": "^2.1",
         "behat/mink-extension": "^2.2",
         "behat/mink-goutte-driver": "^1.2",
-        "phpspec/prophecy": "^1.6"
+        "phpspec/prophecy": "^1.6",
+        "johnkary/phpunit-speedtrap": "^1.1"
     },
     "scripts": {
         "post-install-cmd": [
