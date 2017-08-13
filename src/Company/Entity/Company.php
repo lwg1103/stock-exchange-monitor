@@ -4,6 +4,7 @@ namespace Company\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Report\Entity\Report;
+use Company\Entity\Company\Type;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,17 +36,26 @@ class Company
      * @ORM\OneToMany(targetEntity="Report\Entity\Report", mappedBy="company")
      */
     private $reports;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="type", type="smallint")
+     */
+    private $type;
 
     /**
      * Company constructor.
      *
      * @param string $name
      * @param string $marketId
+     * @param string $type
      */
-    public function __construct($name, $marketId)
+    public function __construct($name, $marketId, $type = Type::ORDINARY)
     {
         $this->name     = $name;
         $this->marketId = $marketId;
+        $this->type 	= $type;
         $this->reports  = new ArrayCollection();
     }
 
@@ -67,6 +77,16 @@ class Company
     public function getMarketId()
     {
         return $this->marketId;
+    }
+    
+    /**
+     * Get type
+     *
+     * @return int
+     */
+    public function getType()
+    {
+    	return $this->type;
     }
 
     /**

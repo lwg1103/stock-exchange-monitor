@@ -38,8 +38,9 @@ class GetReport
         ]);
 
 
-        if (null != $manualReport)
+        if (null != $manualReport) {
             return $manualReport;
+        }
 
         return $this->entityRepository->findOneBy([
             'company' => $company,

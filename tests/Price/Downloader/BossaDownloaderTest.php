@@ -59,9 +59,9 @@ class BossaDownloaderTest extends \PHPUnit_Framework_TestCase
 
         $this->sut->setClient($this->httpClient->reveal());
 
-        $this->sut->download($this->getLastSunday());
-        $this->sut->download($this->getLastSunday());
-        $this->sut->download($this->getLastSunday());
+        $this->sut->download($this->getLastThursday());
+        $this->sut->download($this->getLastThursday());
+        $this->sut->download($this->getLastThursday());
         
         $this->httpClient->checkProphecyMethodsPredictions();
     }
@@ -89,6 +89,15 @@ class BossaDownloaderTest extends \PHPUnit_Framework_TestCase
         $date = Carbon::now();
 
         $date->subDay(abs($date->dayOfWeek - Carbon::WEDNESDAY));
+
+        return $date;
+    }
+
+    private function getLastThursday()
+    {
+        $date = Carbon::now();
+
+        $date->subDay(abs($date->dayOfWeek - Carbon::THURSDAY));
 
         return $date;
     }

@@ -4,8 +4,6 @@ namespace Price\Entity;
 
 use Carbon\Carbon;
 use Company\Entity\Company;
-use Prophecy\Prophet;
-use Prophecy\Prophecy\ObjectProphecy;
 
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +12,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     private $sut;
     /**
-     * @var Company|ObjectProphecy
+     * @var Company
      */
     private $company;
 
@@ -94,7 +92,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     private function whenNewObjectIsCreated()
     {
-        $this->sut = new Price($this->company->reveal(), $this->value);
+        $this->sut = new Price($this->company, $this->value);
     }
 
     private function thenValueIs($value)
@@ -109,9 +107,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $prophet        = new Prophet();
-
-        $this->company  = $prophet->prophesize(Company::class);
+        $this->company  = new Company("test", "test");
     }
 
 }
