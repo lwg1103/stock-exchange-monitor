@@ -2,32 +2,23 @@
 namespace Dividend\Parser\Stockwatch;
 
 use Symfony\Component\Debug\Exception\ContextErrorException;
-use Report\Parser\InvalidCompanyTypeException;
 use Company\Entity\Company;
+use Dividend\Entity\Dividend\State;
 
 class StockwatchParser
 {
 
-    const MIN_YEAR = 2001;
-
     const CLEAR_OLD_DATA = false;
+    
+    const DIVIDEND_STATUS_PAID_INDICATOR = 'wypłacona';
+    const DIVIDEND_STATUS_PASSED_INDICATOR = 'uchwalona';
+    const DIVIDEND_STATUS_PROPOSAL_INDICATOR = 'proponowana';
 
     var $rows = array();
 
     var $parsedData = array();
-
-    public function parse()
-    {
-        if (self::CLEAR_OLD_DATA) {
-            $this->deleteDividends();
-        }
-        $now = (int) date("Y");
-        
-        for ($i = MIN_YEAR; $i <= $now; $i ++) {
-            $this->parseYear($i);
-        }
-    }
-
+    var $dividends = array();
+    
     private function deleteDividends()
     {
         throw new \Exception('not implementen yet');
@@ -43,7 +34,7 @@ class StockwatchParser
         
         $parsedData = $this->parseYearData($rawData);
         
-        $dividends = $this->getDividendsFromParsedData($parsedData);
+        $dividends = $this->getDividendsFromParsedData();
         
         $this->storeDividends($dividends);
     }
@@ -60,23 +51,53 @@ class StockwatchParser
         
         $this->extractDataFromRows();
     }
+    
+    private function getDividendsFromParsedData() {
+        foreach($this->parsedData as $company => $companyYearDividend) {
+            
+        }
+    }
 
     private function extractDataFromRows()
     {
         foreach ($this->rows as $row) {
             // wygląda na skomplikowany ale wyciąga po prostu zawartosć każdej komórki
-            $re = '/<td[^>]*><strong><a.*>(.*)<\/a>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>/si';
+            $re = '/<td[^>]*><strong><a.*>(.*)<\/a>.*<td[^>]*>od&nbsp;(.*)<br\/>do&nbsp;(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>/si';
             preg_match_all($re, $row, $matches, PREG_SET_ORDER, 0);
 
             foreach ($matches as $match) {
-                if (count($match) == 8) {
+                if (count($match) == 10) {
                     $removeFirstElement = array_shift($match);
-                    $this->parsedData[$match[0]] = $match;
+                    $match[7] = $this->parseDividendStatus($match[7]);
+                    $this->parsedData[$match[0]] = array(
+                        'period_from' => $match[1],
+                        'period_to' => $match[2],
+                        'value' => $match[3],
+                        'currency' => 'PLN',
+                        'rate' => $match[4],
+                        'state' => $match[7],
+                        'payment_date' => '',
+                        'agm_date' => $match[8],
+                        );
                 }
             }
-            print_r($this->parsedData);
-            die();
+            print_r($match);
+            print_r($this->parsedData[$match[0]]);
+            //die();
         }
+    }
+    
+    private function parseDividendStatus($data) {
+        if(strpos($data, self::DIVIDEND_STATUS_PAID_INDICATOR) !== false) {
+            return State::PAID;
+        }
+        if(strpos($data, self::DIVIDEND_STATUS_PASSED_INDICATOR) !== false) {
+            return State::PASSED;
+        }
+        if(strpos($data, self::DIVIDEND_STATUS_PROPOSAL_INDICATOR) !== false) {
+            return State::PROPOSAL;
+        }
+        return '';//$data;
     }
 
     private function extractRows($data)

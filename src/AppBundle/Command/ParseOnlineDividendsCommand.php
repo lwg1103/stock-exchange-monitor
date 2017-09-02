@@ -5,7 +5,7 @@ use Company\Entity\Company;
 
 class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
 {
-    const MIN_YEAR = 2001;
+    const MIN_YEAR = 2016;//2001;
 
     public function prepare()
     {
