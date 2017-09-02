@@ -14,15 +14,25 @@ services:
 
   app.reader.form_report_reader:
     class: Report\Reader\FormReportReader
-    
+
   app.reader.parser_report_reader:
-    class: Report\Reader\ParserReportReader  
+    class: Report\Reader\ParserReportReader
+
+  app.reader.parser_quarterly_report_reader:
+    class: Report\Reader\ParserQuarterlyReportReader    
 
   app.report.parser:
     class: Report\Parser\Biznesradar\BiznesradarParser
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
       - '@app.reader.parser_report_reader'
+      - '@logger'
+      
+  app.report.quarterly_parser:
+    class: Report\Parser\Biznesradar\BiznesradarQuarterlyParser
+    arguments:
+      - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
+      - '@app.reader.parser_quarterly_report_reader'
       - '@logger'
 
   app.downloader.bossa_downloader:
