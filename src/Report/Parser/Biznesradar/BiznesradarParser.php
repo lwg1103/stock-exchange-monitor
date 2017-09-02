@@ -296,7 +296,7 @@ class BiznesradarParser extends Parser implements ParserInterface
     protected function getReportDataKey($reportDataName)
     {
         $translation = array(
-            'IncomeNetProfit' => 'netProfit',
+            'IncomeShareholderNetProfit' => 'netProfit',
             'BalanceCurrentAssets' => 'currentAssets',
             'BalanceTotalAssets' => 'assets',
             'BalanceCurrentLiabilities' => 'currentLiabilities',

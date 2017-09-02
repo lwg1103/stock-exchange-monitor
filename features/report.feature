@@ -6,7 +6,7 @@ Feature: Each company has reports stored. User can CRUD them.
 
     Scenario: I want to add report manually
         When  I check reports for "PKO" company
-         And  I add report manually for "PKO" company
+         And  I add "31-12-2010" report manually for "PKO" company
         Then  I see one additional report for "PKO" company
 
     Scenario: I want to see particular report details

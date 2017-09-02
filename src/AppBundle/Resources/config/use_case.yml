@@ -50,3 +50,15 @@ services:
     arguments:
       - '@app.report.quarterly_parser'
       - '@app.loader.parser_report_loader'
+
+  app.use_case.get_total_company_value:
+    class: Application\UseCase\GetTotalCompanyValue
+    arguments:
+      - '@app.use_case.get_price'
+      - '@app.use_case.get_report'
+
+  app.use_case.get_c_z_value:
+    class: Application\UseCase\GetCZValue
+    arguments:
+      - '@app.use_case.get_report'
+      - '@app.use_case.get_total_company_value'

@@ -102,7 +102,7 @@ class BiznesradarParserTest extends KernelTestCase
 
         $this->assertNotNull($report);
         $this->assertEquals($report->getIncome(), 7932000);
-        $this->assertEquals($report->getNetProfit(), 543600);
+        $this->assertEquals($report->getNetProfit(), 301300);
         $this->assertEquals($report->getOperationalNetProfit(), 769400);
         $this->assertEquals($report->getBookValue(), 8670600);
         $this->assertEquals($report->getAssets(), 12791200);
@@ -124,7 +124,7 @@ class BiznesradarParserTest extends KernelTestCase
 
         $this->assertNotNull($report);
         $this->assertEquals($report->getIncome(), 13544000);
-        $this->assertEquals($report->getNetProfit(), 2876100);
+        $this->assertEquals($report->getNetProfit(), 2874000);
         $this->assertEquals($report->getOperationalNetProfit(), 648500);
         $this->assertEquals($report->getBookValue(), 32568600);
         $this->assertEquals($report->getAssets(), 285572700);
@@ -144,7 +144,7 @@ class BiznesradarParserTest extends KernelTestCase
 
         $this->assertNotNull($report);
         $this->assertEquals($report->getIncome(), 19156000);
-        $this->assertEquals($report->getNetProfit(), -4449000);
+        $this->assertEquals($report->getNetProfit(), -4371000);
         $this->assertEquals($report->getOperationalNetProfit(), -3219000);
         $this->assertEquals($report->getBookValue(), 15911000);
         $this->assertEquals($report->getAssets(), 33442000);
