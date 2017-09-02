@@ -19,7 +19,7 @@ class ParserReportReader implements ReportReader
     public function read($input)
     {
         $report = new Report();
-echo 'start reader';
+
         $report->setCompany($input['company']);
         $report->setIdentifier($input['identifier']);
         $report->setIncome($input['income']);
@@ -34,7 +34,7 @@ echo 'start reader';
 
         $report->setType(Type::AUTO);
         $report->setPeriod(Period::ANNUAL);
-        echo 'end reader';
+
         return $report;
     }
 

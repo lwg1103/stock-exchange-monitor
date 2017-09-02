@@ -40,20 +40,17 @@ class BiznesradarParser extends Parser implements ParserInterface
         }
         
         $captions = array_keys($this->reports);
-        print_r($captions);echo 'cnt:'.count($this->reports)."\n";
         
         // add company info to parsed reports
         // prepare income value from income parts
         foreach ($captions as $caption) {
-            echo $caption."\n";
             
             //there can be header but no required data
             if (!$this->checkMinimalData($caption)) {
                 unset($this->reports[$caption]);
-                echo 'rcnt:'.count($this->reports);
                 continue;
             }
-            echo 'after min ';
+
             $this->reports[$caption]['identifier'] = Carbon::createFromFormat("Y-m-d", $this->getReportIdentifier($caption), 'Europe/Warsaw');
             $this->reports[$caption]['company'] = $this->company;
             if (isset($this->reports[$caption]['income_part1'])) {
@@ -68,7 +65,7 @@ class BiznesradarParser extends Parser implements ParserInterface
                 $this->reports[$caption]['currentLiabilities'] = 0; // $this->reports[$year]['bookValue_bank'];
             }
         }
-        echo 'parsed reports: '.count($this->reports);
+        
         return $this->getParsedReports();
     }
 
@@ -148,7 +145,7 @@ class BiznesradarParser extends Parser implements ParserInterface
     protected function parsePage($url)
     {
         $this->log('[S] parse page: ' . $url);
-echo $url."\n";
+
         $this->html = $this->getData($url);
         $dom = new Crawler($this->html);
         
