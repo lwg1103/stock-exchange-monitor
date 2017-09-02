@@ -38,9 +38,21 @@ services:
     arguments:
       - '@app.use_case.pull_price'
       - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
-      
+
   app.use_case.get_company_online_reports:
     class: Application\UseCase\GetCompanyOnlineReports
     arguments:
       - '@app.report.parser'
       - '@app.loader.parser_report_loader'
+
+  app.use_case.get_total_company_value:
+    class: Application\UseCase\GetTotalCompanyValue
+    arguments:
+      - '@app.use_case.get_price'
+      - '@app.use_case.get_report'
+
+  app.use_case.get_c_z_value:
+    class: Application\UseCase\GetCZValue
+    arguments:
+      - '@app.use_case.get_report'
+      - '@app.use_case.get_total_company_value'

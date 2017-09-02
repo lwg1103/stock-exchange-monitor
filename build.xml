@@ -195,14 +195,14 @@
         </exec>
     </target>
 
-    <target name="phpunit" description="Run tests with PHPUnit">
+    <target name="phpunit" description="Run tests with PHPUnit" depends="delete-prices-files">
         <exec executable="${basedir}/vendor/phpunit/phpunit/phpunit" failonerror="true">
             <arg value="-c" />
             <arg path="${basedir}/build/phpunit.xml" />
         </exec>
     </target>
 
-    <target name="phpunit-ci" description="Run tests with PHPUnit">
+    <target name="phpunit-ci" description="Run tests with PHPUnit" depends="delete-prices-files">
         <exec executable="${basedir}/vendor/phpunit/phpunit/phpunit" failonerror="true">
             <arg value="-c" />
             <arg path="${basedir}/build/phpunit_ci.xml" />
@@ -249,6 +249,13 @@
     >
         <exec executable="${basedir}/vendor/bin/behat" failonerror="true">
             <!--<arg value="&#45;&#45;profile=ci"/>-->
+        </exec>
+    </target>
+
+    <target name="delete-prices-files" >
+        <exec executable="rm" failonerror="true">
+            <arg value="-rf" />
+            <arg value="${basedir}/var/cache/prices" />
         </exec>
     </target>
 

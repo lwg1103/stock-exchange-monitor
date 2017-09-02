@@ -438,7 +438,7 @@ class Report
      */
     public function getSharesQuantity()
     {
-        return $this->sharesQuantity;
+        return (int)$this->sharesQuantity;
     }
 
     /**

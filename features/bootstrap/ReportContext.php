@@ -75,16 +75,16 @@ class ReportContext implements Context
     }
 
     /**
-     * @When I add report manually for :marketId company
+     * @When I add :identifier report manually for :marketId company
      */
-    public function iAddReportManually($marketId)
+    public function iAddReportManually($identifier, $marketId)
     {
         $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
         
         $report = new Report();
 
         $report->setCompany($company)
-            ->setIdentifier(new \DateTime('31-12-2010'))
+            ->setIdentifier(new \DateTime($identifier))
             ->setType(Report\Type::MANUAL)
             ->setPeriod(Report\Period::ANNUAL)
             ->setAssets(1)
