@@ -10,7 +10,7 @@ use Report\Parser\InvalidCompanyTypeException;
 use Report\Loader\ReportLoader;
 use Report\Reader\ParserReportReader;
 use Report\Entity\Report;
-use Application\UseCase\GetCompanyOnlineReports;
+use Application\UseCase\GetCompanyOnlineAnnualReports;
 use Prophecy\Prophet;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Monolog\Logger;
@@ -188,7 +188,7 @@ class BiznesradarParserTest extends KernelTestCase
     	$logger = $prophet->prophesize(Logger::class);
 
         $this->parser = new BiznesradarParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), $logger->reveal());
-        $this->sut = new GetCompanyOnlineReports($this->parser, $this->reportLoader);
+        $this->sut = new GetCompanyOnlineAnnualReports($this->parser, $this->reportLoader);
     }
 
 }
