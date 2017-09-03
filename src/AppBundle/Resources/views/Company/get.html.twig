@@ -1,5 +1,6 @@
 {%  extends '::base.html.twig' %}
 {% block body %}
+    <p> <a href="{{ path('company_index') }}">back</a> </p>
     <h2>Details</h2>
     <p>{{ company.name }} ({{ company.marketId }})</p>
     <p>Current price: {{ price }}</p>

@@ -40,7 +40,7 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
         $this->addCompany("Bogdanka", "LWB");
         $this->addCompany("BZ WBK", "BZW", Type::BANK);
         $this->addCompany("CCC", "CCC");
-        $this->addCompany("CD Projejkt", "CDR");
+        $this->addCompany("CD Projekt", "CDR");
         $this->addCompany("Cyfrowy Polsat", "CPS");
         $this->addCompany("ENEA", "ENA");
         $this->addCompany("Energa", "ENG");

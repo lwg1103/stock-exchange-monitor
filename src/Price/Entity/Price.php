@@ -5,8 +5,6 @@ namespace Price\Entity;
 use Company\Entity\Company;
 use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
-use Money\Currency;
-use Money\Money;
 
 /**
  * Company
@@ -41,30 +39,23 @@ class Price
     private $identifier;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="value", type="integer")
+     * @ORM\Column(name="value", type="float")
      */
     private $value;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="currency", type="string")
-     */
-    private $currency;
-
-    /**
      * Price constructor.
      * @param Company           $company
-     * @param Money             $priceValue
+     * @param float             $value
      * @param null|DateTime     $identifier
      */
-    public function __construct(Company $company, Money $priceValue, $identifier = null)
+    public function __construct(Company $company, $value, $identifier = null)
     {
         $this->company = $company;
         $this->identifier = ($identifier) ? $identifier : Carbon::today('Europe/Warsaw');
-        $this->setPriceValue($priceValue);
+        $this->value = $value;
     }
 
     /**
@@ -92,28 +83,30 @@ class Price
     }
 
     /**
-     * @return Money
+     * @return float
      */
-    public function getPrice()
+    public function getValue()
     {
-        return new Money($this->value, new Currency($this->currency));
+        return $this->value;
     }
 
     /**
-     * @param Money $priceValue
+     * @param float $value
      * 
      * @return self
      */
-    private function setPriceValue(Money $priceValue)
+    public function setValue($value)
     {
-        $this->value    = $priceValue->getAmount();
-        $this->currency = $priceValue->getCurrency()->getName();
+        $this->value = $value;
         
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return sprintf("%.2f %s", $this->value / 100, $this->currency);
+        return sprintf("%.2f", $this->value);
     }
 }

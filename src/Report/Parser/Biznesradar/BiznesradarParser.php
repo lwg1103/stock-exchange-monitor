@@ -39,92 +39,94 @@ class BiznesradarParser extends Parser implements ParserInterface
             $this->parsePage($url);
         }
         
-        $years = array_keys($this->reports);
+        $captions = array_keys($this->reports);
         
         // add company info to parsed reports
         // prepare income value from income parts
-        foreach ($years as $year) {
+        foreach ($captions as $caption) {
+            
             //there can be header but no required data
-            if (! $this->checkMinimalData($year)) {
-                unset($this->reports[$year]);
+            if (!$this->checkMinimalData($caption)) {
+                unset($this->reports[$caption]);
                 continue;
             }
-            $this->reports[$year]['identifier'] = Carbon::createFromFormat("Y-m-d", $this->getReportIdentifier($year), 'Europe/Warsaw');
-            $this->reports[$year]['company'] = $this->company;
-            if (isset($this->reports[$year]['income_part1'])) {
-                $this->reports[$year]['income'] = $this->reports[$year]['income_part1'];
+
+            $this->reports[$caption]['identifier'] = Carbon::createFromFormat("Y-m-d", $this->getReportIdentifier($caption), 'Europe/Warsaw');
+            $this->reports[$caption]['company'] = $this->company;
+            if (isset($this->reports[$caption]['income_part1'])) {
+                $this->reports[$caption]['income'] = $this->reports[$caption]['income_part1'];
             }
             
             if ($this->company->getType() == Type::BANK) {
-                $this->reports[$year]['income'] = $this->reports[$year]['income_part1_bank'] + $this->reports[$year]['income_part2_bank'];
-                $this->reports[$year]['operationalNetProfit'] = $this->reports[$year]['operationalNetProfit_bank'];
-                $this->reports[$year]['bookValue'] = $this->reports[$year]['bookValue_bank'];
-                $this->reports[$year]['currentAssets'] = 0; // $this->reports[$year]['bookValue_bank'];
-                $this->reports[$year]['currentLiabilities'] = 0; // $this->reports[$year]['bookValue_bank'];
+                $this->reports[$caption]['income'] = $this->reports[$caption]['income_part1_bank'] + $this->reports[$caption]['income_part2_bank'];
+                $this->reports[$caption]['operationalNetProfit'] = $this->reports[$caption]['operationalNetProfit_bank'];
+                $this->reports[$caption]['bookValue'] = $this->reports[$caption]['bookValue_bank'];
+                $this->reports[$caption]['currentAssets'] = 0; // $this->reports[$caption]['bookValue_bank'];
+                $this->reports[$caption]['currentLiabilities'] = 0; // $this->reports[$year]['bookValue_bank'];
             }
         }
         
         return $this->getParsedReports();
     }
 
-    private function checkMinimalData($year)
+    protected function checkMinimalData($caption)
     {
-        if (is_array($this->reports[$year]['sharesQuantity']) || ! strlen($this->reports[$year]['sharesQuantity'])) {
+        if (!isset($this->reports[$caption]['sharesQuantity']) ||is_array($this->reports[$caption]['sharesQuantity']) || ! strlen($this->reports[$caption]['sharesQuantity'])) {
             return false;
         }
         
-        if (is_array($this->reports[$year]['liabilities']) || ! strlen($this->reports[$year]['liabilities'])) {
+        if (!isset($this->reports[$caption]['liabilities']) || is_array($this->reports[$caption]['liabilities']) || ! strlen($this->reports[$caption]['liabilities'])) {
             return false;
         }
         
-        if (is_array($this->reports[$year]['assets']) || ! strlen($this->reports[$year]['assets'])) {
+        if (!isset($this->reports[$caption]['assets']) || is_array($this->reports[$caption]['assets']) || ! strlen($this->reports[$caption]['assets'])) {
             return false;
         }
         
         
         
         if ($this->company->getType() == Type::BANK) {
-            if (is_array($this->reports[$year]['income_part1_bank']) || ! strlen($this->reports[$year]['income_part1_bank'])) {
+            if (!isset($this->reports[$caption]['income_part1_bank']) || is_array($this->reports[$caption]['income_part1_bank']) || ! strlen($this->reports[$caption]['income_part1_bank'])) {
                 return false;
             }
             
-            if (is_array($this->reports[$year]['bookValue_bank']) || ! strlen($this->reports[$year]['bookValue_bank'])) {
+            if (!isset($this->reports[$caption]['bookValue_bank']) || is_array($this->reports[$caption]['bookValue_bank']) || ! strlen($this->reports[$caption]['bookValue_bank'])) {
                 return false;
             }
             
-            if (is_array($this->reports[$year]['operationalNetProfit_bank']) || ! strlen($this->reports[$year]['operationalNetProfit_bank'])) {
+            if (!isset($this->reports[$caption]['operationalNetProfit_bank']) || is_array($this->reports[$caption]['operationalNetProfit_bank']) || ! strlen($this->reports[$caption]['operationalNetProfit_bank'])) {
                 return false;
             }
         } elseif ($this->company->getType() == Type::ORDINARY) {
-            if (is_array($this->reports[$year]['income_part1']) || ! strlen($this->reports[$year]['income_part1'])) {
+            if (!isset($this->reports[$caption]['income_part1']) || is_array($this->reports[$caption]['income_part1']) || ! strlen($this->reports[$caption]['income_part1'])) {
                 return false;
             }
             
-            if (is_array($this->reports[$year]['currentAssets']) || ! strlen($this->reports[$year]['currentAssets'])) {
+            if (!isset($this->reports[$caption]['currentAssets']) || is_array($this->reports[$caption]['currentAssets']) || ! strlen($this->reports[$caption]['currentAssets'])) {
                 return false;
             }
             
-            if (is_array($this->reports[$year]['currentLiabilities']) || ! strlen($this->reports[$year]['currentLiabilities'])) {
+            if (!isset($this->reports[$caption]['currentLiabilities']) || is_array($this->reports[$caption]['currentLiabilities']) || ! strlen($this->reports[$caption]['currentLiabilities'])) {
                 return false;
             }
             
-            if (is_array($this->reports[$year]['bookValue']) || ! strlen($this->reports[$year]['bookValue'])) {
+            if (!isset($this->reports[$caption]['bookValue']) || is_array($this->reports[$caption]['bookValue']) || ! strlen($this->reports[$caption]['bookValue'])) {
                 return false;
             }
             
-            if (is_array($this->reports[$year]['operationalNetProfit']) || ! strlen($this->reports[$year]['operationalNetProfit'])) {
+            if (!isset($this->reports[$caption]['operationalNetProfit']) || is_array($this->reports[$caption]['operationalNetProfit']) || ! strlen($this->reports[$caption]['operationalNetProfit'])) {
                 return false;
             }
         }
         
-        if (is_array($this->reports[$year]['netProfit']) || ! strlen($this->reports[$year]['netProfit'])) {
+        if (!isset($this->reports[$caption]['netProfit']) || is_array($this->reports[$caption]['netProfit']) || ! strlen($this->reports[$caption]['netProfit'])) {
             return false;
         }
         
         return true;
     }
 
-    private function getParsedReports()
+    protected function getParsedReports()
     {
         $parsedReports = array();
         foreach ($this->reports as $report) {
@@ -134,15 +136,16 @@ class BiznesradarParser extends Parser implements ParserInterface
         return $parsedReports;
     }
 
-    private function reset()
+    protected function reset()
     {
         $this->reports = array();
         $this->availableReports = array();
     }
 
-    private function parsePage($url)
+    protected function parsePage($url)
     {
         $this->log('[S] parse page: ' . $url);
+
         $this->html = $this->getData($url);
         $dom = new Crawler($this->html);
         
@@ -161,7 +164,7 @@ class BiznesradarParser extends Parser implements ParserInterface
         }
     }
 
-    private function parseRow($tr)
+    protected function parseRow($tr)
     {
         $tds = $tr->filter('td[class="h"]')->each(function (Crawler $node, $i) {
             return $node;
@@ -176,7 +179,7 @@ class BiznesradarParser extends Parser implements ParserInterface
         }
         
         $reportDataKey = $this->getReportDataKey($tr->attr("data-field"));
-        
+
         for ($i = 0; $i < count($tds); $i ++) {
             if (count($this->availableReports) <= $i) {
                 continue;
@@ -202,9 +205,10 @@ class BiznesradarParser extends Parser implements ParserInterface
                 $this->reports[$this->availableReports[$i]['caption']][$reportDataKey] = $reportDataValue;
             }
         }
+        
     }
 
-    private function getHtmlTable(Crawler $dom)
+    protected function getHtmlTable(Crawler $dom)
     {
         $header = null;
         $table = $dom->filter('table[class="report-table"]');
@@ -212,7 +216,7 @@ class BiznesradarParser extends Parser implements ParserInterface
         return $table;
     }
 
-    private function getAvailableReports($table)
+    protected function getAvailableReports($table)
     {
         $reportsHeads = $table->filter('th[class="thq h"]')->each(function (Crawler $node, $i) {
             $reportName = $node->text();
@@ -260,7 +264,7 @@ class BiznesradarParser extends Parser implements ParserInterface
         return $availableReports;
     }
 
-    private function extractYearFromHeader($header)
+    protected function extractYearFromHeader($header)
     {
         $re = '/\d{4}/';
         $match = preg_match($re, $header, $matches);
@@ -270,7 +274,7 @@ class BiznesradarParser extends Parser implements ParserInterface
         return false;
     }
 
-    private function extractYearFromQuarterHeader($header)
+    protected function extractYearFromQuarterHeader($header)
     {
         $header = preg_replace('/\s+/', '', $header);
         if (strpos($header, self::REPORT_HEADER_FOURTH_QUARTER) === false) {
@@ -280,7 +284,7 @@ class BiznesradarParser extends Parser implements ParserInterface
         return $this->extractYearFromHeader($header);
     }
 
-    private function getReportData($table)
+    protected function getReportData($table)
     {
         $reportData = $table->filter('tr')->each(function (Crawler $node, $i) {
             return $node;
@@ -289,10 +293,10 @@ class BiznesradarParser extends Parser implements ParserInterface
         return $reportData;
     }
 
-    private function getReportDataKey($reportDataName)
+    protected function getReportDataKey($reportDataName)
     {
         $translation = array(
-            'IncomeNetProfit' => 'netProfit',
+            'IncomeShareholderNetProfit' => 'netProfit',
             'BalanceCurrentAssets' => 'currentAssets',
             'BalanceTotalAssets' => 'assets',
             'BalanceCurrentLiabilities' => 'currentLiabilities',
@@ -317,17 +321,17 @@ class BiznesradarParser extends Parser implements ParserInterface
         return $translation[$reportDataName];
     }
 
-    private function getReportRZISUrl()
+    protected function getReportRZISUrl()
     {
         return "http://www.biznesradar.pl/raporty-finansowe-rachunek-zyskow-i-strat/" . $this->company->getMarketId();
     }
 
-    private function getReportBilansUrl()
+    protected function getReportBilansUrl()
     {
         return "http://www.biznesradar.pl/raporty-finansowe-bilans/" . $this->company->getMarketId();
     }
 
-    private function getReportWRUrl()
+    protected function getReportWRUrl()
     {
         return "http://www.biznesradar.pl/wskazniki-wartosci-rynkowej/" . $this->company->getMarketId();
     }
@@ -343,7 +347,7 @@ class BiznesradarParser extends Parser implements ParserInterface
         return $html;
     }
 
-    private function checkCompany()
+    protected function checkCompany()
     {
         if (! in_array($this->company->getType(), $this->getAvailableCompanyTypes())) {
             throw new InvalidCompanyTypeException();

@@ -82,12 +82,11 @@ class PriceContext implements Context
     }
 
     /**
-     * @Then /^The current company price is "([^"]*)" "([^"]*)"$/
+     * @Then The current company price is :value
      */
-    public function theCurrentCompanyPriceIs($value, $currency)
+    public function theCurrentCompanyPriceIs($value)
     {
-        assertEquals((integer)$value, $this->resultOne->getPrice()->getAmount());
-        assertEquals($currency, $this->resultOne->getPrice()->getCurrency());
+        assertEquals($value, $this->resultOne->getValue());
     }
 
     /**
