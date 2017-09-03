@@ -1,13 +1,9 @@
 <?php
 namespace Report\Parser\Biznesradar;
 
-use Symfony\Component\Debug\Exception\ContextErrorException;
-use Carbon\Carbon;
+use Report\Entity\Report\Period;
 use Report\Parser;
 use Report\ParserInterface;
-use Report\Parser\InvalidCompanyTypeException;
-use Company\Entity\Company;
-use Company\Entity\Company\Type;
 use Symfony\Component\DomCrawler\Crawler;
 
 class BiznesradarQuarterlyParser extends BiznesradarParser implements ParserInterface
@@ -123,24 +119,6 @@ class BiznesradarQuarterlyParser extends BiznesradarParser implements ParserInte
     {
         $year = (int)(substr($caption, 0, 4));
         $quarter = (int)(substr($caption, 6, 1));
-        $identifierTail = false;
-        switch($quarter) {
-            case 1:
-                $identifierTail = '03-31';
-                break;
-            case 2:
-                $identifierTail = '06-30';
-                break;
-            case 3:
-                $identifierTail = '09-30';
-                break;
-            case 4:
-                $identifierTail = '12-31';
-                break;
-        }
-        if($identifierTail) {
-            return $year."-".$identifierTail;
-        }
-        throw new \Exception("Wrong quarter identifier");
+        return Period::getDateStringForYearAndQuarter($year, $quarter);
     }
 }
