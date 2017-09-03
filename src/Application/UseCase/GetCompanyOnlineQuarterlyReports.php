@@ -10,7 +10,7 @@ use Report\Loader\ParserReportLoader;
  *
  * @package AppBundle\UseCase
  */
-class GetCompanyOnlineReports
+class GetCompanyOnlineQuarterlyReports
 {
     /** @var Parser */
     private $parser;
