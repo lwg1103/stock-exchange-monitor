@@ -26,6 +26,13 @@ class Company
     /**
      * @var string
      *
+     * @ORM\Column(name="long_market_id", type="string", length=255, unique=true, nullable=true, options={"default":null})
+     */
+    private $longMarketId;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -36,7 +43,7 @@ class Company
      * @ORM\OneToMany(targetEntity="Report\Entity\Report", mappedBy="company")
      */
     private $reports;
-    
+
     /**
      * @var int
      *
@@ -49,13 +56,15 @@ class Company
      *
      * @param string $name
      * @param string $marketId
+     * @param string $longMarketId
      * @param string $type
      */
-    public function __construct($name, $marketId, $type = Type::ORDINARY)
+    public function __construct($name, $marketId, $type = Type::ORDINARY, $longMarketId = null)
     {
         $this->name     = $name;
         $this->marketId = $marketId;
         $this->type 	= $type;
+        $this->longMarketId = $longMarketId;
         $this->reports  = new ArrayCollection();
     }
 
@@ -78,7 +87,29 @@ class Company
     {
         return $this->marketId;
     }
-    
+
+    /**
+     * Get longMarketId
+     *
+     * @return string
+     */
+    public function getLongMarketId()
+    {
+        return $this->longMarketId;
+    }
+
+    /**
+     * Set longMarketId
+     *
+     * @return Comapny
+     */
+    public function setLongMarketId($longMarketId)
+    {
+        $this->longMarketId = $longMarketId;
+
+        return $this;
+    }
+
     /**
      * Get type
      *

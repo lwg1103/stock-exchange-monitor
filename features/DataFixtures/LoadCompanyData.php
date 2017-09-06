@@ -18,17 +18,17 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
     public function load(ObjectManager $manager)
     {
         $this->manager = $manager;
-        
+
         $this->addWig30Companies();
         $this->addWigBudowCompanies();
-        
+
         $this->manager->flush();
     }
 
     private function addCompany($name, $id, $type = Type::ORDINARY)
     {
         $company = new Company($name, $id, $type);
-        
+
         $this->manager->persist($company);
     }
 

@@ -15,15 +15,17 @@ abstract class CommandWithProgressbar extends Command implements CommandWithProg
     {   $this->prepare();
         $progress = new ProgressBar($output, count($this->items));
         $progress->start();
-        
+
         foreach ($this->items as $item) {
             $this->doOneStep($item);
             $progress->advance();
         }
-        
+
+        $this->finish();
         $progress->finish();
     }
-    
+
     abstract function doOneStep($item);
     abstract function prepare();
+    abstract function finish();
 }
