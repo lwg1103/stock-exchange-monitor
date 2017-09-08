@@ -36,13 +36,6 @@ class Company
      * @ORM\Column(name="biznesradar_market_id", type="string", length=255, unique=true, nullable=true, options={"default":null})
      */
     private $biznesradarMarketId;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="stockwatch_market_id", type="string", length=255, unique=true, nullable=true, options={"default":null})
-     */
-    private $stockwatchMarketId;
 
     /**
      * @var string
@@ -74,14 +67,13 @@ class Company
      * @param string $type
      */
     public function __construct($name, $marketId, $type = Type::ORDINARY, 
-        $longMarketId = null, $biznesradarMarketId = null, $stockwatchMarketId = null)
+        $longMarketId = null, $biznesradarMarketId = null)
     {
         $this->name     = $name;
         $this->marketId = $marketId;
         $this->type 	= $type;
         $this->longMarketId = $longMarketId;
         $this->biznesradarMarketId = $biznesradarMarketId;
-        $this->stockwatchMarketId = $stockwatchMarketId;
         $this->reports  = new ArrayCollection();
     }
 
@@ -124,28 +116,6 @@ class Company
     {
         $this->longMarketId = $longMarketId;
 
-        return $this;
-    }
-    
-    /**
-     * Get longMarketId
-     *
-     * @return string
-     */
-    public function getStockwatchMarketId()
-    {
-        return $this->stockwatchMarketId;
-    }
-    
-    /**
-     * Set longMarketId
-     *
-     * @return Comapny
-     */
-    public function setStockwatchMarketId($stockwatchMarketId)
-    {
-        $this->stockwatchMarketId = $stockwatchMarketId;
-    
         return $this;
     }
     

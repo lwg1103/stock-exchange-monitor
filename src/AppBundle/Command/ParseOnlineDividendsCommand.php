@@ -1,8 +1,6 @@
 <?php
 namespace AppBundle\Command;
 
-use Company\Entity\Company;
-
 class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
 {
     const MIN_YEAR = 2016;//2001;
@@ -34,7 +32,7 @@ class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
             $this->getContainer()
                 ->get('app.use_case.get_online_dividends_for_year')
                 //->parseLoadReport($item);
-                ->parseDividendsForYear($item);
+                ->parseLoadDividends($item);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

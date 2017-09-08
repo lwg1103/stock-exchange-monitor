@@ -11,6 +11,11 @@ services:
     class: Report\Loader\ParserReportLoader
     arguments:
       - '@doctrine.orm.entity_manager'
+      
+  app.loader.parser_dividend_loader:
+    class: Dividend\Loader\ParserDividendLoader
+    arguments:
+      - '@doctrine.orm.entity_manager'
 
   app.reader.form_report_reader:
     class: Report\Reader\FormReportReader
@@ -19,7 +24,10 @@ services:
     class: Report\Reader\ParserReportReader
 
   app.reader.parser_quarterly_report_reader:
-    class: Report\Reader\ParserQuarterlyReportReader    
+    class: Report\Reader\ParserQuarterlyReportReader
+    
+  app.reader.parser_dividend_reader:
+    class: Dividend\Reader\ParserDividendReader
 
   app.report.parser:
     class: Report\Parser\Biznesradar\BiznesradarParser
@@ -37,6 +45,9 @@ services:
 
   app.dividend.parser:
     class: Dividend\Parser\Stockwatch\StockwatchParser
+    arguments:
+      - '@app.use_case.list_companies'
+      - '@app.reader.parser_dividend_reader'
     
   app.downloader.bossa_downloader:
     class: Price\Downloader\BossaDownloader

@@ -1,6 +1,6 @@
 <?php
 
-namespace Report\Reader;
+namespace Dividend\Reader;
 
 use Dividend\Entity\Dividend;
 

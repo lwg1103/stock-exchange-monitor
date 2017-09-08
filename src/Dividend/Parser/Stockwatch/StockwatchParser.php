@@ -4,6 +4,8 @@ namespace Dividend\Parser\Stockwatch;
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use Company\Entity\Company;
 use Dividend\Entity\Dividend\State;
+use Dividend\Reader\ParserDividendReader;
+use Application\UseCase\ListCompanies;
 
 class StockwatchParser
 {
@@ -19,9 +21,21 @@ class StockwatchParser
     var $parsedData = array();
     var $dividends = array();
     
-    private function deleteDividends()
+    /** @var EntityRepository */
+    private $listCompanies;
+    private $reader;
+    private $companies;
+    
+    
+    /**
+     * StockwatchParser constructor.
+     * @param ListCompanies $listCompanies use case
+     */
+    public function __construct(ListCompanies $listCompanies, ParserDividendReader $reader)
     {
-        throw new \Exception('not implementen yet');
+        $this->listCompanies = $listCompanies;
+        $this->reader = $reader;
+        $this->buildCompaniesList();
     }
 
     public function parseYear($year)
@@ -31,12 +45,10 @@ class StockwatchParser
         $url = $this->getDividendsUrl($year);
         
         $rawData = $this->getData($url);
-        
-        $parsedData = $this->parseYearData($rawData);
-        
-        $dividends = $this->getDividendsFromParsedData();
-        
-        $this->storeDividends($dividends);
+
+        $this->parseYearData($rawData);
+
+        return $this->getParsedDividends();
     }
 
     private function reset()
@@ -50,26 +62,25 @@ class StockwatchParser
         $this->extractRows($data);
         
         $this->extractDataFromRows();
-    }
-    
-    private function getDividendsFromParsedData() {
-        foreach($this->parsedData as $company => $companyYearDividend) {
-            
-        }
+        
+        return $this->parsedData;
     }
 
     private function extractDataFromRows()
     {
+        
         foreach ($this->rows as $row) {
             // wygląda na skomplikowany ale wyciąga po prostu zawartosć każdej komórki
             $re = '/<td[^>]*><strong><a.*>(.*)<\/a>.*<td[^>]*>od&nbsp;(.*)<br\/>do&nbsp;(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>/si';
             preg_match_all($re, $row, $matches, PREG_SET_ORDER, 0);
 
-            foreach ($matches as $match) {
+            if($match = $matches[0]) {
                 if (count($match) == 10) {
                     $removeFirstElement = array_shift($match);
                     $match[7] = $this->parseDividendStatus($match[7]);
-                    $this->parsedData[$match[0]] = array(
+                    try {
+                    $this->parsedData[] = array(
+                        'company' => $this->getCompanyForLongMarketId($match[0]),
                         'period_from' => $match[1],
                         'period_to' => $match[2],
                         'value' => $match[3],
@@ -79,11 +90,16 @@ class StockwatchParser
                         'payment_date' => '',
                         'agm_date' => $match[8],
                         );
+                    
+                    } catch (\Exception $e) {
+                        //do notfing, just skip this dividend
+                        //echo 'there is no marketId: '.$match[0];
+                    }
+                }
+                else {
+                    echo 'p';
                 }
             }
-            print_r($match);
-            print_r($this->parsedData[$match[0]]);
-            //die();
         }
     }
     
@@ -103,13 +119,14 @@ class StockwatchParser
     private function extractRows($data)
     {
         $re = '/<tr[^>]*>(.*?)<\/tr>/s';
+
         preg_match_all($re, $data, $matches, PREG_SET_ORDER, 0);
         foreach ($matches as $match) {
             if (count($match) > 1) {
                 $this->rows[] = $match[1];
             }
         }
-        
+
         // first row is the header
         $header = array_shift($this->rows);
     }
@@ -135,9 +152,6 @@ class StockwatchParser
         }
     }
 
-    private function parseRow($tr)
-    {}
-
     private function getHtmlTable(Crawler $dom)
     {
         $header = null;
@@ -146,37 +160,40 @@ class StockwatchParser
         return $table;
     }
 
-    private function getReportDataKey($reportDataName)
-    {
-        $translation = array(
-            'IncomeNetProfit' => 'netProfit',
-            'BalanceCurrentAssets' => 'currentAssets',
-            'BalanceTotalAssets' => 'assets',
-            'BalanceCurrentLiabilities' => 'currentLiabilities',
-            'BalanceTotalEquityAndLiabilities' => 'liabilities',
-            'ShareAmountCurrent' => 'sharesQuantity',
-            // 'WKCurrent' => 'bookValue_per_share',
-            'BalanceCapital' => 'bookValue',
-            'BalanceTotalCapital' => 'bookValue_bank',
-            'IncomeEBIT' => 'operationalNetProfit',
-            'IncomeNetOtherOperatingIncome' => 'operationalNetProfit_bank',
-            'IncomeRevenues' => 'income_part1',
-            'IncomeOtherOperatingIncome' => 'income_part2',
-            'IncomeFinanceIncome' => 'income_part3',
-            'IncomeFeeIncome' => 'income_part1_bank',
-            'IncomeIntrestIncome' => 'income_part2_bank'
-        );
-        
-        if (! array_key_exists($reportDataName, $translation)) {
-            throw new \Exception('nieznana dana');
-        }
-        
-        return $translation[$reportDataName];
-    }
-
     private function getDividendsUrl($year)
     {
         return "https://www.stockwatch.pl/async/dividendsview.aspx?year=" . $year . "&s=&pp=false";
+    }
+    
+    /**
+     * @param $longMarketId
+     *
+     * @return Company
+     */
+    private function buildCompaniesList()
+    {
+        $companies = $this->listCompanies->execute();
+        
+        foreach($companies as $company) {
+            $this->companies[$company->getLongMarketId()] = $company;
+        }
+    }
+    
+    private function getCompanyForLongMarketId($longMarketId) {
+        if(array_key_exists($longMarketId, $this->companies)) {
+            return $this->companies[$longMarketId];
+        }
+        
+        throw new \Exception('Wrong longMarketId: '.$longMarketId);
+    }
+    
+    private function getParsedDividends() {
+        $parsedDividends = array();
+        foreach ($this->parsedData as $dividend) {
+            $parsedDividends[] = $this->reader->read($dividend);
+        }
+        
+        return $parsedDividends;
     }
 
     public function getData($url)

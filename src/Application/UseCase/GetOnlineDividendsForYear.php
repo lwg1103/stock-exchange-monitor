@@ -2,9 +2,10 @@
 
 namespace Application\UseCase;
 
+use Dividend\Loader\ParserDividendLoader;
 use Dividend\Parser\Stockwatch\StockwatchParser;
-
 use Report\Loader\ParserReportLoader;
+
 /**
  * Class GetCompanyOnlineReports
  *
@@ -24,7 +25,7 @@ class GetOnlineDividendsForYear
      */
     public function __construct(
         StockwatchParser $parser,
-        ParserReportLoader $loader
+        ParserDividendLoader $loader
     )
     {
         $this->parser = $parser;
@@ -32,15 +33,15 @@ class GetOnlineDividendsForYear
     }
 
     /**
-     * @param string $marketId
-     * @return Report[]
+     * @param string $year
+     * @return Dividend[]
      */
-    public function parseLoadReport($company) {
+    public function parseLoadDividends($year) {
 
-        $reports = $this->parseReportsForCompany($company);
-
-        foreach($reports as $report) {
-            $this->loader->loadReportIfNeeded($report);
+        $dividends = $this->parseDividendsForYear($year);
+        
+        foreach($dividends as $dividend) {
+            $this->loader->loadDividend($dividend);
         }
     }
 
@@ -48,12 +49,12 @@ class GetOnlineDividendsForYear
     /**
      *
      * @param Company $company
-     * @return Report[]
+     * @return Dividend[]
      */
-    public function parseDividendsForYear($year)
+    private function parseDividendsForYear($year)
     {
-        $reports = $this->parser->parseYear($year);
+        $dividends = $this->parser->parseYear($year);
 
-        return $reports;
+        return $dividends;
     }
 }

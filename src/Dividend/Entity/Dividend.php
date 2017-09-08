@@ -77,14 +77,14 @@ class Dividend
     /**
      * @var date
      *
-     * @ORM\Column(name="payment_date", type="date", length=255)
+     * @ORM\Column(name="payment_date", type="date", length=255, nullable=true)
      */
     private $paymentDate;
     
     /**
      * @var date
      *
-     * @ORM\Column(name="agm_date", type="date", length=255)
+     * @ORM\Column(name="agm_date", type="date", length=255, nullable=true)
      */
     private $agmDate;
     
