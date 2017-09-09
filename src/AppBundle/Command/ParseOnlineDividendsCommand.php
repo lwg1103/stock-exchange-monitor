@@ -3,7 +3,7 @@ namespace AppBundle\Command;
 
 class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
 {
-    const MIN_YEAR = 2016;//2001;
+    const MIN_YEAR = 2000;
 
     public function prepare()
     {
