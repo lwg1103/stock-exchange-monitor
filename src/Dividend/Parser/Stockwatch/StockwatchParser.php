@@ -68,67 +68,16 @@ class StockwatchParser
 
     private function extractDataFromRows()
     {
-        
         foreach ($this->rows as $row) {
-            // wygląda na skomplikowany ale wyciąga po prostu zawartosć każdej komórki
-            $re = '/<td[^>]*><strong><a.*>(.*)<\/a>.*<td[^>]*>od&nbsp;(.*)<br\/>do&nbsp;(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>/si';
-            preg_match_all($re, $row, $matches, PREG_SET_ORDER, 0);
-
-            if($match = $matches[0]) {
-                if (count($match) == 10) {
-                    $removeFirstElement = array_shift($match);
-                    
-                    $match[7] = trim($match[7]);
-                    $re = '/(<span[^>]*>!<\/span>)?(<a[^>]*>)?([^<]*)(<\/a>)?[^>]*<div class="stcm">([0-9-]+)?<\/div>/is';
-                    
-                    preg_match($re, $match[7], $status, PREG_OFFSET_CAPTURE, 0);
-                    if(!count($status) || count($status) < 3) {
-                        echo 'skipping';
-                        var_dump($match[7]);
-                        var_dump($status);die;
-                        continue;
-                    }
-                    $match[7] = trim($status[3][0]);
-                    $match[4] = str_replace(array('%', ','), array('', '.'), $match[4]);
-                    $match[3] = str_replace(array('%', ','), array('', '.'), $match[3]);
-                    $payment_date = '';
-                    if(count($status) >= 6) {
-                        $payment_date = $status[5][0];
-                    }
-                    $match[7] = $this->parseDividendStatus($match[7]);
-                    try {
-                    $this->parsedData[] = array(
-                        'company' => $this->getCompanyForLongMarketId($match[0]),
-                        'period_from' => $match[1],
-                        'period_to' => $match[2],
-                        'value' => ((float)$match[3]*100),//cena będzie przetrzymywana w groszach
-                        'currency' => 'PLN',
-                        'rate' => (float)$match[4],
-                        'state' => $match[7],
-                        'payment_date' => $payment_date,
-                        'agm_date' => $match[8],
-                        );
-                    
-                    } catch (\Exception $e) {
-                        //do notfing, just skip this dividend
-                        //echo 'there is no marketId: '.$match[0];
-                    }
-                }
+            $rowParser = new StockwatchRowParser($row);
+            $parsedRow = $rowParser->extractDataFromRow($row);
+            try {
+                $parsedRow['company'] = $this->getCompanyForLongMarketId($parsedRow['company']);
+            } catch(\Exception $e) {
+                continue;
             }
+            $this->parsedData[] = $parsedRow;
         }
-    }
-    
-    private function parseDividendStatus($data) {
-        if(strpos($data, self::DIVIDEND_STATUS_PAID_INDICATOR) !== false) {
-            return State::PAID;
-        }
-        if(strpos($data, self::DIVIDEND_STATUS_PASSED_INDICATOR) !== false) {
-            return State::PASSED;
-        }
-        if(strpos($data, self::DIVIDEND_STATUS_PROPOSAL_INDICATOR) !== false) {
-            return State::PROPOSAL;
-        }
-        return '';//$data;
     }
 
     private function extractRows($data)
@@ -198,7 +147,7 @@ class StockwatchParser
         if(array_key_exists($longMarketId, $this->companies)) {
             return $this->companies[$longMarketId];
         }
-        
+    
         throw new \Exception('Wrong longMarketId: '.$longMarketId);
     }
     
