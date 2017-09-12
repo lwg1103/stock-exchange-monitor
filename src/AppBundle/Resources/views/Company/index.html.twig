@@ -6,7 +6,8 @@
             <th>GPW Market ID</th>
             <th>Full Name</th>
             <th>Current Price</th>
-            <th>C/Z LY</th>
+            <th>C/Z Last Year</th>
+            <th>C/Z Last 4Q</th>
             <th>Info</th>
         </tr>
         </thead>
@@ -15,7 +16,8 @@
                 <th scope="row">{{ company.data.marketId }}</th>
                 <td>{{ company.data.name }}</td>
                 <td>{{ company.price }}</td>
-                <td>{{ company.CZ }}</td>
+                <td>{{ company.CZ_last_year }}</td>
+                <td>{{ company.CZ_last_4q }}</td>
                 <td>
                     <a href="{{ path('company_get', {'marketId': company.data.marketId}) }}">
                         Details
