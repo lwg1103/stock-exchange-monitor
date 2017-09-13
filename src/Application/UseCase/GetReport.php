@@ -126,10 +126,11 @@ class GetReport
 
     /**
      * @param Company $company
+     * @param int $limit
      *
      * @return Report
      */
-    public function lastQuartersByCompany(Company $company)
+    public function lastQuartersByCompany(Company $company, $limit = 4)
     {
         $manualReport = $this->entityRepository->findBy(
             [
@@ -139,7 +140,8 @@ class GetReport
             ],
             [
                 'identifier' => "DESC"
-            ]
+            ],
+            $limit
         );
 
         if (null != $manualReport)
@@ -153,7 +155,8 @@ class GetReport
             ],
             [
                 'identifier' => "DESC"
-            ]
+            ],
+            $limit
         );
     }
 }
