@@ -3,6 +3,7 @@
 namespace Dividend\Entity;
 
 use Company\Entity\Company;
+use Dividend\Entity\Dividend\State;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -204,6 +205,10 @@ class Dividend
      */
     public function setState($state)
     {
+        if (!State::isValid($state)) {
+            throw new \InvalidArgumentException("Valid states are: " . State::getValidKeys());
+        }
+        
         $this->state = $state;
 
         return $this;
@@ -312,11 +317,6 @@ class Dividend
         return $this;
     }
     
-    public function __toString()
-    {
-        return sprintf("%.2f %s", $this->value / 100, $this->currency);
-    }
-
     /**
      * Set rate
      *
@@ -339,5 +339,20 @@ class Dividend
     public function getRate()
     {
         return $this->rate;
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $dateFrom = $this->getPeriodFrom()->format('Y-m-d');
+        $dateTo = $this->getPeriodTo()->format('Y-m-d');
+        $state = State::toString($this->getState());
+        $company = $this->getCompany()->__toString();
+        $value = $this->getValue();
+        $currency = $this->getCurrency();
+    
+        return sprintf("%s (%s - %s) %s: %.2f (%s)", $company, $dateFrom, $dateTo, $state, $value/100, $currency);
     }
 }

@@ -67,13 +67,12 @@ class Company
      * @param string $type
      */
     public function __construct($name, $marketId, $type = Type::ORDINARY, 
-        $longMarketId = null, $biznesradarMarketId = null)
+        $longMarketId = null)
     {
         $this->name     = $name;
         $this->marketId = $marketId;
         $this->type 	= $type;
         $this->longMarketId = $longMarketId;
-        $this->biznesradarMarketId = $biznesradarMarketId;
         $this->reports  = new ArrayCollection();
     }
 
@@ -116,28 +115,6 @@ class Company
     {
         $this->longMarketId = $longMarketId;
 
-        return $this;
-    }
-    
-    /**
-     * Get longMarketId
-     *
-     * @return string
-     */
-    public function getBiznesradarMarketId()
-    {
-        return $this->biznesradarMarketId;
-    }
-    
-    /**
-     * Set longMarketId
-     *
-     * @return Comapny
-     */
-    public function setBiznesradarMarketId($biznesradarMarketId)
-    {
-        $this->biznesradarMarketId = $biznesradarMarketId;
-    
         return $this;
     }
 

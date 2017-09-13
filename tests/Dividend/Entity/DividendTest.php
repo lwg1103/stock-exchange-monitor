@@ -2,6 +2,8 @@
 
 namespace Dividend\Entity;
 
+use Company\Entity\Company;
+
 class DividendTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -12,31 +14,11 @@ class DividendTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function setsType()
+    public function setsState()
     {
-        $this->sut->setType(Report\Type::MANUAL);
+        $this->sut->setState(Dividend\State::PROPOSAL);
 
-        $this->assertEquals(Report\Type::MANUAL, $this->sut->getType());
-    }
-
-    /**
-     * @test
-     *
-     * @expectedException \InvalidArgumentException
-     */
-    public function throwsExceptionIfTypeIsInvalid()
-    {
-        $this->sut->setType('trolollo');
-    }
-
-    /**
-     * @test
-     */
-    public function setsPeriod()
-    {
-        $this->sut->setPeriod(Report\Period::ANNUAL);
-
-        $this->assertEquals(Report\Period::ANNUAL, $this->sut->getPeriod());
+        $this->assertEquals(Dividend\State::PROPOSAL, $this->sut->getState());
     }
 
     /**
@@ -46,7 +28,7 @@ class DividendTest extends \PHPUnit_Framework_TestCase
      */
     public function throwsExceptionIfPeriodIsInvalid()
     {
-        $this->sut->setPeriod('trolollo');
+        $this->sut->setState(13133);
     }
 
     /**
@@ -54,17 +36,22 @@ class DividendTest extends \PHPUnit_Framework_TestCase
      */
     public function canBeConvertedToString()
     {
-        $this->sut->setIdentifier(new \DateTime('31-12-2015'))
-            ->setType(Report\Type::MANUAL)
-            ->setPeriod(Report\Period::ANNUAL);
+        $company = new Company("Test Company Sp. z o.o.", "TST");
+        
+        $this->sut->setPeriodFrom(new \DateTime('2017-01-01'))
+            ->setPeriodTo(new \DateTime('2017-12-31'))
+            ->setState(Dividend\State::PAID)
+            ->setValue(123)
+            ->setCompany($company)
+            ->setCurrency('PLN');
 
-        $expected = "31-12-2015 (annual, manual)";
+        $expected = "TST (2017-01-01 - 2017-12-31) paid: 1.23 (PLN)";
 
         $this->assertEquals($expected, (string) $this->sut);
     }
 
     protected function setUp()
     {
-        $this->sut = new Report();
+        $this->sut = new Dividend();
     }
 }
