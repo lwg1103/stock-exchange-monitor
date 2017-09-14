@@ -3,5 +3,5 @@ parameters:
     database_port: null
     database_name: xcoding_sem_test
     database_user: root
-    database_password: 
+    database_password:
     secret: fd65821e773f54d80bead644c848a3199e4c2725

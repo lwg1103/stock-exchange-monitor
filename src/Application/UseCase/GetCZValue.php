@@ -47,6 +47,20 @@ class GetCZValue
 
         return $this->calculateResult($totalCompanyPrice, $netProfit);
     }
+    
+    public function getForLastFourQuarters(Company $company)
+    {
+        $totalCompanyPrice = $this->getTotalCompanyValue->get($company);
+        $lastQuarterReports = $this->getReportUseCase->lastQuartersByCompany($company);
+
+        $netProfit = 0;
+
+        for ($i=0; $i < 4; $i++ ) {
+            $netProfit += ($lastQuarterReports[$i])->getNetProfit();
+        }
+
+        return $this->calculateResult($totalCompanyPrice, $netProfit);
+    }
 
     private function calculateResult($totalCompanyPrice, $netProfit)
     {
