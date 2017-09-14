@@ -1,6 +1,8 @@
 <?php
 namespace AppBundle\Command;
 
+use Carbon\Carbon;
+
 class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
 {
     const MIN_YEAR = 2000;
@@ -9,7 +11,7 @@ class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
     {
         $this->items = array();
 
-        $now = Carbon::now('Europe/London')->year();
+        $now = Carbon::now('Europe/London')->year;
 
         for($i=self::MIN_YEAR; $i<=$now; $i++) {
             $this->items[] = $i;
