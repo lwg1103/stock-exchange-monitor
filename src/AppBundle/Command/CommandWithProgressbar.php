@@ -12,7 +12,11 @@ abstract class CommandWithProgressbar extends Command implements CommandWithProg
     var $items;
 
     protected function execute(InputInterface $input, OutputInterface $output)
-    {   $this->prepare();
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '1024M');
+        
+        $this->prepare();
         $progress = new ProgressBar($output, count($this->items));
         $progress->start();
 
@@ -24,7 +28,7 @@ abstract class CommandWithProgressbar extends Command implements CommandWithProg
         $this->finish();
         $progress->finish();
     }
-
+    
     abstract function doOneStep($item);
     abstract function prepare();
     abstract function finish();

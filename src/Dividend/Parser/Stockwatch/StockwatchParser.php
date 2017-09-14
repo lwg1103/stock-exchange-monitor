@@ -9,13 +9,6 @@ use Application\UseCase\ListCompanies;
 
 class StockwatchParser
 {
-
-    const CLEAR_OLD_DATA = false;
-    
-    const DIVIDEND_STATUS_PAID_INDICATOR = 'wypłacona';
-    const DIVIDEND_STATUS_PASSED_INDICATOR = 'uchwalona';
-    const DIVIDEND_STATUS_PROPOSAL_INDICATOR = 'proponowana';
-
     var $rows = array();
 
     var $parsedData = array();
@@ -69,7 +62,7 @@ class StockwatchParser
     private function extractDataFromRows()
     {
         foreach ($this->rows as $row) {
-            $rowParser = new StockwatchRowParser($row);
+            $rowParser = new StockwatchRowParser();
             $parsedRow = $rowParser->extractDataFromRow($row);
             try {
                 $parsedRow['company'] = $this->getCompanyForLongMarketId($parsedRow['company']);
@@ -91,29 +84,8 @@ class StockwatchParser
             }
         }
 
-        // first row is the header
-        $header = array_shift($this->rows);
-    }
-
-    private function parsePage($url)
-    {
-        $this->log('[S] parse page: ' . $url);
-        $this->html = $this->getData($url);
-        $dom = new Crawler($this->html);
-        
-        $table = $this->getHtmlTable($dom);
-        
-        $this->availableReports = $this->getAvailableReports($table);
-        
-        $reportDataTrs = $this->getReportData($table);
-        
-        foreach ($reportDataTrs as $tr) {
-            try {
-                $this->parseRow($tr);
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
+        // first row is the header - delete it
+        array_shift($this->rows);
     }
 
     private function getHtmlTable(Crawler $dom)
@@ -165,7 +137,7 @@ class StockwatchParser
         try {
             $html = file_get_contents($url);
         } catch (ContextErrorException $e) {
-            throw new Exception('nie udało się pobrać danych');
+            throw new Exception('can not download data');
         }
         
         return $html;

@@ -6,25 +6,15 @@ use Dividend\Entity\Dividend\State;
 
 class StockwatchRowParser
 {
-
-    const CLEAR_OLD_DATA = false;
-    
     const DIVIDEND_STATUS_PAID_INDICATOR = 'wypłacona';
     const DIVIDEND_STATUS_PASSED_INDICATOR = 'uchwalona';
     const DIVIDEND_STATUS_PROPOSAL_INDICATOR = 'proponowana';
 
     var $rowString = '';
-    
-    /**
-     * StockwatchRowParser constructor.
-     * $row string
-     */
-    public function __construct($row)
-    {
-        $this->rowString = $row;
-    }
 
-    public function extractDataFromRow() {
+    public function extractDataFromRow($row) {
+        $this->rowString = $row;
+        
         // wygląda na skomplikowany ale wyciąga po prostu zawartosć każdej komórki
         $re = '/<td[^>]*><strong><a.*>(.*)<\/a>.*<td[^>]*>od&nbsp;(.*)<br\/>do&nbsp;(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>.*<td[^>]*>(.*)<\/td>/si';
         preg_match_all($re, $this->rowString, $matches, PREG_SET_ORDER, 0);

@@ -9,7 +9,7 @@ class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
     {
         $this->items = array();
 
-        $now = (int)date("Y");
+        $now = Carbon::now('Europe/London')->year();
 
         for($i=self::MIN_YEAR; $i<=$now; $i++) {
             $this->items[] = $i;
@@ -18,9 +18,6 @@ class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
 
     public function configure()
     {
-        ini_set('max_execution_time', 0);
-        ini_set('memory_limit', '1024M');
-
         $this->setName('app:parse-online-dividends')
             ->setDescription('Gets dividends from oline sources')
             ->setHelp("This command allows you to get dividends from online sources");
@@ -31,7 +28,6 @@ class ParseOnlineDividendsCommand extends ContainerAwareCommandWithProgressbar
         try {
             $this->getContainer()
                 ->get('app.use_case.get_online_dividends_for_year')
-                //->parseLoadReport($item);
                 ->parseLoadDividends($item);
         } catch (\Exception $e) {
             echo $e->getMessage();
