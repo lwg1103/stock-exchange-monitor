@@ -283,7 +283,7 @@ class BiznesradarParserTest extends KernelTestCase
         $this->parserAnnual = new BiznesradarParser($this->em->getRepository('ReportContext:Report'), new ParserReportReader(), $logger->reveal());
         $this->parserQuarterly = new BiznesradarQuarterlyParser($this->em->getRepository('ReportContext:Report'), new ParserQuarterlyReportReader(), $logger->reveal());
         $this->sutAnnual = new GetCompanyOnlineAnnualReports($this->parserAnnual, $this->reportLoader);
-        $this->sutQuarterly = new GetCompanyOnlineAnnualReports($this->parserQuarterly, $this->reportLoader);
+        $this->sutQuarterly = new GetCompanyOnlineQuarterlyReports($this->parserQuarterly, $this->reportLoader);
     }
 
 }

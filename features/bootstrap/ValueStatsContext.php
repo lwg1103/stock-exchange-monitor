@@ -71,11 +71,19 @@ class ValueStatsContext implements Context
     }
 
     /**
-     * @When I check C\/Z value for :marketId
+     * @When I check C\/Z for last year value for :marketId
      */
     public function iCheckCZValueFor($marketId)
     {
-        $this->result = $this->getCZValue->getCurrent($this->getCompany($marketId));
+        $this->result = $this->getCZValue->getForLastYear($this->getCompany($marketId));
+    }
+
+    /**
+     * @When I check C\/Z for last 4Q value for :marketId
+     */
+    public function iCheckCZ4QValueFor($marketId)
+    {
+        $this->result = $this->getCZValue->getForLastFourQuarters($this->getCompany($marketId));
     }
 
     /**

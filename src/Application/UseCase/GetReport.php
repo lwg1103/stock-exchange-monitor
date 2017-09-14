@@ -123,4 +123,40 @@ class GetReport
             ]
         );
     }
+
+    /**
+     * @param Company $company
+     * @param int $limit
+     *
+     * @return Report
+     */
+    public function lastQuartersByCompany(Company $company, $limit = 4)
+    {
+        $manualReport = $this->entityRepository->findBy(
+            [
+                'company' => $company,
+                'type' => Report\Type::MANUAL,
+                'period' => Report\Period::QUARTERLY
+            ],
+            [
+                'identifier' => "DESC"
+            ],
+            $limit
+        );
+
+        if (null != $manualReport)
+            return $manualReport;
+
+        return $this->entityRepository->findBy(
+            [
+                'company' => $company,
+                'type' => Report\Type::AUTO,
+                'period' => Report\Period::QUARTERLY
+            ],
+            [
+                'identifier' => "DESC"
+            ],
+            $limit
+        );
+    }
 }

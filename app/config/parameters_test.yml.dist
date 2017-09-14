@@ -1,7 +1,7 @@
 parameters:
     database_host: 127.0.0.1
     database_port: null
-    database_name: sem
-    database_user: sem
-    database_password: mesmes
+    database_name: xcoding_sem_test
+    database_user: root
+    database_password:
     secret: fd65821e773f54d80bead644c848a3199e4c2725
