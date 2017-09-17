@@ -122,6 +122,6 @@ class BossaDownloader implements Downloader
      */
     private function getCacheFileLocation(\DateTime $date)
     {
-        return __DIR__ . '/../../../var/cache/' . $this->getFileName($date);
+        return __DIR__ . '/../../../var/cache/prices/' . $this->getFileName($date);
     }
 }

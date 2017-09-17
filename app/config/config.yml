@@ -71,6 +71,12 @@ doctrine:
                 prefix: Report\Entity
                 is_bundle: false
                 alias: ReportContext
+            dividend_mapping:
+                type: annotation
+                dir: "%kernel.root_dir%/../src/Dividend/Entity"
+                prefix: Dividend\Entity
+                is_bundle: false
+                alias: DividendContext
             price_mapping:
                 type: annotation
                 dir: "%kernel.root_dir%/../src/Price/Entity"
@@ -96,3 +102,6 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
     user_class: User\Entity\User
+    from_email:
+        address:        m.harbuz@x-coding.pl
+        sender_name:    SEM

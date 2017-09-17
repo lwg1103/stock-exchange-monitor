@@ -8,14 +8,21 @@ imports:
 #        query_cache_driver: apc
 
 monolog:
+    channels: ['parser']
     handlers:
         main:
             type:         fingers_crossed
             action_level: error
             handler:      nested
         nested:
-            type:  stream
+            type:  rotating_file
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
+            max_files: 10
+        parser:
+            type: rotating_file
+            path: "%kernel.logs_dir%/parser_%kernel.environment%.log"
+            level: debug
+            max_files: 20    
         console:
             type:  console

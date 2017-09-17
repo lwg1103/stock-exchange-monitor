@@ -4,6 +4,7 @@ namespace Company\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Report\Entity\Report;
+use Company\Entity\Company\Type;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +26,20 @@ class Company
     /**
      * @var string
      *
+     * @ORM\Column(name="long_market_id", type="string", length=255, unique=true, nullable=true, options={"default":null})
+     */
+    private $longMarketId;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="biznesradar_market_id", type="string", length=255, unique=true, nullable=true, options={"default":null})
+     */
+    private $biznesradarMarketId;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -37,15 +52,27 @@ class Company
     private $reports;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="type", type="smallint")
+     */
+    private $type;
+
+    /**
      * Company constructor.
      *
      * @param string $name
      * @param string $marketId
+     * @param string $longMarketId
+     * @param string $type
      */
-    public function __construct($name, $marketId)
+    public function __construct($name, $marketId, $type = Type::ORDINARY, 
+        $longMarketId = null)
     {
         $this->name     = $name;
         $this->marketId = $marketId;
+        $this->type 	= $type;
+        $this->longMarketId = $longMarketId;
         $this->reports  = new ArrayCollection();
     }
 
@@ -67,6 +94,38 @@ class Company
     public function getMarketId()
     {
         return $this->marketId;
+    }
+
+    /**
+     * Get longMarketId
+     *
+     * @return string
+     */
+    public function getLongMarketId()
+    {
+        return $this->longMarketId;
+    }
+
+    /**
+     * Set longMarketId
+     *
+     * @return Comapny
+     */
+    public function setLongMarketId($longMarketId)
+    {
+        $this->longMarketId = $longMarketId;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return int
+     */
+    public function getType()
+    {
+    	return $this->type;
     }
 
     /**

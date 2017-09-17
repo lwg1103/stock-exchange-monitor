@@ -31,6 +31,8 @@ class CompanyController extends Controller
         foreach ($companiesWithoutPrices as $company) {
             $companies[$company->getMarketId()]['data'] = $company;
             $companies[$company->getMarketId()]['price'] = $this->get('app.use_case.get_price')->lastByCompany($company);
+            $companies[$company->getMarketId()]['CZ_last_year'] = $this->get('app.use_case.get_c_z_value')->getForLastYear($company);
+            $companies[$company->getMarketId()]['CZ_last_4q'] = $this->get('app.use_case.get_c_z_value')->getForLastFourQuarters($company);
         }
         
         return [

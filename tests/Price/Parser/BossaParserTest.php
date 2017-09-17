@@ -4,12 +4,12 @@ namespace Price\Parser;
 
 use Carbon\Carbon;
 use Company\Entity\Company;
+use Company\Entity\Company\Type;
 use Company\Translator\BossaMarketIdTranslator;
 use Doctrine\ORM\EntityRepository;
 use Price\Entity\Price;
 use Price\Filter\FilteredData;
 use Prophecy\Prophet;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class BossaParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -68,7 +68,7 @@ class BossaParserTest extends \PHPUnit_Framework_TestCase
     {
         $prophet = new Prophet();
         $this->companyRepository = $prophet->prophesize(EntityRepository::class);
-        $this->companyRepository->findOneBy(['marketId' => 'PGN'])->willReturn(new Company('PGNiG', 'PGN'));
+        $this->companyRepository->findOneBy(['marketId' => 'PGN'])->willReturn(new Company('PGNiG', 'PGN', Type::ORDINARY));
 
         $this->sut = new BossaParser($this->companyRepository->reveal(), new BossaMarketIdTranslator());
         $this->filteredData = new FilteredData("PGNIG,20161025,26.55,27.28,26.55,27.10,2431225");

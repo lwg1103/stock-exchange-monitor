@@ -14,7 +14,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     private $sut;
     /**
-     * @var Company|ObjectProphecy
+     * @var Company
      */
     private $company;
 

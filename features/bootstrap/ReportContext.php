@@ -75,16 +75,16 @@ class ReportContext implements Context
     }
 
     /**
-     * @When I add report manually for :marketId company
+     * @When I add :identifier report manually for :marketId company
      */
-    public function iAddReportManually($marketId)
+    public function iAddReportManually($identifier, $marketId)
     {
         $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
         
         $report = new Report();
 
         $report->setCompany($company)
-            ->setIdentifier(new \DateTime('31-12-2010'))
+            ->setIdentifier(new \DateTime($identifier))
             ->setType(Report\Type::MANUAL)
             ->setPeriod(Report\Period::ANNUAL)
             ->setAssets(1)
@@ -99,6 +99,34 @@ class ReportContext implements Context
 
         $form = $this->formFactory->create(\AppBundle\Form\ReportType::class, $report);
         
+        $this->addReportManually->add($form);
+    }
+
+    /**
+     * @When I add :identifier quarterly report manually for :marketId company
+     */
+    public function iAddQuarterlyReportManually($identifier, $marketId)
+    {
+        $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
+
+        $report = new Report();
+
+        $report->setCompany($company)
+            ->setIdentifier(new \DateTime($identifier))
+            ->setType(Report\Type::MANUAL)
+            ->setPeriod(Report\Period::QUARTERLY)
+            ->setAssets(1)
+            ->setBookValue(2)
+            ->setCurrentAssets(3)
+            ->setCurrentLiabilities(4)
+            ->setIncome(5)
+            ->setLiabilities(6)
+            ->setNetProfit(7)
+            ->setOperationalNetProfit(8)
+            ->setSharesQuantity(9);
+
+        $form = $this->formFactory->create(\AppBundle\Form\ReportType::class, $report);
+
         $this->addReportManually->add($form);
     }
 
