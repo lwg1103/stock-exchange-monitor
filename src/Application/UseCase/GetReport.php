@@ -58,7 +58,7 @@ class GetReport
      */
     public function allByCompany(Company $company)
     {
-        return $this->entityRepository->findBy(['company' => $company]);
+        return $this->entityRepository->findBy(['company' => $company], ['identifier' => "DESC"]);
     }
 
     /**

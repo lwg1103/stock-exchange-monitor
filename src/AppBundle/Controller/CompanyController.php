@@ -54,12 +54,14 @@ class CompanyController extends Controller
         $price              = $this->get('app.use_case.get_price')->lastByCompany($company);
         $historicalprices   = $this->get('app.use_case.get_price')->allByCompany($company);
         $reports            = $this->get('app.use_case.get_report')->allByCompany($company);
+        $dividends          = $this->get('app.use_case.get_dividend')->allByCompany($company);
 
         return [
-            'company' => $company,
-            'price'   => $price,
-            'prices'  => $historicalprices,
-            'reports' => $reports
+            'company'   => $company,
+            'price'     => $price,
+            'prices'    => $historicalprices,
+            'reports'   => $reports,
+            'dividends' => $dividends
         ];
     }
 }
