@@ -4,6 +4,7 @@ namespace Application\UseCase;
 
 use Company\Entity\Company;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Report\Entity\Report;
 
 class GetReport
@@ -80,7 +81,7 @@ class GetReport
         if (null != $manualReport)
             return $manualReport;
 
-        return $this->entityRepository->findOneBy(
+        $autoReport = $this->entityRepository->findOneBy(
             [
                 'company' => $company,
                 'type' => Report\Type::AUTO
@@ -89,6 +90,12 @@ class GetReport
                 'identifier' => "DESC"
             ]
         );
+        
+        if(!$autoReport) {
+            throw new NoResultException();
+        }
+        
+        return $autoReport;
     }
 
     /**
@@ -112,7 +119,7 @@ class GetReport
         if (null != $manualReport)
             return $manualReport;
 
-        return $this->entityRepository->findOneBy(
+        $autoReport = $this->entityRepository->findOneBy(
             [
                 'company' => $company,
                 'type' => Report\Type::AUTO,
@@ -122,6 +129,12 @@ class GetReport
                 'identifier' => "DESC"
             ]
         );
+        
+        if(!$autoReport) {
+            throw new NoResultException();
+        }
+        
+        return $autoReport;
     }
 
     /**
@@ -132,7 +145,7 @@ class GetReport
      */
     public function lastQuartersByCompany(Company $company, $limit = 4)
     {
-        $manualReport = $this->entityRepository->findBy(
+        $manualReports = $this->entityRepository->findBy(
             [
                 'company' => $company,
                 'type' => Report\Type::MANUAL,
@@ -144,10 +157,10 @@ class GetReport
             $limit
         );
 
-        if (null != $manualReport)
-            return $manualReport;
+        if (null != $manualReports)
+            return $manualReports;
 
-        return $this->entityRepository->findBy(
+        $autoReports = $this->entityRepository->findBy(
             [
                 'company' => $company,
                 'type' => Report\Type::AUTO,
@@ -158,5 +171,11 @@ class GetReport
             ],
             $limit
         );
+        
+        if(!$autoReports) {
+            throw new NoResultException();
+        }
+        
+        return $autoReports;
     }
 }

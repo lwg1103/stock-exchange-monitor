@@ -3,7 +3,7 @@
 namespace Application\UseCase;
 
 use Company\Entity\Company;
-use Money\Money;
+use Doctrine\ORM\NoResultException;
 
 class GetTotalCompanyValue
 {
@@ -30,8 +30,19 @@ class GetTotalCompanyValue
      */
     public function get(Company $company)
     {
-        $currentPrice = $this->getPriceUseCase->lastByCompany($company)->getValue();
-        $sharesQuantity = $this->getReportUseCase->lastByCompany($company)->getSharesQuantity();
+        try {
+            $currentPrice = $this->getPriceUseCase->lastByCompany($company)->getValue();
+        } catch (NoResultException $e) {
+            $currentPrice = 0;
+        }
+        
+        try {
+            $sharesQuantity = $this->getReportUseCase->lastByCompany($company)->getSharesQuantity();
+        } catch (NoResultException $e) {
+            $sharesQuantity = 0;
+        }
+        
+        
         
         return $currentPrice*$sharesQuantity;
     }

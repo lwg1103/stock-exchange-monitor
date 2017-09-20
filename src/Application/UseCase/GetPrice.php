@@ -3,6 +3,7 @@
 namespace Application\UseCase;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Price\Entity\Price;
 use Company\Entity\Company;
 
@@ -33,7 +34,11 @@ class GetPrice
      */
     public function lastByCompany(Company $company)
     {
-        return $this->entityRepository->findOneBy(['company' => $company], ['identifier' => 'desc']);
+        $price = $this->entityRepository->findOneBy(['company' => $company], ['identifier' => 'desc']);
+        if(!$price) {
+            throw new NoResultException();
+        }
+        return $price;
     }
 
     /**
