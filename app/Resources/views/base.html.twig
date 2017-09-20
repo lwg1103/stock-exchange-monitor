@@ -17,10 +17,24 @@
 	</head>
 	<body>
     	<div id="wrapper">
-    		<h1>Stock Exchange Monitor</h1>
-        	<a href="{{ path('fos_user_security_logout') }}">logout</a>
-	        {% block body %}
-	        {% endblock %}
+    		<div id="page-wrapper" class="gray-bg" style="min-height: 332px;">
+        		<div class="row border-bottom">
+                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            Stock Exchange Monitor
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li>
+                                <a href="{{ path('fos_user_security_logout') }}">
+                                    <i class="fa fa-sign-out"></i> Log out
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                {% block body %}
+                {% endblock %}
+	        </div>
 	    </div>
         {% block javascripts %}
         	<!-- Mainly scripts -->
