@@ -50,8 +50,8 @@ class DividendContext implements Context
      */
     public function iSeeAtLeastCompanyDividends($counter)
     {
-        assertContainsOnly(Price::class, $this->resultAll);
-        assertLessThanOrEqual($this->resultAll, (int)$counter);
+        assertContainsOnly(Dividend::class, $this->resultAll);
+        assertLessThanOrEqual(count($this->resultAll), (int)$counter);
     }
 
     /**
