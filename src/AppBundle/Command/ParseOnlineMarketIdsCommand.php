@@ -38,29 +38,15 @@ class ParseOnlineMarketIdsCommand extends ContainerAwareCommandWithProgressbar
         preg_match_all($re, $html, $longMarketIdMatches, PREG_SET_ORDER, 0);
         
         $longMarketId = $item->getMarketId();
-        print_r($longMarketIdMatches);
+        
         if(count($longMarketIdMatches) && count($longMarketIdMatches[0]) >= 1) {
             
             $longMarketId = $longMarketIdMatches[0][1];
         }
         
         $item->setLongMarketId($longMarketId);
-        
-        $re = '/<a href="\/raporty-finansowe-rachunek-zyskow-i-strat\/(.*),Q/';
-        preg_match_all($re, $html, $biznesradarMatches, PREG_SET_ORDER, 0);
-        
-        $biznesradarMarketId = null;
-        if(count($biznesradarMatches) && count($biznesradarMatches[0]) >= 1) {
-            $biznesradarMarketId = $biznesradarMatches[0][1];
-        }
-        
-        $item->setBiznesradarMarketId($biznesradarMarketId);
     }
     
-    private function setBiznesradarMarketId($item) {
-        
-    }
-
     public function finish() {
         $this->em->flush();
     }
