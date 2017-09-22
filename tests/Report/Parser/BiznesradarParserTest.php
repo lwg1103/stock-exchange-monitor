@@ -119,17 +119,17 @@ class BiznesradarParserTest extends KernelTestCase
         $report = $this->getStoredAnnualReport($ordinaryCompany, 2016);
 
         $this->assertNotNull($report);
-        $this->assertEquals($report->getIncome(), 7932000);
-        $this->assertEquals($report->getNetProfit(), 301300);
-        $this->assertEquals($report->getOperationalNetProfit(), 769400);
-        $this->assertEquals($report->getBookValue(), 8670600);
-        $this->assertEquals($report->getAssets(), 12791200);
-        $this->assertEquals($report->getLiabilities(), 12791200);
+        $this->assertEquals(7932000, $report->getIncome());
+        $this->assertEquals(301300, $report->getNetProfit());
+        $this->assertEquals(769400, $report->getOperationalNetProfit());
+        $this->assertEquals(8670600, $report->getBookValue());
+        $this->assertEquals(12791200, $report->getAssets());
+        $this->assertEquals(12791200, $report->getLiabilities());
         //pasywa = aktywa - inaczej cos jest źle z raportem
         $this->assertEquals($report->getLiabilities(), $report->getAssets());
-        $this->assertEquals($report->getCurrentAssets(), 4331800);
-        $this->assertEquals($report->getCurrentLiabilities(), 2495900);
-        $this->assertEquals($report->getSharesQuantity(), 83000303);
+        $this->assertEquals(4331800, $report->getCurrentAssets());
+        $this->assertEquals(2495900, $report->getCurrentLiabilities());
+        $this->assertEquals(83000303, $report->getSharesQuantity());
     }
 
     /**
@@ -141,15 +141,15 @@ class BiznesradarParserTest extends KernelTestCase
         $report = $this->getStoredAnnualReport($bankCompany, 2016);
 
         $this->assertNotNull($report);
-        $this->assertEquals($report->getIncome(), 13544000);
-        $this->assertEquals($report->getNetProfit(), 2874000);
-        $this->assertEquals($report->getOperationalNetProfit(), 648500);
-        $this->assertEquals($report->getBookValue(), 32568600);
-        $this->assertEquals($report->getAssets(), 285572700);
-        $this->assertEquals($report->getLiabilities(), 285572700);
+        $this->assertEquals(13544000, $report->getIncome());
+        $this->assertEquals(2874000, $report->getNetProfit());
+        $this->assertEquals(648500, $report->getOperationalNetProfit());
+        $this->assertEquals(32568600, $report->getBookValue());
+        $this->assertEquals(285572700, $report->getAssets());
+        $this->assertEquals(285572700, $report->getLiabilities());
         //pasywa = aktywa - inaczej cos jest źle z raportem
         $this->assertEquals($report->getLiabilities(), $report->getAssets());
-        $this->assertEquals($report->getSharesQuantity(), 1250000000);
+        $this->assertEquals(1250000000, $report->getSharesQuantity());
     }
 
     /**
@@ -161,17 +161,17 @@ class BiznesradarParserTest extends KernelTestCase
         $report = $this->getStoredAnnualReport($negativeCompany, 2016);
 
         $this->assertNotNull($report);
-        $this->assertEquals($report->getIncome(), 19156000);
-        $this->assertEquals($report->getNetProfit(), -4371000);
-        $this->assertEquals($report->getOperationalNetProfit(), -3219000);
-        $this->assertEquals($report->getBookValue(), 15911000);
-        $this->assertEquals($report->getAssets(), 33442000);
-        $this->assertEquals($report->getLiabilities(), 33442000);
+        $this->assertEquals(19156000, $report->getIncome());
+        $this->assertEquals(-4371000, $report->getNetProfit());
+        $this->assertEquals(-3219000, $report->getOperationalNetProfit());
+        $this->assertEquals(15911000, $report->getBookValue());
+        $this->assertEquals(33442000, $report->getAssets());
+        $this->assertEquals(33442000, $report->getLiabilities());
         //pasywa = aktywa - inaczej cos jest źle z raportem
         $this->assertEquals($report->getLiabilities(), $report->getAssets());
-        $this->assertEquals($report->getCurrentAssets(), 6240000);
-        $this->assertEquals($report->getCurrentLiabilities(), 5866000);
-        $this->assertEquals($report->getSharesQuantity(), 200000000);
+        $this->assertEquals(6240000, $report->getCurrentAssets());
+        $this->assertEquals(5866000, $report->getCurrentLiabilities());
+        $this->assertEquals(200000000, $report->getSharesQuantity());
     }
     
     /**
@@ -183,17 +183,17 @@ class BiznesradarParserTest extends KernelTestCase
         $report = $this->getStoredQuarterlyReport($ordinaryCompany, 2016, 2);
     
         $this->assertNotNull($report);
-        $this->assertEquals($report->getIncome(), 1926200);
-        $this->assertEquals($report->getNetProfit(), 77300);
-        $this->assertEquals($report->getOperationalNetProfit(), 176400);
-        $this->assertEquals($report->getBookValue(), 8366500);
-        $this->assertEquals($report->getAssets(), 11921200);
-        $this->assertEquals($report->getLiabilities(), 11921200);
+        $this->assertEquals(1926200, $report->getIncome());
+        $this->assertEquals(77300, $report->getNetProfit());
+        $this->assertEquals(176400, $report->getOperationalNetProfit());
+        $this->assertEquals(8366500, $report->getBookValue());
+        $this->assertEquals(11921200, $report->getAssets());
+        $this->assertEquals(11921200, $report->getLiabilities());
         //pasywa = aktywa - inaczej cos jest źle z raportem
         $this->assertEquals($report->getLiabilities(), $report->getAssets());
-        $this->assertEquals($report->getCurrentAssets(), 3953200);
-        $this->assertEquals($report->getCurrentLiabilities(), 2341200);
-        $this->assertEquals($report->getSharesQuantity(), 83000303);
+        $this->assertEquals(3953200, $report->getCurrentAssets());
+        $this->assertEquals(2341200, $report->getCurrentLiabilities());
+        $this->assertEquals(83000303, $report->getSharesQuantity());
     }
     
     /**
@@ -205,15 +205,15 @@ class BiznesradarParserTest extends KernelTestCase
         $report = $this->getStoredQuarterlyReport($bankCompany, 2015, 4);
     
         $this->assertNotNull($report);
-        $this->assertEquals($report->getIncome(), 3324770);
-        $this->assertEquals($report->getNetProfit(), 444257);
-        $this->assertEquals($report->getOperationalNetProfit(), 176893);
-        $this->assertEquals($report->getBookValue(), 30264913);
-        $this->assertEquals($report->getAssets(), 266939919);
-        $this->assertEquals($report->getLiabilities(), 266939919);
+        $this->assertEquals(3324770, $report->getIncome());
+        $this->assertEquals(444257, $report->getNetProfit());
+        $this->assertEquals(176893, $report->getOperationalNetProfit());
+        $this->assertEquals(30264913, $report->getBookValue());
+        $this->assertEquals(266939919, $report->getAssets());
+        $this->assertEquals(266939919, $report->getLiabilities());
         //pasywa = aktywa - inaczej cos jest źle z raportem
         $this->assertEquals($report->getLiabilities(), $report->getAssets());
-        $this->assertEquals($report->getSharesQuantity(), 1250000000);
+        $this->assertEquals(1250000000, $report->getSharesQuantity());
     }
     
     /**
@@ -225,17 +225,17 @@ class BiznesradarParserTest extends KernelTestCase
         $report = $this->getStoredQuarterlyReport($negativeCompany, 2016, 4);
     
         $this->assertNotNull($report);
-        $this->assertEquals($report->getIncome(), 6015000);
-        $this->assertEquals($report->getNetProfit(), -4996000);
-        $this->assertEquals($report->getOperationalNetProfit(), -4400000);
-        $this->assertEquals($report->getBookValue(), 15911000);
-        $this->assertEquals($report->getAssets(), 33442000);
-        $this->assertEquals($report->getLiabilities(), 33442000);
+        $this->assertEquals(6015000, $report->getIncome());
+        $this->assertEquals(-4996000, $report->getNetProfit());
+        $this->assertEquals(-4400000, $report->getOperationalNetProfit());
+        $this->assertEquals(15911000, $report->getBookValue());
+        $this->assertEquals(33442000, $report->getAssets());
+        $this->assertEquals(33442000, $report->getLiabilities());
         //pasywa = aktywa - inaczej cos jest źle z raportem
         $this->assertEquals($report->getLiabilities(), $report->getAssets());
-        $this->assertEquals($report->getCurrentAssets(), 6240000);
-        $this->assertEquals($report->getCurrentLiabilities(), 5866000);
-        $this->assertEquals($report->getSharesQuantity(), 200000000);
+        $this->assertEquals(6240000, $report->getCurrentAssets());
+        $this->assertEquals(5866000, $report->getCurrentLiabilities());
+        $this->assertEquals(200000000, $report->getSharesQuantity());
     }
 
     private function getStoredAnnualReport($company, $year) {
