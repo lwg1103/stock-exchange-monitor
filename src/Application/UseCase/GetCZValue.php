@@ -3,9 +3,12 @@
 namespace Application\UseCase;
 
 use Company\Entity\Company;
+use Doctrine\ORM\NoResultException;
 
 class GetCZValue
 {
+    const NO_DATA_RESULT = -1;
+    
     /** @var GetReport */
     private $getReportUseCase;
     /** @var GetTotalCompanyValue */
@@ -42,16 +45,38 @@ class GetCZValue
      */
     public function getForLastYear(Company $company)
     {
-        $totalCompanyPrice = $this->getTotalCompanyValue->get($company);
-        $netProfit = $this->getReportUseCase->lastYearByCompany($company)->getNetProfit();
+        try {
+            $totalCompanyPrice = $this->getTotalCompanyValue->get($company);
+        } catch (NoResultException $e) { 
+            return self::NO_DATA_RESULT;
+        }
+        
+        try {
+            $netProfit = $this->getReportUseCase->lastYearByCompany($company)->getNetProfit();
+        } catch (NoResultException $e) {
+            return self::NO_DATA_RESULT;
+        }
 
         return $this->calculateResult($totalCompanyPrice, $netProfit);
     }
     
     public function getForLastFourQuarters(Company $company)
     {
-        $totalCompanyPrice = $this->getTotalCompanyValue->get($company);
-        $lastQuarterReports = $this->getReportUseCase->lastQuartersByCompany($company);
+        try {
+            $totalCompanyPrice = $this->getTotalCompanyValue->get($company);
+        } catch (NoResultException $e) {
+            return self::NO_DATA_RESULT;
+        }
+        
+        try {
+            $lastQuarterReports = $this->getReportUseCase->lastQuartersByCompany($company);
+        } catch (NoResultException $e) {
+            return self::NO_DATA_RESULT;
+        }
+        
+        if(count($lastQuarterReports) < 4) {
+            return self::NO_DATA_RESULT;
+        }
 
         $netProfit = 0;
 

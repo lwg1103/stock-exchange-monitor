@@ -19,6 +19,11 @@ services:
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('ReportContext:Report')"
 
+  app.use_case.get_dividend:
+    class: Application\UseCase\GetDividend
+    arguments:
+      - "@=service('doctrine.orm.entity_manager').getRepository('DividendContext:Dividend')"
+
   app.use_case.add_report_manually:
     class: Application\UseCase\AddReport
     arguments:
