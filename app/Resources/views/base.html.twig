@@ -15,21 +15,48 @@
 			<link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
 	    {% endblock %}
 	</head>
-	<body>
+	<body class="top-navigation  pace-done">
     	<div id="wrapper">
     		<div id="page-wrapper" class="gray-bg" style="min-height: 332px;">
-        		<div class="row border-bottom">
-                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="row border-bottom white-bg">
+                    <nav class="navbar navbar-static-top" role="navigation">
                         <div class="navbar-header">
-                            Stock Exchange Monitor
+                            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                                <i class="fa fa-reorder"></i>
+                            </button>
+                            <a href="#" class="navbar-brand">Stock Exchange Monitor</a>
                         </div>
-                        <ul class="nav navbar-top-links navbar-right">
-                            <li>
-                                <a href="{{ path('fos_user_security_logout') }}">
-                                    <i class="fa fa-sign-out"></i> Log out
-                                </a>
-                            </li>
-                        </ul>
+                        <div class="navbar-collapse collapse" id="navbar">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a aria-expanded="false" role="button" href="{{ path('company_index') }}"> 
+                                        Companies 
+                                    </a>
+                                </li>
+                            </ul>
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <ul class="nav navbar-top-links navbar-right">
+                            	<li>
+                            		<span>
+                                	    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                                	</span>
+                            	</li>
+                            </ul>
+                            {% endif %}
+                            <ul class="nav navbar-top-links navbar-right">
+                                <li>
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                        <a href="{{ path('fos_user_security_logout') }}">
+                                            <i class="fa fa-sign-out"></i> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('fos_user_security_login') }}">
+                                            <i class="fa fa-sign-out"></i> {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
                     </nav>
                 </div>
                 {% block body %}
