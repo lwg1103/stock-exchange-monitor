@@ -29,13 +29,6 @@ class Company
      * @ORM\Column(name="long_market_id", type="string", length=255, unique=true, nullable=true, options={"default":null})
      */
     private $longMarketId;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="biznesradar_market_id", type="string", length=255, unique=true, nullable=true, options={"default":null})
-     */
-    private $biznesradarMarketId;
 
     /**
      * @var string
@@ -66,7 +59,7 @@ class Company
      * @param string $longMarketId
      * @param string $type
      */
-    public function __construct($name, $marketId, $type = Type::ORDINARY, 
+    public function __construct($name, $marketId, $type = Type::ORDINARY,
         $longMarketId = null)
     {
         $this->name     = $name;
