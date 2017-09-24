@@ -6,6 +6,8 @@ use Company\Entity\Company;
 
 class GetCZValue
 {
+    const NO_DATA_RESULT = -1;
+    
     /** @var GetReport */
     private $getReportUseCase;
     /** @var GetTotalCompanyValue */
@@ -44,7 +46,7 @@ class GetCZValue
     {
         $totalCompanyPrice = $this->getTotalCompanyValue->get($company);
         $netProfit = $this->getReportUseCase->lastYearByCompany($company)->getNetProfit();
-
+        
         return $this->calculateResult($totalCompanyPrice, $netProfit);
     }
     
@@ -52,6 +54,10 @@ class GetCZValue
     {
         $totalCompanyPrice = $this->getTotalCompanyValue->get($company);
         $lastQuarterReports = $this->getReportUseCase->lastQuartersByCompany($company);
+        
+        if(count($lastQuarterReports) < 4) {
+            return self::NO_DATA_RESULT;
+        }
 
         $netProfit = 0;
 
@@ -64,6 +70,10 @@ class GetCZValue
 
     private function calculateResult($totalCompanyPrice, $netProfit)
     {
+        if((float)$netProfit == 0) {
+            return self::NO_DATA_RESULT;
+        }
+        
         return round($totalCompanyPrice/($netProfit*1000), 2);
     }
 }

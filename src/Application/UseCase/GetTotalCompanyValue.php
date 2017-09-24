@@ -3,7 +3,6 @@
 namespace Application\UseCase;
 
 use Company\Entity\Company;
-use Money\Money;
 
 class GetTotalCompanyValue
 {

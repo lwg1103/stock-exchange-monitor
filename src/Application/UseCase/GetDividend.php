@@ -7,11 +7,11 @@ use Price\Entity\Price;
 use Company\Entity\Company;
 
 /**
- * Class GetPrice
+ * Class GetDividend
  * 
  * @package AppBundle\UseCase
  */
-class GetPrice
+class GetDividend
 {
     /**
      * @var EntityRepository
@@ -33,11 +33,7 @@ class GetPrice
      */
     public function lastByCompany(Company $company)
     {
-        $price = $this->entityRepository->findOneBy(['company' => $company], ['identifier' => 'desc']);
-        if(!$price) {
-            $price = new Price($company, Price::NO_DATA_VALUE);
-        }
-        return $price;
+        return $this->entityRepository->findOneBy(['company' => $company], ['periodFrom' => 'desc']);
     }
 
     /**
@@ -47,6 +43,7 @@ class GetPrice
      */
     public function allByCompany(Company $company)
     {
-        return $this->entityRepository->findBy(['company' => $company]);
+        //latest are most interesting
+        return $this->entityRepository->findBy(['company' => $company], ['periodFrom' => 'desc']);
     }
 }
