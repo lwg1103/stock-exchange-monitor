@@ -2,6 +2,7 @@
 
 namespace Dividend\Parser;
 
+use Carbon\Carbon;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
 use Dividend\Entity\Dividend\State;
@@ -24,7 +25,7 @@ class StockwatchParserTest extends KernelTestCase
      */
     public function checkDividendsCount() {
         $parsedDividends = $this->sut->parseYear(2016);
-        $this->assertEquals(count($parsedDividends), 1); //got only one company for listCompanies here
+        $this->assertEquals(1, count($parsedDividends)); //got only one company for listCompanies here
     }
     
     /**
@@ -33,23 +34,12 @@ class StockwatchParserTest extends KernelTestCase
     public function checkDividendsForProphesizedComapny() {
         $parsedDividends = $this->sut->parseYear(2016);
         $checkedDividend = $parsedDividends[0];
-        $this->assertEquals($checkedDividend->getCompany()->getMarketId(), 'PGN');
-        $this->assertEquals($checkedDividend->getPeriodFrom(), new \DateTime('2016-01-01'));
-        $this->assertEquals($checkedDividend->getPeriodTo(), new \DateTime('2016-12-31'));
-        $this->assertEquals($checkedDividend->getValue(), 20);
-        $this->assertEquals($checkedDividend->getState(), State::PAID);
-        $this->assertEquals($checkedDividend->getRate(), 2.92);
-    }
-    
-    private function getStoredQuarterlyReport($company, $year, $quarter) {
-        $storedReport = $this->em->getRepository('ReportContext:Report')->findOneBy([
-            'company' => $company,
-            'identifier' => Report\Period::getIdentifierForYearAndQuarter($year, $quarter),
-            'period' => Report\Period::QUARTERLY,
-            'type' => Report\Type::AUTO
-        ]);
-    
-        return $storedReport;
+        $this->assertEquals('PGN', $checkedDividend->getCompany()->getMarketId());
+        $this->assertEquals(Carbon::createFromFormat("Y-m-d", '2016-01-01', ParserDividendReader::TIMEZONE)->setTime(0,0,0), $checkedDividend->getPeriodFrom());
+        $this->assertEquals(Carbon::createFromFormat("Y-m-d", '2016-12-31', ParserDividendReader::TIMEZONE)->setTime(0,0,0), $checkedDividend->getPeriodTo());
+        $this->assertEquals(20, $checkedDividend->getValue());
+        $this->assertEquals(State::PAID, $checkedDividend->getState());
+        $this->assertEquals(2.92, $checkedDividend->getRate());
     }
 
     protected function setUp()

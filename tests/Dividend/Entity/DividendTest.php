@@ -2,7 +2,9 @@
 
 namespace Dividend\Entity;
 
+use Carbon\Carbon;
 use Company\Entity\Company;
+use Dividend\Reader\ParserDividendReader;
 
 class DividendTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,8 +40,8 @@ class DividendTest extends \PHPUnit_Framework_TestCase
     {
         $company = new Company("Test Company Sp. z o.o.", "TST");
         
-        $this->sut->setPeriodFrom(new \DateTime('2017-01-01'))
-            ->setPeriodTo(new \DateTime('2017-12-31'))
+        $this->sut->setPeriodFrom(Carbon::createFromFormat("Y-m-d", '2017-01-01', ParserDividendReader::TIMEZONE)->setTime(0,0,0))
+            ->setPeriodTo(Carbon::createFromFormat("Y-m-d", '2017-12-31', ParserDividendReader::TIMEZONE)->setTime(0,0,0))
             ->setState(Dividend\State::PAID)
             ->setValue(123)
             ->setCompany($company)

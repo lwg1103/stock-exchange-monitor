@@ -3,7 +3,6 @@ namespace Dividend\Parser\Stockwatch;
 
 use Symfony\Component\Debug\Exception\ContextErrorException;
 use Company\Entity\Company;
-use Dividend\Entity\Dividend\State;
 use Dividend\Reader\ParserDividendReader;
 use Application\UseCase\ListCompanies;
 
