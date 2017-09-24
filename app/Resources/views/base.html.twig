@@ -10,17 +10,51 @@
 	    	<link href="{{ asset('css/plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet" />
 	    	<link href="{{ asset('css/animate.css') }}" rel="stylesheet" />
 	    	<link href="{{ asset('css/style.css') }}" rel="stylesheet" />
-	    	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
 	    	<link href="{{ asset('css/xc.css') }}" rel="stylesheet" />
 			<link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
 	    {% endblock %}
 	</head>
-	<body>
+	<body class="top-navigation  pace-done">
     	<div id="wrapper">
-    		<h1>Stock Exchange Monitor</h1>
-        	<a href="{{ path('fos_user_security_logout') }}">logout</a>
-	        {% block body %}
-	        {% endblock %}
+    		<div id="page-wrapper" class="gray-bg" style="min-height: 332px;">
+                <div class="row border-bottom white-bg">
+                    <nav class="navbar navbar-static-top" role="navigation">
+                        <div class="navbar-header">
+                            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                                <i class="fa fa-reorder"></i>
+                            </button>
+                            <a href="{{ path('homepage_index') }}" class="navbar-brand">Stock Exchange Monitor</a>
+                        </div>
+                        <div class="navbar-collapse collapse" id="navbar">
+                            <ul class="nav navbar-nav">
+                                <li
+                                {% if app.request.get('_route') == 'company_index' %}
+                                	class="active"
+                                {% endif %}>
+                                    <a aria-expanded="false" role="button" href="{{ path('company_index') }}"> 
+                                        Companies 
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-top-links navbar-right">
+                                <li>
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                        <a href="{{ path('fos_user_security_logout') }}">
+                                            {{ app.user.username }} | <i class="fa fa-sign-out"></i> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('fos_user_security_login') }}">
+                                            <i class="fa fa-sign-out"></i> {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                {% block body %}
+                {% endblock %}
+	        </div>
 	    </div>
         {% block javascripts %}
         	<!-- Mainly scripts -->
