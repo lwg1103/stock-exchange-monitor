@@ -3,7 +3,6 @@
 namespace Application\UseCase;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\NoResultException;
 use Price\Entity\Price;
 use Company\Entity\Company;
 
@@ -36,7 +35,7 @@ class GetPrice
     {
         $price = $this->entityRepository->findOneBy(['company' => $company], ['identifier' => 'desc']);
         if(!$price) {
-            throw new NoResultException();
+            $price = new Price($company, Price::NO_DATA_VALUE);
         }
         return $price;
     }
