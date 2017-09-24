@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\NoResultException;
 
 /**
  * Class CompanyController
@@ -31,23 +30,9 @@ class CompanyController extends Controller
 
         foreach ($companiesWithoutPrices as $company) {
             $companies[$company->getMarketId()]['data'] = $company;
-            try {
-                $companies[$company->getMarketId()]['price'] = $this->get('app.use_case.get_price')->lastByCompany($company);
-            } catch( NoResultException $e ) {
-                $companies[$company->getMarketId()]['price'] = -1;
-            }
-            try {
-                $companies[$company->getMarketId()]['CZ_last_year'] = $this->get('app.use_case.get_c_z_value')->getForLastYear($company);
-            } catch ( NoResultException $e ) {
-                $companies[$company->getMarketId()]['CZ_last_year'] = -1;
-            }
-
-            try {
-                $companies[$company->getMarketId()]['CZ_last_4q'] = $this->get('app.use_case.get_c_z_value')->getForLastFourQuarters($company);
-            } catch ( NoResultException $e ) {
-                $companies[$company->getMarketId()]['CZ_last_4q'] = -1;
-            }
-
+            $companies[$company->getMarketId()]['price'] = $this->get('app.use_case.get_price')->lastByCompany($company);
+            $companies[$company->getMarketId()]['CZ_last_year'] = $this->get('app.use_case.get_c_z_value')->getForLastYear($company);
+            $companies[$company->getMarketId()]['CZ_last_4q'] = $this->get('app.use_case.get_c_z_value')->getForLastFourQuarters($company);
         }
 
         return [
@@ -66,12 +51,7 @@ class CompanyController extends Controller
     public function getAction($marketId)
     {
         $company            = $this->get('app.use_case.get_company')->byMarketId($marketId);
-        try {
-            $price              = $this->get('app.use_case.get_price')->lastByCompany($company);
-        } catch ( NoResultException $e ) {
-            $price = -1;
-        }
-
+        $price              = $this->get('app.use_case.get_price')->lastByCompany($company);
         $historicalprices   = $this->get('app.use_case.get_price')->allByCompany($company);
         $reports            = $this->get('app.use_case.get_report')->allByCompany($company);
         $dividends          = $this->get('app.use_case.get_dividend')->allByCompany($company);

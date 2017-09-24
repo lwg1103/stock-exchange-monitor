@@ -4,7 +4,6 @@ namespace Application\UseCase;
 
 use Company\Entity\Company;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\NoResultException;
 use Report\Entity\Report;
 
 class GetReport
@@ -92,7 +91,7 @@ class GetReport
         );
         
         if(!$autoReport) {
-            throw new NoResultException();
+            $autoReport = new Report();
         }
         
         return $autoReport;
@@ -131,7 +130,7 @@ class GetReport
         );
         
         if(!$autoReport) {
-            throw new NoResultException();
+            $autoReport = new Report();
         }
         
         return $autoReport;
@@ -171,10 +170,6 @@ class GetReport
             ],
             $limit
         );
-        
-        if(!$autoReports) {
-            throw new NoResultException();
-        }
         
         return $autoReports;
     }
