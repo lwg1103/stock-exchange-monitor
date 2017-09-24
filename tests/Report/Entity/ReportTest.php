@@ -2,6 +2,8 @@
 
 namespace Report\Entity;
 
+use Carbon\Carbon;
+
 class ReportTest extends \PHPUnit_Framework_TestCase
 {
     const TIMEZONE = 'Europe/Warsaw';
