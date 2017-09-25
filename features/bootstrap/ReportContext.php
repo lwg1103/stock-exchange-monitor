@@ -147,7 +147,7 @@ class ReportContext implements Context
     public function iSeeAllReportsForCompany($marketId)
     {
         $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
-        $expectedResult = $this->em->getRepository('ReportContext:Report')->findBy(['company' => $company]);
+        $expectedResult = $this->em->getRepository('ReportContext:Report')->findBy(['company' => $company], ['identifier' => "DESC"]);
 
         assertCount(count($expectedResult), $this->result);
         assertContainsOnly('Report\Entity\Report', $this->result);

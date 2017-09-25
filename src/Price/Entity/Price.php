@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Price 
 {
+    const NO_DATA_VALUE = -1;
     /**
      * @var int
      *

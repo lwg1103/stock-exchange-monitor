@@ -40,7 +40,7 @@ class StockwatchRowParser
                     'period_from' => $periodFrom,
                     'period_to' => $periodTo,
                     'value' => $value,//cena będzie przetrzymywana w groszach
-                    'currency' => 'PLN',
+                    'currency' => $currency,
                     'rate' => $rate,
                     'state' => $status,
                     'payment_date' => $paymentDate,

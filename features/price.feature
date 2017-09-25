@@ -1,7 +1,7 @@
 Feature: each company on the stock market has price history attached
 
   Background:
-    Given the time is "last friday"
+    Given the time is "last tuesday"
 
   Scenario: I want to see last share price at company details as a User
        When I enter "PKO" company price site

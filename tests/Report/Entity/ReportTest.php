@@ -2,8 +2,12 @@
 
 namespace Report\Entity;
 
+use Carbon\Carbon;
+
 class ReportTest extends \PHPUnit_Framework_TestCase
 {
+    const TIMEZONE = 'Europe/Warsaw';
+
     /**
      * @var Report
      */
@@ -54,7 +58,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase
      */
     public function canBeConvertedToString()
     {
-        $this->sut->setIdentifier(new \DateTime('31-12-2015'))
+        $this->sut->setIdentifier(Carbon::createFromFormat("d-m-Y", '31-12-2015', self::TIMEZONE)->setTime(0,0,0))
             ->setType(Report\Type::MANUAL)
             ->setPeriod(Report\Period::ANNUAL);
 

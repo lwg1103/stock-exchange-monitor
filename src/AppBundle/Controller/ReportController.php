@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Company\Entity\Company;
+use Carbon\Carbon;
 use Report\Entity\Report;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -20,6 +20,7 @@ use AppBundle\Form\ReportType;
  */
 class ReportController extends Controller
 {
+    const TIMEZONE = 'Europe/Warsaw';
     /**
      * @param Request $request
      *
@@ -61,7 +62,7 @@ class ReportController extends Controller
     {
         $report = $this->get('app.use_case.get_report')->oneByIdentifier(
             $this->get('app.use_case.get_company')->byMarketId($marketId), 
-            new \DateTime($identifier), 
+            Carbon::createFromFormat("Y-m-d", $identifier, self::TIMEZONE)->setTime(0,0,0), 
             $period);
 
         return [
