@@ -23,13 +23,13 @@ class PullAllPrices
         $this->companyRepository = $companyRepository;
     }
 
-    public function pullAllPrices()
+    public function pullAllPrices($date)
     {
         /** @var Company[] $companies */
         $companies = $this->companyRepository->findAll();
 
         foreach ($companies as $company) {
-            $this->pullPrice->pullPrice($company->getMarketId());
+            $this->pullPrice->pullPrice($company->getMarketId(), $date);
         }
     }
 }
