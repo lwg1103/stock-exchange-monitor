@@ -7,6 +7,7 @@ use Application\UseCase\PullPrice;
 use Application\UseCase\PullAllPrices;
 use Price\Entity\Price;
 use Company\Entity\Company;
+use Carbon\Carbon;
 
 require_once 'vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
 
@@ -104,7 +105,7 @@ class PriceContext implements Context
     public function iRunScriptThatPullPriceFor($marketId)
     {
         $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
-        $this->pullPrice->pullPrice($company->getMarketId());
+        $this->pullPrice->pullPrice($company->getMarketId(), Carbon::yesterday());
     }
 
     /**
@@ -112,7 +113,7 @@ class PriceContext implements Context
      */
     public function iRunScriptThatPullAllPrices()
     {
-        $this->pullAllPrices->pullAllPrices();
+        $this->pullAllPrices->pullAllPrices(Carbon::yesterday());
     }
 
     /**
@@ -123,7 +124,7 @@ class PriceContext implements Context
         $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
 
         assertNotNull(
-            $this->findPriceFor($company, new \Carbon\Carbon($relativeTime)),
+            $this->findPriceFor($company, new Carbon($relativeTime)),
             "No price for {$company->getMarketId()} for a $relativeTime"
         );
     }
@@ -138,7 +139,7 @@ class PriceContext implements Context
 
         foreach ($companies as $company) {
             assertNotNull(
-                $this->findPriceFor($company, new \Carbon\Carbon($relativeTime)),
+                $this->findPriceFor($company, new Carbon($relativeTime)),
                 "No price for {$company->getMarketId()} for a day $relativeTime"
             );
         }
