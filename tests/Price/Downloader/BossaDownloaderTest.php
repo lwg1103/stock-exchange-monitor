@@ -88,6 +88,9 @@ class BossaDownloaderTest extends \PHPUnit_Framework_TestCase
     {
         $date = Carbon::now();
 
+        if ($date->dayOfWeek < Carbon::WEDNESDAY)
+            $date->subDay(Carbon::WEDNESDAY);
+
         $date->subDay(abs($date->dayOfWeek - Carbon::WEDNESDAY));
 
         return $date;
@@ -96,6 +99,9 @@ class BossaDownloaderTest extends \PHPUnit_Framework_TestCase
     private function getLastThursday()
     {
         $date = Carbon::now();
+
+        if ($date->dayOfWeek < Carbon::THURSDAY)
+            $date->subDay(Carbon::THURSDAY);
 
         $date->subDay(abs($date->dayOfWeek - Carbon::THURSDAY));
 
