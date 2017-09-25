@@ -131,7 +131,7 @@
     </target>
 
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="phploc">
+        <exec executable="vendor/bin/phploc">
             <arg value="--log-csv" />
             <arg value="${reports.dir}/logs/phploc.csv" />
             <arg path="${src.dir}" />
@@ -139,7 +139,7 @@
     </target>
 
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">
-        <exec executable="pdepend">
+        <exec executable="vendor/bin/pdepend">
             <arg value="--jdepend-xml=${reports.dir}/logs/jdepend.xml" />
             <arg value="--jdepend-chart=${reports.dir}/pdepend/dependencies.svg" />
             <arg value="--overview-pyramid=${reports.dir}/pdepend/overview-pyramid.svg" />
@@ -182,7 +182,7 @@
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec executable="phpcpd">
+        <exec executable="vendor/bin/phpcpd">
             <arg value="--log-pmd" />
             <arg value="${reports.dir}/logs/pmd-cpd.xml" />
             <arg path="${src.dir}" />
@@ -190,7 +190,8 @@
     </target>
 
     <target name="phpdoc" description="Generate API documentation using phpDox">
-        <exec executable="phpdoc">
+        <exec executable="php">
+            <arg value="vendor/bin/phpDocumentor.phar" />
             <arg line="-d '${src.dir}' -t '${reports.dir}/docs'" />
         </exec>
     </target>
