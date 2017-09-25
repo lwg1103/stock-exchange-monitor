@@ -45,10 +45,10 @@ class PullPrice
         $this->parser               = $parser;
     }
 
-    public function pullPrice($marketId)
+    public function pullPrice($marketId, $date)
     {
         try {
-            $rawData = $this->downloader->download(Carbon::yesterday());
+            $rawData = $this->downloader->download($date);
             $filteredData = $this->filter->filter($rawData, $marketId);
             $price = $this->parser->parse($filteredData);
 
