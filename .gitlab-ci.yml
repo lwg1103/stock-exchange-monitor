@@ -15,7 +15,12 @@ app-init:
   - ant assetic
   - ant clear-cache
 
-app-test:
+app-test:unit:
+  stage: test
+  script:
+  - ant phpunit
+
+app-test:functional:
   stage: test
   script:
   - ant functional
