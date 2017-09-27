@@ -18,6 +18,10 @@ app-init:
 app-test:unit:
   stage: test
   script:
+  - ant vendors
+  - ant prepare-db
+  - ant assetic
+  - ant clear-cache
   - ant phpunit
   cache:
     untracked: true
@@ -25,6 +29,10 @@ app-test:unit:
 app-test:functional:
   stage: test
   script:
+  - ant vendors
+  - ant prepare-db
+  - ant assetic
+  - ant clear-cache
   - ant functional
 
 app-deploy:
