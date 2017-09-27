@@ -2,13 +2,20 @@ before_script:
   - cp app/config/parameters_test.yml.ci app/config/parameters_test.yml
   - cp app/config/parameters_test.yml.ci app/config/parameters.yml
 
-init:app:
+stages:
+  - build
+  - test
+  - deploy
+
+app-init:
+  stage: build
   script:
   - ant vendors
   - ant prepare-db
   - ant assetic
   - ant clear-cache
 
-test:app:
+app-test:
+  stage: test
   script:
   - ant functional
