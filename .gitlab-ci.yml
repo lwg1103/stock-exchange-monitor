@@ -14,6 +14,7 @@ app-init:
   - ant prepare-db
   - ant assetic
   - ant clear-cache
+  - ant phpunit
   - ant functional
 
 #app-test:
