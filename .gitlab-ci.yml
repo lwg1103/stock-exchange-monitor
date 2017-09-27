@@ -19,8 +19,16 @@ app-test:unit:
   stage: test
   script:
   - ant phpunit
+  cache:
+    untracked: true
 
 app-test:functional:
   stage: test
   script:
   - ant functional
+
+app-deploy:
+  stage: deploy
+  script:
+  - echo OK
+  when: manual
