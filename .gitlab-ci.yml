@@ -1,3 +1,5 @@
+before_script:
+  - cp app/config/parameters_test.yml.ci app/config/parameters.yml
 
 test:app:
   script:
