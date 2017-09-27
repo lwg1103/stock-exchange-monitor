@@ -7,13 +7,13 @@ stages:
   - test
   - deploy
 
-app-init:
-  stage: build
-  script:
-  - ant vendors
-  - ant prepare-db
-  - ant assetic
-  - ant clear-cache
+#app-init:
+#  stage: build
+#  script:
+#  - ant vendors
+#  - ant prepare-db
+#  - ant assetic
+#  - ant clear-cache
 
 app-test:
   stage: test
