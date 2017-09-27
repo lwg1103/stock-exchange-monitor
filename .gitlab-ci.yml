@@ -42,5 +42,3 @@ app-deploy:
   script:
   - echo OK
   when: manual
-  only:
-  - master
