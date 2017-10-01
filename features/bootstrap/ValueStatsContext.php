@@ -41,16 +41,23 @@ class ValueStatsContext implements Context
     }
 
     /**
-     * @Given :marketId company current price is :price
+     * @Given :marketId company current price is :value
      */
-    public function companyCurrentPriceIs($marketId, $price)
+    public function companyCurrentPriceIs($marketId, $value)
     {
-        $price = new Price(
-            $this->getCompany($marketId),
-            $price
-        );
+        $company = $this->getCompany($marketId);
 
-        $this->em->persist($price);
+        $price = $this->em->getRepository('PriceContext:Price')->findOneBy([
+            'company' => $company,
+            'identifier' => \Carbon\Carbon::now()
+        ]);
+
+        if (!$price) {
+            $price = new Price($company, $value);
+            $this->em->persist($price);
+        }
+
+        $price->setValue($value);
         $this->em->flush();
     }
 

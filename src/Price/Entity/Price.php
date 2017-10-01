@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Company
  *
- * @ORM\Table(name="prices")
+ * @ORM\Table(name="prices",uniqueConstraints={@ORM\UniqueConstraint(name="price_idx", columns={"company_id", "identifier"})})
  * @ORM\Entity
  */
 class Price 
