@@ -16,6 +16,7 @@ app-test:
   - ant clear-cache
   - ant phpunit
   - ant functional
+  - sh /home/www/xcoding/stock-test/update.sh
 
 #app-test:
 #  stage: test
@@ -42,7 +43,7 @@ app-deploy:
   environment: production
   stage: deploy
   script:
-  - echo OK
+  - sh /home/www/xcoding/stock/update.sh
   when: manual
   only:
   - master
