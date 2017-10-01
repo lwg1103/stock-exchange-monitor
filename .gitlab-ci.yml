@@ -17,6 +17,8 @@ app-test:
   - ant phpunit
   - ant functional
   - sudo /home/www/xcoding/stock-test/update.sh
+  except:
+  - master
 
 #app-test:
 #  stage: test
