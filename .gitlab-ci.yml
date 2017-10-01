@@ -1,0 +1,49 @@
+before_script:
+  - cp app/config/parameters_test.yml.ci app/config/parameters_test.yml
+  - cp app/config/parameters_test.yml.ci app/config/parameters.yml
+
+stages:
+  - test
+  - deploy
+
+app-test:
+  stage: test
+  script:
+  - ant vendors
+  - ant prepare-db
+  - ant assetic
+  - ant clear-cache
+  - ant phpunit
+  - ant functional
+  - sudo /home/www/xcoding/stock-test/update.sh
+  except:
+  - master
+
+#app-test:
+#  stage: test
+#  script:
+#  - ant vendors
+#  - ant prepare-db
+#  - ant assetic
+#  - ant clear-cache
+#  - ant phpunit
+#  - ant functional
+#  cache:
+#    untracked: true
+
+#app-test:functional:
+#  stage: test
+#  script:
+#  - ant vendors
+#  - ant prepare-db
+#  - ant assetic
+#  - ant clear-cache
+#  - ant functional
+
+app-deploy:
+  stage: deploy
+  script:
+  - sudo /home/www/xcoding/stock/update.sh
+  when: manual
+  only:
+  - master

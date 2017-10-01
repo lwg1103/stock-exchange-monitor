@@ -1,0 +1,7 @@
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: xcoding_stock_test
+    database_user: stock
+    database_password: 7ANAFonO1I
+    secret: fd65821e773f54d80bead644c848a3199e4c2725
