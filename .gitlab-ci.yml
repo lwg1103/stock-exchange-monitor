@@ -3,12 +3,12 @@ before_script:
   - cp app/config/parameters_test.yml.ci app/config/parameters.yml
 
 stages:
-  - build
   - test
   - deploy
 
-app-init:
-  stage: build
+app-test:
+  environment: stage
+  stage: test
   script:
   - ant vendors
   - ant prepare-db
@@ -39,7 +39,10 @@ app-init:
 #  - ant functional
 
 app-deploy:
+  environment: production
   stage: deploy
   script:
   - echo OK
   when: manual
+  only:
+  - master
