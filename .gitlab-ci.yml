@@ -7,7 +7,6 @@ stages:
   - deploy
 
 app-test:
-  environment: stage
   stage: test
   script:
   - ant vendors
@@ -42,7 +41,6 @@ app-test:
 #  - ant functional
 
 app-deploy:
-  environment: production
   stage: deploy
   script:
   - sudo /home/www/xcoding/stock/update.sh
