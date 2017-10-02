@@ -64,6 +64,20 @@ class PriceContext implements Context
     }
 
     /**
+     * @Given There is price with value :value for :marketId for :relativeTime
+     */
+    public function thereIsPriceFor($value, $marketId, $relativeTime)
+    {
+        /** @var Company $company */
+        $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
+
+        $price = new Price($company, $value, new \Carbon\Carbon($relativeTime));
+
+        $this->em->persist($price);
+        $this->em->flush();
+    }
+
+    /**
      * @When /^I enter "([^"]*)" company price site$/
      */
     public function iEnterCompanyPriceSite($marketId)
@@ -121,12 +135,24 @@ class PriceContext implements Context
      */
     public function iSeeCompanyPriceDownloadedFor($marketId, $relativeTime)
     {
+        /** @var Company $company */
         $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
 
         assertNotNull(
             $this->findPriceFor($company, new Carbon($relativeTime)),
             "No price for {$company->getMarketId()} for a $relativeTime"
         );
+    }
+
+    /**
+     * @Then I see price value for :marketId for :relativeTime is not :value anymore
+     */
+    public function iSeePriceValueIsNotEqual($marketId, $relativeTime, $value)
+    {
+        /** @var Company $company */
+        $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
+
+        assertNotEquals($value, $this->findPriceFor($company, new Carbon($relativeTime))->getValue());
     }
 
     /**

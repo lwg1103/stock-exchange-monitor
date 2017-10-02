@@ -17,6 +17,13 @@ Feature: each company on the stock market has price history attached
        When I run script that pull price for "PKO"
        Then I see "PKO" company price downloaded for "yesterday"
 
+  Scenario: I want to pull share price for given Company as an Admin and update existing
+      Given There are no prices for "yesterday"
+        And There is price with value "0.01" for "PKO" for "yesterday"
+       When I run script that pull price for "PKO"
+       Then I see "PKO" company price downloaded for "yesterday"
+        And I see price value for "PKO" for "yesterday" is not "0.01" anymore
+
   Scenario: I want to pull all share prices as an Admin
       Given There are no prices for "yesterday"
        When I run script that pull all prices
