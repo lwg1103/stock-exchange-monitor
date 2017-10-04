@@ -22,7 +22,7 @@ app-test-deploy:
   stage: test
   script:
   - sudo /home/www/xcoding/stock-test/update.sh
-  - robot --variable user:admin --variable pass:123qwe --variable url:test.stock.t.x-coding.pl -d /home/www/xcoding/stock-test/web /home/www/xcoding/stock-testselenium.robot
+  - robot --variable user:admin --variable pass:123qwe --variable url:test.stock.t.x-coding.pl -d /home/www/xcoding/stock-test/web /home/www/xcoding/stock-test/selenium.robot
   only:
   - develop
 
