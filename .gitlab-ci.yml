@@ -15,9 +15,16 @@ app-test:
   - ant clear-cache
   - ant phpunit
   - ant functional
-  - sudo /home/www/xcoding/stock-test/update.sh
   except:
   - master
+  
+app-test-deploy:
+  stage: test
+  script:
+  - sudo /home/www/xcoding/stock-test/update.sh
+  - robot --variable user:admin --variable pass:123qwe --variable url:test.stock.t.x-coding.pl -d /home/www/xcoding/stock-test/web selenium.robot
+  only:
+  - develop
 
 #app-test:
 #  stage: test
