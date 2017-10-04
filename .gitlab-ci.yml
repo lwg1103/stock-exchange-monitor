@@ -19,7 +19,7 @@ app-test:
   - master
   
 app-test-deploy:
-  stage: test
+  stage: deploy
   script:
   - sudo /home/www/xcoding/stock-test/update.sh
   - robot --variable user:admin --variable pass:123qwe --variable url:test.stock.t.x-coding.pl -d /home/www/xcoding/stock-test/web /home/www/xcoding/stock-test/selenium.robot
@@ -47,10 +47,11 @@ app-test-deploy:
 #  - ant clear-cache
 #  - ant functional
 
-app-deploy:
+app-prod-deploy:
   stage: deploy
   script:
   - sudo /home/www/xcoding/stock/update.sh
+  - robot --variable user:admin --variable pass:123qwe --variable url:stock.t.x-coding.pl -d /home/www/xcoding/stock/web /home/www/xcoding/stock/selenium.robot
   when: manual
   only:
   - master
