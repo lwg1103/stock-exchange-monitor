@@ -45,16 +45,16 @@ class BossaDownloader implements Downloader
 
     private function isCurrentMonth(\DateTime $date)
     {
-        $now = Carbon::createFromTimestamp($date->getTimestamp());
+        $now = Carbon::now();
 
-        return $now->isCurrentMonth();
+        return $now->isSameMonth($date, true);
     }
 
     private function isCurrentYear(\DateTime $date)
     {
-        $now = Carbon::createFromTimestamp($date->getTimestamp());
+        $now = Carbon::now();
 
-        return $now->isCurrentYear();
+        return $now->isSameYear($date, true);
     }
 
     private function downloadThisMonthData(\DateTime $date)
@@ -196,7 +196,11 @@ class BossaDownloader implements Downloader
 
     private function unZipMonthlyArchive($location, \DateTime $date)
     {
-        return file_get_contents("zip://" . $location . "#" . $date->format("Ymd") . ".prn");
+        try {
+            return file_get_contents("zip://" . $location . "#" . $date->format("Ymd") . ".prn");
+        } catch (\Exception $e) {
+            echo "ZIP file missing or corrupted for " . $date->format("Y-m-d");
+        }
     }
 
     private function unZipYearlyArchive(\DateTime $date)
