@@ -23,7 +23,7 @@ app-test-deploy:
   script:
   - sudo /home/www/xcoding/stock-test/update.sh
   - robot --variable user:admin --variable pass:123qwe --variable url:test.stock.t.x-coding.pl -d /home/www/xcoding/stock-test/web /home/www/xcoding/stock-test/selenium.robot
-  - lighthouse http://admin:123qwe@test.stock.t.x-coding.pl --chrome-flags="--headless --no-sandbox" --output-path=/home/www/xcoding/stock/web/lighthouse/lighthouse-report.html --save-assets
+  - lighthouse http://admin:123qwe@test.stock.t.x-coding.pl --chrome-flags="--headless --no-sandbox" --output-path=/home/www/xcoding/stock-test/web/lighthouse/lighthouse-report.html --save-assets
   only:
   - develop
 
