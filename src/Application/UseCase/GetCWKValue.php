@@ -7,9 +7,6 @@ use Company\Entity\Company;
 class GetCWKValue
 {
     const NO_DATA_RESULT = -1;
-    const INFLECTION_POINT = 1.5;
-    const CLASS_CHEAP = 'green';
-    const CLASS_EXPENSIVE = 'red';
     
     /** @var GetReport */
     private $getReportUseCase;
@@ -39,20 +36,6 @@ class GetCWKValue
 
         return $this->calculateResult($totalCompanyPrice, $bookValue);
     }
-    
-    /**
-     * 
-     * @param Company $company
-     * 
-     * @return string HTML
-     */
-    public function getCurrentFormatted(Company $company)
-    {
-        $price = $this->getCurrent($company);
-
-        return $this->formatPrice($price);
-    }
-
 
     /**
      * @param Company $company
@@ -67,18 +50,6 @@ class GetCWKValue
         return $this->calculateResult($totalCompanyPrice, $bookValue);
     }
 
-    /**
-     * @param Company $company
-     *
-     * @return string HTML
-     */
-    public function getForLastYearFormatted(Company $company)
-    {
-        $price = $this->getForLastYear($company);
-
-        return $this->formatPrice($price);
-    }
-
     private function calculateResult($totalCompanyPrice, $bookValue)
     {
         if((float)$bookValue == 0) {
@@ -87,20 +58,4 @@ class GetCWKValue
         
         return round($totalCompanyPrice/($bookValue*1000), 2);
     }
-
-    private function formatPrice($price)
-    {
-        return '<span class="price '.$this->getClassForPrice($price).'">'.$price.'</span>';
-    }
-
-    public function getClassForPrice($price)
-    {
-        $class = self::CLASS_CHEAP;
-        if($price > self::INFLECTION_POINT) {
-            $class = self::CLASS_EXPENSIVE;
-        }
-
-        return $class;
-    }
-
 }

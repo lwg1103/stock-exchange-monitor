@@ -65,3 +65,9 @@ services:
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
       - '@app.translator.bossa_market_id_translator'
+
+
+  app.twig.application_extension:
+    class: Application\Twig\ApplicationExtension
+    tags:
+      - { name: twig.extension }
