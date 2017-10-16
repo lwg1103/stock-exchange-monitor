@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Price\Entity\Price;
 use Application\UseCase\GetTotalCompanyValue;
 use Application\UseCase\GetCZValue;
+use Application\UseCase\GetCWKValue;
 
 /**
  * Defines application features from the specific context.
@@ -21,6 +22,8 @@ class ValueStatsContext implements Context
     protected $getTotalCompanyValue;
     /** @var GetCZValue */
     protected $getCZValue;
+    /** @var GetCWKValue */
+    protected $getCWKValue;
 
     /**
      * ReportContext constructor.
@@ -32,11 +35,13 @@ class ValueStatsContext implements Context
     public function __construct(
         GetTotalCompanyValue    $getTotalCompanyValue,
         GetCZValue              $getCZValue,
+        GetCWKValue             $getCWKValue,
         ObjectManager           $em
     )
     {
         $this->getTotalCompanyValue = $getTotalCompanyValue;
         $this->getCZValue           = $getCZValue;
+        $this->getCWKValue          = $getCWKValue;
         $this->em                   = $em;
     }
 
@@ -112,5 +117,21 @@ class ValueStatsContext implements Context
     private function getCompany($marketId)
     {
         return $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
+    }
+
+    /**
+     * @When I check C\/WK for last year value for :marketId
+     */
+    public function iCheckCWkForLastYearValueFor($marketId)
+    {
+        $this->result = $this->getCWKValue->getForLastYear($this->getCompany($marketId));
+    }
+
+    /**
+     * @Then I should see :value C\/WK value
+     */
+    public function iShouldSeeCWkValue($value)
+    {
+        assertEquals($value, $this->result);
     }
 }

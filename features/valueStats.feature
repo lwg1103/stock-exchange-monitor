@@ -28,3 +28,9 @@ Feature: User can check different value stats
     When I check C/Z for last 4Q value for "PKO"
     Then I should see "0.04" C/Z value
 
+  Scenario: I want to see C/WK value for the last year
+    And  I add "31-12-2019" report manually for "PKO" company
+            #bookValue=2, sharesQuantity=9
+    And "PKO" company current price is "120"
+    When I check C/WK for last year value for "PKO"
+    Then I should see "0.54" C/WK value
