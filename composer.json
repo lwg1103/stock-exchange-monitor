@@ -35,7 +35,8 @@
         "guzzlehttp/guzzle": "~6.0",
         "symfony/filesystem": "^3.2",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "monolog/monolog": "^1.22"
+        "monolog/monolog": "^1.22",
+        "craue/config-bundle": "~2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
