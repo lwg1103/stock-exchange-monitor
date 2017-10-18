@@ -18,7 +18,7 @@ class LoadSettingsData implements OrderedFixtureInterface, FixtureInterface
     {
         $this->manager = $manager;
 
-        $this->addSetting(Setting::SETTING_INDICATOR_CZCWK, Setting::SETTING_SECTION_INDICATORS, 1.5);
+        $this->addSetting(Setting::SETTING_INDICATOR_CZCWK, Setting::SETTING_SECTION_INDICATORS, 22);
 
         $this->manager->flush();
     }
