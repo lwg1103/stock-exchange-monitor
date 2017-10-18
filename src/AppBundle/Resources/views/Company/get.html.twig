@@ -33,11 +33,6 @@
                                 <h3>Price history</h3>
                                 {% for pastPrice in prices %}
                                     <div class="col-md-6">{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</div>
-                                    <div class="col-md-6">{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</div>
-                                    <div class="col-md-6">{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</div>
-                                    <div class="col-md-6">{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</div>
-                                    <div class="col-md-6">{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</div>
-                                    <div class="col-md-6">{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -45,6 +40,46 @@
                 </div>
             </div>
     	</div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox product-detail">
+                    <div class="ibox-content">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Report</th>
+                                    <th>Income</th>
+                                    <th>Net Profit</th>
+                                    <th>Op. Net Profit</th>
+                                    <th>Book Value</th>
+                                    <th>Assets</th>
+                                    <th>Liabilities</th>
+                                    <th>Current Assets</th>
+                                    <th>Current Liabilities</th>
+                                    <th>Shares #</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for report in reports %}
+                                    <tr>
+                                        <td>{{ report }}</td>
+                                        <td>{{ report.income|reportPrice }}</td>
+                                        <td>{{ report.netProfit|reportPrice }}</td>
+                                        <td>{{ report.operationalNetProfit|reportPrice }}</td>
+                                        <td>{{ report.bookValue|reportPrice }}</td>
+                                        <td>{{ report.assets|reportPrice }}</td>
+                                        <td>{{ report.liabilities|reportPrice }}</td>
+                                        <td>{{ report.currentAssets|reportPrice }}</td>
+                                        <td>{{ report.currentLiabilities|reportPrice }}</td>
+                                        <td>{{ report.sharesQuantity }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox product-detail">

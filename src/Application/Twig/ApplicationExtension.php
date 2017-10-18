@@ -21,6 +21,7 @@ class ApplicationExtension extends \Twig_Extension
             new \Twig_SimpleFilter('colored_price', array($this, 'coloredPriceFilter')),
             new \Twig_SimpleFilter('colored_indicator', array($this, 'coloredIndicatorFilter')),
             new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
+            new \Twig_SimpleFilter('reportPrice', array($this, 'reportPriceFilter')),
         );
     }
 
@@ -47,6 +48,13 @@ class ApplicationExtension extends \Twig_Extension
         $price = $price." ".$currency;
 
         return '<span class="price">'.$price.'</span>';
+    }
+
+    public function reportPriceFilter($price, $currency = "zł", $decimals = 0, $decPoint = '.', $thousandsSep = ' ')
+    {
+        $price = number_format($price, $decimals, $decPoint, $thousandsSep);
+
+        return $price." tys. ".$currency;
     }
 
     public function getClassForNumber($number, $switchPoint)
