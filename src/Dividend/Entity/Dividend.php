@@ -311,8 +311,8 @@ class Dividend
      */
     private function setDividendValue(Money $dividendValue)
     {
-        $this->value    = $priceValue->getAmount();
-        $this->currency = $priceValue->getCurrency()->getName();
+        $this->value    = $dividendValue->getAmount();
+        $this->currency = $dividendValue->getCurrency()->getName();
     
         return $this;
     }
@@ -351,8 +351,12 @@ class Dividend
         $state = State::toString($this->getState());
         $company = $this->getCompany()->__toString();
         $value = $this->getValue();
-        $currency = $this->getCurrency();
-    
-        return sprintf("%s (%s - %s) %s: %.2f (%s)", $company, $dateFrom, $dateTo, $state, $value/100, $currency);
+        $rate = $this->getRate();
+
+        if($this->getState() == State::PAID && $this->getPaymentDate() != null) {
+            $paidDate = $this->getPaymentDate()->format('Y-m-d');
+            return sprintf("%s (%s - %s) %s (%s): %.2f (%.2f%%)", $company, $dateFrom, $dateTo, $state, $paidDate, $value/100, $rate);
+        }
+        return sprintf("%s (%s - %s) %s: %.2f (%.2f%%)", $company, $dateFrom, $dateTo, $state, $value/100, $rate);
     }
 }
