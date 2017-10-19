@@ -45,9 +45,11 @@ class DividendTest extends \PHPUnit_Framework_TestCase
             ->setState(Dividend\State::PAID)
             ->setValue(123)
             ->setCompany($company)
-            ->setCurrency('PLN');
+            ->setCurrency('PLN')
+            ->setRate(3.45)
+            ->setPaymentDate(Carbon::createFromFormat("Y-m-d", '2017-10-31', ParserDividendReader::TIMEZONE)->setTime(0,0,0));
 
-        $expected = "TST (2017-01-01 - 2017-12-31) paid: 1.23 (PLN)";
+        $expected = "TST (2017-01-01 - 2017-12-31) paid (2017-10-31): 1.23 (3.45%)";
 
         $this->assertEquals($expected, (string) $this->sut);
     }
