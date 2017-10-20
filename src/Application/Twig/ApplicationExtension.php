@@ -21,18 +21,15 @@ class ApplicationExtension extends \Twig_Extension
             new \Twig_SimpleFilter('colored_price', array($this, 'coloredPriceFilter')),
             new \Twig_SimpleFilter('colored_indicator', array($this, 'coloredIndicatorFilter')),
             new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
-            new \Twig_SimpleFilter('reportPrice', array($this, 'reportPriceFilter')),
+            new \Twig_SimpleFilter('report_price', array($this, 'reportPriceFilter')),
         );
     }
 
-    public function coloredPriceFilter($price, $switchPoint = self::INFLECTION_POINT, $currency = "zł", $decimals = 2, $decPoint = '.', $thousandsSep = ' ')
+    public function coloredPriceFilter($price, $switchPoint = self::INFLECTION_POINT, $currency = "zł", $decimals = 2)
     {
         $class = $this->getClassForNumber($price, $switchPoint);
-        
-        $price = number_format($price, $decimals, $decPoint, $thousandsSep);
-        $price = $price." ".$currency;
 
-        return '<span class="price '.$class.'">'.$price.'</span>';
+        return $this->formatPrice($price, $currency, $decimals, '<span class="price '.$class.'">', '</span>');
     }
 
     public function coloredIndicatorFilter($number, $switchPoint = self::INFLECTION_POINT)
@@ -42,19 +39,14 @@ class ApplicationExtension extends \Twig_Extension
         return '<span class="indicator '.$class.'">'.$number.'</span>';
     }
 
-    public function priceFilter($price, $currency = "zł", $decimals = 2, $decPoint = '.', $thousandsSep = ' ')
+    public function priceFilter($price, $currency = "zł", $decimals = 2)
     {
-        $price = number_format($price, $decimals, $decPoint, $thousandsSep);
-        $price = $price." ".$currency;
-
-        return '<span class="price">'.$price.'</span>';
+        return $this->formatPrice($price, $currency, $decimals, '<span class="price">', '</span>');
     }
 
-    public function reportPriceFilter($price, $currency = "zł", $decimals = 0, $decPoint = '.', $thousandsSep = ' ')
+    public function reportPriceFilter($price, $currency = "zł")
     {
-        $price = number_format($price, $decimals, $decPoint, $thousandsSep);
-
-        return $price." tys. ".$currency;
+        return $this->formatPrice($price, " tys. ".$currency, 0);
     }
 
     public function getClassForNumber($number, $switchPoint)
@@ -65,5 +57,13 @@ class ApplicationExtension extends \Twig_Extension
         }
 
         return $class;
+    }
+
+    private function formatPrice($price, $currency = "zł", $decimals = 2, $prefix = '', $suffix = '')
+    {
+        $price = number_format($price, $decimals, '.', ' ');
+        $price = $price." ".$currency;
+
+        return $prefix.$price.$suffix;
     }
 }

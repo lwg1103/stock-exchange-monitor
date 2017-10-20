@@ -63,14 +63,14 @@
                                 {% for report in reports %}
                                     <tr>
                                         <td>{{ report }}</td>
-                                        <td>{{ report.income|reportPrice }}</td>
-                                        <td>{{ report.netProfit|reportPrice }}</td>
-                                        <td>{{ report.operationalNetProfit|reportPrice }}</td>
-                                        <td>{{ report.bookValue|reportPrice }}</td>
-                                        <td>{{ report.assets|reportPrice }}</td>
-                                        <td>{{ report.liabilities|reportPrice }}</td>
-                                        <td>{{ report.currentAssets|reportPrice }}</td>
-                                        <td>{{ report.currentLiabilities|reportPrice }}</td>
+                                        <td>{{ report.income|report_price }}</td>
+                                        <td>{{ report.netProfit|report_price }}</td>
+                                        <td>{{ report.operationalNetProfit|report_price }}</td>
+                                        <td>{{ report.bookValue|report_price }}</td>
+                                        <td>{{ report.assets|report_price }}</td>
+                                        <td>{{ report.liabilities|report_price }}</td>
+                                        <td>{{ report.currentAssets|report_price }}</td>
+                                        <td>{{ report.currentLiabilities|report_price }}</td>
                                         <td>{{ report.sharesQuantity }}</td>
                                     </tr>
                                 {% endfor %}
