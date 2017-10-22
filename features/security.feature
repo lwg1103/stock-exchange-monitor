@@ -19,3 +19,13 @@ Feature: It's required to have specific roles to perform some actions
       Given I am an Admin
        When I am on "/report/add"
        Then the response status code should be 200
+
+  Scenario: As a User I CAN'T change settings
+    Given I am a User
+    When I am on "/settings/modify"
+    Then the response status code should be 403
+
+  Scenario: As a Admin I CAN change settings
+    Given I am an Admin
+    When I am on "/settings/modify"
+    Then the response status code should be 200
