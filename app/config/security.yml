@@ -34,4 +34,5 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/report/add, role: ROLE_ADMIN }
         - { path: ^/register, role: ROLE_ADMIN }
+        - { path: ^/settings, role: ROLE_ADMIN }
         - { path: ^/, role: ROLE_USER }
