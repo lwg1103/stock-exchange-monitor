@@ -63,6 +63,31 @@ class PullPrice
      */
     private function storePrices($price)
     {
+        $storedPrice = $this->getStoredPrice($price->getCompany(), $price->getIdentifier());
+
+        if ($storedPrice) {
+            $this->updatePrice($storedPrice, $price);
+        } else {
+            $this->storePrice($price);
+        }
+    }
+
+    private function getStoredPrice($company, $identifier)
+    {
+        return $this->entityManager->getRepository('PriceContext:Price')->findOneBy([
+            'company' => $company,
+            'identifier' => $identifier
+        ]);
+    }
+
+    private function updatePrice(Price $storedPrice, Price $newPrice)
+    {
+        $storedPrice->setValue($newPrice->getValue());
+        $this->entityManager->flush();
+    }
+
+    private function storePrice($price)
+    {
         $this->entityManager->persist($price);
         $this->entityManager->flush();
     }

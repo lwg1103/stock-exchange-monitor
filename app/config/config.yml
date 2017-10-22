@@ -83,6 +83,12 @@ doctrine:
                 prefix: Price\Entity
                 is_bundle: false
                 alias: PriceContext
+            setting_mapping:
+                type: annotation
+                dir: "%kernel.root_dir%/../src/Setting/Entity"
+                prefix: Setting\Entity
+                is_bundle: false
+                alias: SettingContext
             usere_mapping:
                 type: annotation
                 dir: "%kernel.root_dir%/../src/User/Entity"
@@ -105,3 +111,6 @@ fos_user:
     from_email:
         address:        m.harbuz@x-coding.pl
         sender_name:    SEM
+
+craue_config:
+    entity_name: Setting\Entity\Setting
