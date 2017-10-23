@@ -22,7 +22,7 @@ app-test-deploy:
   stage: deploy
   script:
   - sudo /home/www/xcoding/stock-test/update.sh
-  - robot --variable user:admin --variable pass:123qwe --variable url:test.stock.t.x-coding.pl -d /home/www/xcoding/stock-test/web /home/www/xcoding/stock-test/selenium.robot
+  - robot --variable user:admin --variable pass:123qwe --variable url:test.stock.t.x-coding.pl -d /home/www/xcoding/stock-test/web /home/www/xcoding/stock-test/tests/robotframework/homepage.robot
   - lighthouse http://admin:123qwe@test.stock.t.x-coding.pl --chrome-flags="--headless --no-sandbox" --output-path=/home/www/xcoding/stock-test/web/lighthouse/lighthouse-report.html --save-assets
   only:
   - develop
@@ -52,7 +52,7 @@ app-prod-deploy:
   stage: deploy
   script:
   - sudo /home/www/xcoding/stock/update.sh
-  - robot --variable user:admin --variable pass:123qwe --variable url:stock.t.x-coding.pl -d /home/www/xcoding/stock/web /home/www/xcoding/stock/selenium.robot
+  - robot --variable user:admin --variable pass:123qwe --variable url:stock.t.x-coding.pl -d /home/www/xcoding/stock/web /home/www/xcoding/stock/tests/robotframework/homepage.robot
   when: manual
   only:
   - master
