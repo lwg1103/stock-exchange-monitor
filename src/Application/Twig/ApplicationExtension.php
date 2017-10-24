@@ -22,6 +22,7 @@ class ApplicationExtension extends \Twig_Extension
             new \Twig_SimpleFilter('colored_indicator', array($this, 'coloredIndicatorFilter')),
             new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
             new \Twig_SimpleFilter('report_price', array($this, 'reportPriceFilter')),
+            new \Twig_SimpleFilter('no_loss', array($this, 'noLossFilter')),
         );
     }
 
@@ -37,6 +38,26 @@ class ApplicationExtension extends \Twig_Extension
         $class = $this->getClassForNumber($number, $switchPoint);
 
         return '<span class="indicator '.$class.'">'.$number.'</span>';
+    }
+
+    public function noLossFilter($number)
+    {
+        switch ($number) {
+            case 0:
+                $txt = "FAILED";
+                $class = self::CLASS_EXPENSIVE;
+                break;
+            case 1:
+                $txt = "OK";
+                $class = self::CLASS_CHEAP;
+                break;
+            default :
+                $txt = "no data";
+                $class = self::CLASS_EXPENSIVE;
+                break;
+        }
+
+        return '<span class="indicator '.$class.'">'.$txt.'</span>';
     }
 
     public function priceFilter($price, $currency = "zł", $decimals = 2)

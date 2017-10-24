@@ -7,6 +7,7 @@ use Price\Entity\Price;
 use Application\UseCase\GetTotalCompanyValue;
 use Application\UseCase\GetCZValue;
 use Application\UseCase\GetCWKValue;
+use Application\UseCase\GetNoLossValue;
 
 /**
  * Defines application features from the specific context.
@@ -24,24 +25,30 @@ class ValueStatsContext implements Context
     protected $getCZValue;
     /** @var GetCWKValue */
     protected $getCWKValue;
+    /** @var GetNoLossValue */
+    protected $getNoLossValue;
 
     /**
      * ReportContext constructor.
      *
      * @param GetTotalCompanyValue  $getTotalCompanyValue
      * @param GetCZValue            $getCZValue
+     * @param GetCWKValue           $getCWKValue
+     * @param GetNoLossValue        $getNoLossValue
      * @param ObjectManager         $em
      */
     public function __construct(
         GetTotalCompanyValue    $getTotalCompanyValue,
         GetCZValue              $getCZValue,
         GetCWKValue             $getCWKValue,
+        GetNoLossValue          $getNoLossValue,
         ObjectManager           $em
     )
     {
         $this->getTotalCompanyValue = $getTotalCompanyValue;
         $this->getCZValue           = $getCZValue;
         $this->getCWKValue          = $getCWKValue;
+        $this->getNoLossValue       = $getNoLossValue;
         $this->em                   = $em;
     }
 
@@ -107,11 +114,12 @@ class ValueStatsContext implements Context
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @Then I see it is :result that :marketId had no loss in net profit in last seven years
      */
-    private function getPriceRepository()
+    public function iSeeItSThatTheCompanyHadNoLossInNetProfitInLastYears($result, $marketId)
     {
-        return $this->em->getRepository(Price::class);
+        $expectedResult = ($result == "true") ? true : false;
+        assertEquals($expectedResult, $this->getNoLossValue->getForLastSevenYears($this->getCompany($marketId)));
     }
 
     private function getCompany($marketId)

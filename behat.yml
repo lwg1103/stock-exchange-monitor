@@ -25,6 +25,7 @@ default:
                     getTotalCompanyValue: '@app.use_case.get_total_company_value'
                     getCZValue:           '@app.use_case.get_c_z_value'
                     getCWKValue:          '@app.use_case.get_c_wk_value'
+                    getNoLossValue:       '@app.use_case.get_no_loss_value'
                     em:                   '@doctrine.orm.entity_manager'
     extensions:
         Behat\Symfony2Extension: ~

@@ -29,6 +29,7 @@
                             <th>C/Z Last 4Q</th>
                             <th>C/WK Last Year</th>
                             <th>C/Z*C/WK Last Year</th>
+                            <th>No Losses Last 7Y</th>
                             <th>Details</th>
                         </tr>
                         </thead>
@@ -45,6 +46,7 @@
                                 <td>{{ company.CZ_last_4q }}</td>
                                 <td>{{ company.CWK_last_year|colored_indicator|raw }}</td>
                                 <td>{{ company.CZCWK_last_year|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZCWK')) )|raw }}</td>
+                                <td>{{ company.no_losses|no_loss|raw }}</td>
                                 <td>
                                     <a href="{{ path('company_get', {'marketId': company.data.marketId}) }}">
                                         <i class="fa fa-search"></i>

@@ -104,7 +104,17 @@ class GetReport
      */
     public function lastYearByCompany(Company $company)
     {
-        $manualReport = $this->entityRepository->findOneBy(
+        return $this->lastYearsByCompany($company)[0];
+    }
+
+    /**
+     * @param Company $company
+     *
+     * @return Report[]
+     */
+    public function lastYearsByCompany(Company $company)
+    {
+        $manualReports = $this->entityRepository->findBy(
             [
                 'company' => $company,
                 'type' => Report\Type::MANUAL,
@@ -115,10 +125,10 @@ class GetReport
             ]
         );
 
-        if (null != $manualReport)
-            return $manualReport;
+        if (null != $manualReports)
+            return $manualReports;
 
-        $autoReport = $this->entityRepository->findOneBy(
+        $autoReports = $this->entityRepository->findBy(
             [
                 'company' => $company,
                 'type' => Report\Type::AUTO,
@@ -128,19 +138,19 @@ class GetReport
                 'identifier' => "DESC"
             ]
         );
-        
-        if(!$autoReport) {
-            $autoReport = new Report();
+
+        if(!$autoReports) {
+            $autoReports = [new Report()];
         }
-        
-        return $autoReport;
+
+        return $autoReports;
     }
 
     /**
      * @param Company $company
      * @param int $limit
      *
-     * @return Report
+     * @return Report[]
      */
     public function lastQuartersByCompany(Company $company, $limit = 4)
     {

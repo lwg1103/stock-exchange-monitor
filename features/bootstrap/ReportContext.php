@@ -107,6 +107,19 @@ class ReportContext implements Context
      */
     public function iAddQuarterlyReportManually($identifier, $marketId)
     {
+        $this->addReport($identifier, $marketId, Report\Period::QUARTERLY);
+    }
+
+    /**
+     * @When I add :identifier annual report manually for :marketId company with netProfit :netProfit
+     */
+    public function iAddAnnualReportManually($identifier, $marketId, $netProfit)
+    {
+        $this->addReport($identifier, $marketId, Report\Period::ANNUAL, $netProfit);
+    }
+    
+    private function addReport($identifier, $marketId, $period, $netProfit = 7)
+    {
         $company = $this->em->getRepository('CompanyContext:Company')->findOneBy(['marketId' => $marketId]);
 
         $report = new Report();
@@ -114,14 +127,14 @@ class ReportContext implements Context
         $report->setCompany($company)
             ->setIdentifier(new \DateTime($identifier))
             ->setType(Report\Type::MANUAL)
-            ->setPeriod(Report\Period::QUARTERLY)
+            ->setPeriod($period)
             ->setAssets(1)
             ->setBookValue(2)
             ->setCurrentAssets(3)
             ->setCurrentLiabilities(4)
             ->setIncome(5)
             ->setLiabilities(6)
-            ->setNetProfit(7)
+            ->setNetProfit($netProfit)
             ->setOperationalNetProfit(8)
             ->setSharesQuantity(9);
 
