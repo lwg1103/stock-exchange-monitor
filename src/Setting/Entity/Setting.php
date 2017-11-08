@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Setting extends BaseSetting {
 
     const SETTING_INDICATOR_CZCWK = 'ind_czcwk';
+    const SETTING_INDICATOR_CZ1Y = 'ind_cz1Y';
+    const SETTING_INDICATOR_CZ7Y = 'ind_cz7Y';
 
     const SETTING_SECTION_INDICATORS = 'sec_ind';
 

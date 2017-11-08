@@ -42,8 +42,8 @@
                                 </th>
                                 <td>{{ company.data.name }}</td>
                                 <td>{{ company.price }}</td>
-                                <td>{{ company.CZ_last_year }}</td>
-                                <td>{{ company.CZ_last_4q }}</td>
+                                <td>{{ company.CZ_last_year|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZ1Y')) )|raw  }}</td>
+                                <td>{{ company.CZ_last_4q|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZ1Y')) )|raw  }}</td>
                                 <td>{{ company.CWK_last_year|colored_indicator|raw }}</td>
                                 <td>{{ company.CZCWK_last_year|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZCWK')) )|raw }}</td>
                                 <td>{{ company.no_losses|no_loss|raw }}</td>
