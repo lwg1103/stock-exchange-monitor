@@ -49,6 +49,31 @@ class GetCZValue
         
         return $this->calculateResult($totalCompanyPrice, $netProfit);
     }
+
+    /**
+     * @param Company $company
+     *
+     * @return float
+     */
+    public function getForLastSevenYears(Company $company)
+    {
+        $totalCompanyPrice = $this->getTotalCompanyValue->get($company);
+        $lastYearsReports = $this->getReportUseCase->lastYearsByCompany($company);
+
+        if(count($lastYearsReports) < 7) {
+            return self::NO_DATA_RESULT;
+        }
+
+        $netProfit = 0;
+
+        for ($i=0; $i < 7; $i++ ) {
+            $netProfit += ($lastYearsReports[$i])->getNetProfit();
+        }
+
+        $netProfit /= 7;
+
+        return $this->calculateResult($totalCompanyPrice, $netProfit);
+    }
     
     public function getForLastFourQuarters(Company $company)
     {

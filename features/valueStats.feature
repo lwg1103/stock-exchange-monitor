@@ -15,6 +15,21 @@ Feature: User can check different value stats
     When I check C/Z for last year value for "PKO"
     Then I should see "0.15" C/Z value
 
+  Scenario: I want to see C/Z value for last 7 years
+    When I add "31-12-2020" annual report manually for "ACP" company with netProfit "500"
+    And  I add "31-12-2021" annual report manually for "ACP" company with netProfit "5"
+    And  I add "31-12-2022" annual report manually for "ACP" company with netProfit "5"
+    And  I add "31-12-2023" annual report manually for "ACP" company with netProfit "5"
+    And  I add "31-12-2024" annual report manually for "ACP" company with netProfit "5"
+    And  I add "31-12-2025" annual report manually for "ACP" company with netProfit "7.8"
+    And  I add "31-12-2026" annual report manually for "ACP" company with netProfit "5"
+    And  I add "31-12-2027" annual report manually for "ACP" company with netProfit "5"
+            #avg netProfit=5.4k, sharesQuantity=9
+    And "ACP" company current price is "120"
+            #totalValue 1080
+    When I check C/Z for last 7 years value for "ACP"
+    Then I should see "0.2" C/Z value
+
   Scenario: I want to see C/Z value for the last four quarters
     And  I add "31-06-2019" quarterly report manually for "PKO" company
     And  I add "31-09-2019" quarterly report manually for "PKO" company
@@ -48,5 +63,5 @@ Feature: User can check different value stats
 
     Examples:
       | company | third_year_profit | result |
-      | ACP     | 5                 | true   |
+      | ELB     | 5                 | true   |
       | PZU     | -1                | false  |
