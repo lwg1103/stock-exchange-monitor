@@ -35,6 +35,7 @@ class CompanyController extends Controller
             $companies[$company->getMarketId()]['CZ_last_4q'] = $this->get('app.use_case.get_c_z_value')->getForLastFourQuarters($company);
             $companies[$company->getMarketId()]['CWK_last_year'] = $this->get('app.use_case.get_c_wk_value')->getForLastYear($company);
             $companies[$company->getMarketId()]['CZCWK_last_year'] = $this->get('app.use_case.get_c_z_c_wk_value')->getForLastYear($company);
+            $companies[$company->getMarketId()]['no_losses'] = $this->get('app.use_case.get_no_loss_value')->getForLastSevenYears($company);
         }
 
         return [

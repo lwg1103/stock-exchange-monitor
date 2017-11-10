@@ -80,6 +80,11 @@ services:
           - '@app.use_case.get_c_z_value'
           - '@app.use_case.get_c_wk_value'
 
+  app.use_case.get_no_loss_value:
+      class: Application\UseCase\GetNoLossValue
+      arguments:
+        - '@app.use_case.get_report'
+
   app.use_case.get_online_dividends_for_year:
     class: Application\UseCase\GetOnlineDividendsForYear
     arguments:
