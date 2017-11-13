@@ -27,6 +27,7 @@
                             <th>Current Price</th>
                             <th>C/Z Last Year</th>
                             <th>C/Z Last 4Q</th>
+                            <th>C/Z Last 7Y</th>
                             <th>C/WK Last Year</th>
                             <th>C/Z*C/WK Last Year</th>
                             <th>No Losses Last 7Y</th>
@@ -44,6 +45,7 @@
                                 <td>{{ company.price }}</td>
                                 <td>{{ company.CZ_last_year|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZ1Y')) )|raw  }}</td>
                                 <td>{{ company.CZ_last_4q|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZ1Y')) )|raw  }}</td>
+                                <td>{{ company.CZ_last_7y|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZ7Y')) )|raw  }}</td>
                                 <td>{{ company.CWK_last_year|colored_indicator|raw }}</td>
                                 <td>{{ company.CZCWK_last_year|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZCWK')) )|raw }}</td>
                                 <td>{{ company.no_losses|no_loss|raw }}</td>
