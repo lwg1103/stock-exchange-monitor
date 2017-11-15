@@ -13,6 +13,7 @@ class Setting extends BaseSetting {
     const SETTING_INDICATOR_CZCWK = 'ind_czcwk';
     const SETTING_INDICATOR_CZ1Y = 'ind_cz1Y';
     const SETTING_INDICATOR_CZ7Y = 'ind_cz7Y';
+    const SETTING_INDICATOR_NTB_RATE = 'ind_ntb_rate';
 
     const SETTING_SECTION_INDICATORS = 'sec_ind';
 

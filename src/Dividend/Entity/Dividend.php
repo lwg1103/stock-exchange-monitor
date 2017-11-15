@@ -65,6 +65,8 @@ class Dividend
      * @var float
      *
      * @ORM\Column(name="rate", type="decimal", precision=8, scale=5)
+     *
+     * Dividend to price rate in percentages
      */
     private $rate;
     
@@ -86,6 +88,8 @@ class Dividend
      * @var date
      *
      * @ORM\Column(name="agm_date", type="date", length=255, nullable=true)
+     *
+     * General meeting date when dividend was agreed by shareholders
      */
     private $agmDate;
     
@@ -303,24 +307,11 @@ class Dividend
     {
         return new Money($this->value, new Currency($this->currency));
     }
-    
-    /**
-     * @param Money $dividendValue
-     *
-     * @return self
-     */
-    private function setDividendValue(Money $dividendValue)
-    {
-        $this->value    = $dividendValue->getAmount();
-        $this->currency = $dividendValue->getCurrency()->getName();
-    
-        return $this;
-    }
-    
+
     /**
      * Set rate
      *
-     * @param string $rate
+     * @param float $rate
      *
      * @return Dividend
      */
@@ -334,7 +325,7 @@ class Dividend
     /**
      * Get rate
      *
-     * @return string
+     * @return float
      */
     public function getRate()
     {
