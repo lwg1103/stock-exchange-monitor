@@ -21,7 +21,7 @@ class LoadSettingsData implements OrderedFixtureInterface, FixtureInterface
         $this->addSetting(Setting::SETTING_INDICATOR_CZCWK, Setting::SETTING_SECTION_INDICATORS, 22);
         $this->addSetting(Setting::SETTING_INDICATOR_CZ1Y, Setting::SETTING_SECTION_INDICATORS, 18.5);
         $this->addSetting(Setting::SETTING_INDICATOR_CZ7Y, Setting::SETTING_SECTION_INDICATORS, 23.5);
-        $this->addSetting(Setting::SETTING_INDICATOR_NTB_RATE, Setting::SETTING_SECTION_INDICATORS, 2.0);
+        $this->addSetting(Setting::SETTING_PARAMETER_NTB_RATE, Setting::SETTING_SECTION_MARKET_PARAMETERS, 2.0);
 
         $this->manager->flush();
     }
