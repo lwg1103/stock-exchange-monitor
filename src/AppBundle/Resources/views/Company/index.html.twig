@@ -49,7 +49,7 @@
                                 <td>{{ company.CZ_last_7y|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZ7Y')) )|raw  }}</td>
                                 <td>{{ company.CWK_last_year|colored_indicator|raw }}</td>
                                 <td>{{ company.CZCWK_last_year|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_CZCWK')) )|raw }}</td>
-                                <td>{{ company.div_rate_last_7y|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_NTB_RATE')) )|raw }}</td>
+                                <td>{{ company.div_rate_last_7y|colored_indicator( craue_setting(constant('Setting\\Entity\\Setting::SETTING_INDICATOR_NTB_RATE')), true )|raw }}</td>
                                 <td>{{ company.no_losses|no_loss|raw }}</td>
                                 <td>
                                     <a href="{{ path('company_get', {'marketId': company.data.marketId}) }}">

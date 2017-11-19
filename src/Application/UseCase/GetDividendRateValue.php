@@ -44,6 +44,6 @@ class GetDividendRateValue
 
         $rate /= 7;
 
-        return $rate;
+        return round($rate, 2);
     }
 }
