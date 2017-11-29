@@ -8,6 +8,7 @@ use Application\UseCase\GetTotalCompanyValue;
 use Application\UseCase\GetCZValue;
 use Application\UseCase\GetCWKValue;
 use Application\UseCase\GetNoLossValue;
+use Application\UseCase\GetDividendRateValue;
 
 /**
  * Defines application features from the specific context.
@@ -27,6 +28,8 @@ class ValueStatsContext implements Context
     protected $getCWKValue;
     /** @var GetNoLossValue */
     protected $getNoLossValue;
+    /** @var GetDividendRateValue */
+    protected $getDividendRateValue;
 
     /**
      * ReportContext constructor.
@@ -35,6 +38,7 @@ class ValueStatsContext implements Context
      * @param GetCZValue            $getCZValue
      * @param GetCWKValue           $getCWKValue
      * @param GetNoLossValue        $getNoLossValue
+     * @param GetDividendRateValue  $getDividendRateValue
      * @param ObjectManager         $em
      */
     public function __construct(
@@ -42,6 +46,7 @@ class ValueStatsContext implements Context
         GetCZValue              $getCZValue,
         GetCWKValue             $getCWKValue,
         GetNoLossValue          $getNoLossValue,
+        GetDividendRateValue    $getDividendRateValue,
         ObjectManager           $em
     )
     {
@@ -49,6 +54,7 @@ class ValueStatsContext implements Context
         $this->getCZValue           = $getCZValue;
         $this->getCWKValue          = $getCWKValue;
         $this->getNoLossValue       = $getNoLossValue;
+        $this->getDividendRateValue = $getDividendRateValue;
         $this->em                   = $em;
     }
 
@@ -149,5 +155,21 @@ class ValueStatsContext implements Context
     public function iShouldSeeCWkValue($value)
     {
         assertEquals($value, $this->result);
+    }
+
+    /**
+     * @When I check dividend rate for last 7 years for :marketId company
+     */
+    public function iCheckDividendRateForLastYearsForCompany($marketId)
+    {
+        $this->result = $this->getDividendRateValue->getForLastSevenYears($this->getCompany($marketId));
+    }
+
+    /**
+     * @Then I see :rate dividend rate
+     */
+    public function iSeeDividendRate($rate)
+    {
+        assertEquals($rate, $this->result);
     }
 }
