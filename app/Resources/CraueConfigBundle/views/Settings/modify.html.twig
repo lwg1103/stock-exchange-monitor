@@ -1,0 +1,21 @@
+{%  extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="row wrapper border-bottom white-bg page-heading ibox-content">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('homepage_index') }}">Home</a>
+                </li>
+                <li>
+                    Settings
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+    {% block craue_config_content %}
+        {% include '@CraueConfig/Settings/modify_content.html.twig' %}
+    {% endblock %}
+{% endblock %}

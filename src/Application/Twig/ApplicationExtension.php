@@ -26,16 +26,16 @@ class ApplicationExtension extends \Twig_Extension
         );
     }
 
-    public function coloredPriceFilter($price, $switchPoint = self::INFLECTION_POINT, $currency = "zł", $decimals = 2)
+    public function coloredPriceFilter($price, $switchPoint = self::INFLECTION_POINT, $reversed = false, $currency = "zł", $decimals = 2)
     {
-        $class = $this->getClassForNumber($price, $switchPoint);
+        $class = $this->getClassForNumber($price, $switchPoint, $reversed);
 
         return $this->formatPrice($price, $currency, $decimals, '<span class="price '.$class.'">', '</span>');
     }
 
-    public function coloredIndicatorFilter($number, $switchPoint = self::INFLECTION_POINT)
+    public function coloredIndicatorFilter($number, $switchPoint = self::INFLECTION_POINT, $reversed = false)
     {
-        $class = $this->getClassForNumber($number, $switchPoint);
+        $class = $this->getClassForNumber($number, $switchPoint, $reversed);
 
         return '<span class="indicator '.$class.'">'.$number.'</span>';
     }
@@ -70,10 +70,10 @@ class ApplicationExtension extends \Twig_Extension
         return $this->formatPrice($price, " tys. ".$currency, 0);
     }
 
-    public function getClassForNumber($number, $switchPoint)
+    public function getClassForNumber($number, $switchPoint, $reversed)
     {
         $class = self::CLASS_CHEAP;
-        if(((float)$number) > $switchPoint) {
+        if(((float)$number) > $switchPoint xor $reversed) {
             $class = self::CLASS_EXPENSIVE;
         }
 

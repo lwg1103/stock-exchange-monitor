@@ -180,7 +180,7 @@ class BossaDownloader implements Downloader
      *
      * @return string
      */
-    private function getCacheFileLocation(\DateTime $date)
+    public function getCacheFileLocation(\DateTime $date)
     {
         return __DIR__ . '/../../../var/cache/prices/' . $this->getFileName($date);
 
@@ -189,7 +189,7 @@ class BossaDownloader implements Downloader
     /**
      * @return string
      */
-    private function getTmpFileLocation()
+    public function getTmpFileLocation()
     {
         return __DIR__ . '/../../../var/cache/prices/tmp';
     }

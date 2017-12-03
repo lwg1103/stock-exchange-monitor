@@ -2,8 +2,8 @@
 
 namespace Application\UseCase;
 
+use Dividend\Entity\Dividend;
 use Doctrine\ORM\EntityRepository;
-use Price\Entity\Price;
 use Company\Entity\Company;
 
 /**
@@ -29,7 +29,7 @@ class GetDividend
     /**
      * @param Company $company
      *
-     * @return Price
+     * @return Dividend
      */
     public function lastByCompany(Company $company)
     {
@@ -39,7 +39,7 @@ class GetDividend
     /**
      * @param Company $company
      *
-     * @return Price[]
+     * @return Dividend[]
      */
     public function allByCompany(Company $company)
     {

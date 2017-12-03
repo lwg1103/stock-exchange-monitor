@@ -5,6 +5,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Application\UseCase\GetDividend;
 use Dividend\Entity\Dividend;
 use Company\Entity\Company;
+use Carbon\Carbon;
 
 require_once 'vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
 
@@ -23,7 +24,7 @@ class DividendContext implements Context
     /**
      * CompanyContext constructor.
      *
-     * @param GetPrice          $getPrice
+     * @param GetDividend       $getDividend
      * @param ObjectManager     $em
      */
     public function __construct(
@@ -31,8 +32,8 @@ class DividendContext implements Context
         ObjectManager   $em
     )
     {
-        $this->getDividend         = $getDividend;
-        $this->em               = $em;
+        $this->getDividend  = $getDividend;
+        $this->em           = $em;
     }
 
     /**
@@ -43,6 +44,27 @@ class DividendContext implements Context
         $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
 
         $this->resultAll = $this->getDividend->allByCompany($company);
+    }
+
+    /**
+     * @When :company company has dividend for period from :from to :to with a rate :rate
+     */
+    public function companyHasDividendForPeriodFromToWithARate($marketId, $from, $to, $rate)
+    {
+        $dividend = new Dividend();
+        
+        $dividend->setCompany($company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]))
+            ->setPeriodFrom(Carbon::createFromFormat("d-m-Y", $from))
+            ->setPeriodTo(Carbon::createFromFormat("d-m-Y", $to))
+            ->setRate($rate)
+            ->setValue(1)
+            ->setCurrency('PLN')
+            ->setState(3)
+            ->setAgmDate(Carbon::createFromFormat("d-m-Y", $to))
+            ->setPaymentDate(Carbon::createFromFormat("d-m-Y", $to));
+
+        $this->em->persist($dividend);
+        $this->em->flush();
     }
 
     /**

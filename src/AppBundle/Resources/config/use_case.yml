@@ -89,4 +89,9 @@ services:
     class: Application\UseCase\GetOnlineDividendsForYear
     arguments:
       - '@app.dividend.parser'
-      - '@app.loader.parser_dividend_loader'    
+      - '@app.loader.parser_dividend_loader'
+
+  app.use_case.get_dividend_rate_value:
+    class: Application\UseCase\GetDividendRateValue
+    arguments:
+      - '@app.use_case.get_dividend'

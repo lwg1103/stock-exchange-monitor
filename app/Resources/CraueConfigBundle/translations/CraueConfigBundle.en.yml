@@ -1,0 +1,6 @@
+sec_ind: Indicators
+ind_cz1Y: C/Z for one year turning point
+ind_cz7Y: C/Z for seven year turning point
+ind_czcwk: C/Z * C/WK turning point
+sec_market_parameters: Market Parameters
+ind_ntb_rate: Current National Treasure Bonds ROI
