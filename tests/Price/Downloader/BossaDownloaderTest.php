@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophet;
 use Prophecy\Prophecy\ObjectProphecy;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class BossaDownloaderTest extends TestCase
 {
@@ -162,7 +163,13 @@ class BossaDownloaderTest extends TestCase
         /** @var Carbon $lastWednesday */
         $lastWednesday = $this->getLastWednesday();
 
-        return $lastWednesday->subDay(28);
+        $wednesdayMonthAgo = $lastWednesday->subDay(28);
+
+        if ($wednesdayMonthAgo->day === 1 and $wednesdayMonthAgo->month === 11) {
+            $wednesdayMonthAgo->addDay(1);
+        }
+
+        return $wednesdayMonthAgo;
     }
 
     private function getWednesdayYearAgo()
@@ -179,5 +186,28 @@ class BossaDownloaderTest extends TestCase
 
         $this->sut = new BossaDownloader();
         $this->httpClient = $prophet->prophesize(Client::class);
+    }
+
+    protected function tearDown()
+    {
+        $this->deleteCacheFiles();
+    }
+
+    private function deleteCacheFiles()
+    {
+        try {
+            unlink($this->sut->getCacheFileLocation($this->getWednesdayYearAgo()));
+        } catch (\Exception $e) {
+        }
+
+        try {
+            unlink($this->sut->getCacheFileLocation($this->getWednesdayMonthAgo()));
+        } catch (\Exception $e) {
+        }
+
+        try {
+            unlink($this->sut->getTmpFileLocation());
+        } catch (\Exception $e) {
+        }
     }
 }
