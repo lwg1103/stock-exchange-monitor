@@ -12,6 +12,9 @@
 	    	<link href="{{ asset('css/style.css') }}" rel="stylesheet" />
 	    	<link href="{{ asset('css/xc.css') }}" rel="stylesheet" />
 			<link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
+
+			<!-- DataTable -->
+			<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
 	    {% endblock %}
 	</head>
 	<body class="top-navigation  pace-done">
@@ -93,9 +96,11 @@
 		    <!-- Sparkline demo data  -->
 		    <script src="{{ asset('js/demo/sparkline-demo.js') }}"></script>
 		
-		    <!-- ChartJS-->
-		    
+		    <!-- ChartJS -->
 		    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
+
+			<!-- DataTable -->
+			<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
         {% endblock %}
     </body>
 </html>
