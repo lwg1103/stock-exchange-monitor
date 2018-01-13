@@ -172,12 +172,6 @@
             table.draw();
         } );
 
-
-
-//        $(document).ready(function(){
-//            var table = $('#companies-table').DataTable();
-//        });
-
         function checkNumberColumn(data, name, index) {
             var min = ($('#'+name+'-min').val() ? $('#'+name+'-min').val() : -9999);
             var max = ($('#'+name+'-max').val() ? $('#'+name+'-max').val() : 9999);
@@ -194,7 +188,7 @@
             var enabled = $('#'+name)[0].checked;
             var value = data[index];
 
-            return (!enabled || enabled && value === 'OK');
+            return (!enabled || value === 'OK');
         }
     </script>
 {% endblock %}
