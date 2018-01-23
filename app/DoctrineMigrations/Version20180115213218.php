@@ -28,11 +28,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
      */
     public function up(Schema $schema)
     {
-        // do nothing, see postUp
-    }
-
-    public function postUp(Schema $schema)
-    {
         $this->addAllCompanies();
         $this->manager->flush();
     }
@@ -51,7 +46,11 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
             return;
         }
         $company = new Company($name, $id, $type);
-        $this->setMarketIdsFromBiznesradar($company);
+        try {
+            //$this->setMarketIdsFromBiznesradar($company);
+        } catch (\Exception $e) {
+            
+        }
 
         $this->manager->persist($company);
     }
