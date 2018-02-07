@@ -4,11 +4,8 @@ namespace Report\Parser;
 
 use Carbon\Carbon;
 use Company\Entity\Company;
-use Company\Entity\Company\Type;
 use Report\Parser\Biznesradar\BiznesradarParser;
 use Report\Parser\Biznesradar\BiznesradarQuarterlyParser;
-use Report\Parser\InvalidCompanyTypeException;
-use Report\Loader\ReportLoader;
 use Report\Reader\ParserReportReader;
 use Report\Reader\ParserQuarterlyReportReader;
 use Report\Entity\Report;
@@ -22,8 +19,6 @@ class BiznesradarParserTest extends KernelTestCase
 {
     private $sutAnnual;
     private $sutQuarterly;
-    private $bankCompany;
-    private $ordinaryCompany;
     private $em;
     private $reportLoader;
     private $parserAnnual;
@@ -90,7 +85,7 @@ class BiznesradarParserTest extends KernelTestCase
 
     private function checkIfCompanyHasAnnualReport($company) {
 
-    	$year = date('Y', strtotime('-1 year'));
+    	$year = date('Y', strtotime('-2 year'));
 
     	$storedReport = $this->getStoredAnnualReport($company, $year);
 
@@ -101,7 +96,7 @@ class BiznesradarParserTest extends KernelTestCase
     
     private function checkIfCompanyHasQuarterlyReports($company) {
     
-        $year = date('Y', strtotime('-1 year'));
+        $year = date('Y', strtotime('-2 year'));
     
         $storedReport = $this->getStoredAnnualReport($company, $year);
     

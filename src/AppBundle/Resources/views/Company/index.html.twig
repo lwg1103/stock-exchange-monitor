@@ -15,11 +15,95 @@
         </div>
     </div>
     <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <h2 class="font-bold m-b-xs">
+                            Filters
+                        </h2>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>C/Z Last Year</th>
+                                <th>C/Z Last 4Q</th>
+                                <th>C/Z Last 7Y</th>
+                                <th>C/WK Last Year</th>
+                                <th>C/Z*C/WK Last Year</th>
+                                <th>Dividend % Last 7Y</th>
+                                <th>No Losses Last 7Y</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td>
+                                    Min
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="czy-min" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="cz4q-min" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="cz7y-min" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="cwk-min" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="czcwk-min" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="div-min" type="number"/>
+                                </td>
+                                <td rowspan="2">
+                                    <input class="js-filter-param" id="noloss" type="checkbox">
+                                </td>
+                                <td>
+                                    <input id="filter-apply" type="button" value="apply"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Max
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="czy-max" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="cz4q-max" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="cz7y-max" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="cwk-max" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="czcwk-max" type="number"/>
+                                </td>
+                                <td>
+                                    <input class="js-filter-param" id="div-max" type="number"/>
+                                </td>
+                                <td>
+                                    <input id="filter-save" type="button" value="save"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     	<div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
-                    <table class="table table-striped">
+                    <h2 class="font-bold m-b-xs">
+                        Companies
+                    </h2>
+                    <table id="companies-table" class="table table-striped">
                         <thead>
                         <tr>
                             <th>GPW Market ID</th>
@@ -59,10 +143,14 @@
                             </tr>
                         {% endfor %}
                     </table>
-    
                 </div>
             </div>
         </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/companiesDataTable.js') }}"></script>
 {% endblock %}

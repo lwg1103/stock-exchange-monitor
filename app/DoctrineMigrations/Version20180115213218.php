@@ -1,68 +1,74 @@
 <?php
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+
+namespace Application\Migrations;
+
+use Doctrine\DBAL\Migrations\AbstractMigration;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Schema\Schema;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
 
-class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+class Version20180115213218 extends AbstractMigration implements ContainerAwareInterface
 {
-
+    private $container;
     private $manager;
 
-    public function getOrder()
+    public function setContainer(ContainerInterface $container = null)
     {
-        return 1;
+        $this->container = $container;
+        $this->manager = $container->get('doctrine.orm.entity_manager');
     }
 
-    public function load(ObjectManager $manager)
+    /**
+     * @param Schema $schema
+     */
+    public function up(Schema $schema)
     {
-        $this->manager = $manager;
+        // do nothing, see postUp
+    }
 
-        $this->addWig30Companies();
-        $this->addWigBudowCompanies();
-
+    public function postUp(Schema $schema)
+    {
+        $this->addAllCompanies();
         $this->manager->flush();
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    public function down(Schema $schema)
+    {
+        //TODO not implemented yet
     }
 
     private function addCompany($name, $id, $type = Type::ORDINARY)
     {
+        if($this->manager->getRepository('CompanyContext:Company')->find($id)) {
+            return;
+        }
         $company = new Company($name, $id, $type);
+        $this->setMarketIdsFromBiznesradar($company);
 
         $this->manager->persist($company);
     }
 
-    private function addWig30Companies()
-    {
-        $this->addCompany("Alior Bank", "ALR", Type::BANK);
-        $this->addCompany("Asseco Poland", "ACP");
-        $this->addCompany("Bank Millenium", "MIL", Type::BANK);
-        $this->addCompany("Bogdanka", "LWB");
-        $this->addCompany("BZ WBK", "BZW", Type::BANK);
-        $this->addCompany("CCC", "CCC");
-        $this->addCompany("CD Projekt", "CDR");
-        $this->addCompany("Cyfrowy Polsat", "CPS");
-        $this->addCompany("ENEA", "ENA");
-        $this->addCompany("Energa", "ENG");
-        $this->addCompany("Eurocash", "EUR");
-        $this->addCompany("Grupa Azoty", "ATT");
-        $this->addCompany("Grupa Lotos", "LTS");
-        $this->addCompany("GTC", "GTC");
-        $this->addCompany("ING Bank Slaski", "ING", Type::BANK);
-        $this->addCompany("Jastrzebska Spolka Weglowa", "JSW");
-        $this->addCompany("Kernel Holding", "KER");
-        $this->addCompany("KGHM Polska Miedz", "KGH");
-        $this->addCompany("LPP", "LPP");
-        $this->addCompany("MBANK", "MBK", Type::BANK);
-        $this->addCompany("Orange Polska", "OPL");
-        $this->addCompany("PEKAO", "PEO", Type::BANK);
-        $this->addCompany("PGE", "PGE");
-        $this->addCompany("PGNiG", "PGN");
-        $this->addCompany("PKN Orlen", "PKN");
-        $this->addCompany("PKO BP", "PKO", Type::BANK);
-        $this->addCompany("PKP Cargo", "PKP");
-        $this->addCompany("PZU", "PZU");
-        $this->addCompany("Tauron Polska Energia", "TPE");
+    private function setMarketIdsFromBiznesradar($item) {
+        $html = file_get_contents("https://www.biznesradar.pl/raporty-finansowe-rachunek-zyskow-i-strat/".$item->getMarketId());
+        $re = '/<h1>Raporty finansowe: Rachunek zysków i strat.*\((.*)\)<\/h1>/';
+        preg_match_all($re, $html, $longMarketIdMatches, PREG_SET_ORDER, 0);
+
+        $longMarketId = $item->getMarketId();
+
+        if(count($longMarketIdMatches) && count($longMarketIdMatches[0]) >= 1) {
+
+            $longMarketId = $longMarketIdMatches[0][1];
+        }
+
+        $item->setLongMarketId($longMarketId);
     }
 
     private function addAllCompanies()
@@ -953,10 +959,5 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
         $this->addCompany("Zespół Elektrowni Pątnów-Adamów-Konin SA", "ZEP");
         $this->addCompany("ZPUE SA", "PUE");
         $this->addCompany("ZUE SA", "ZUE");
-    }
-
-    private function addWigBudowCompanies()
-    {
-        $this->addCompany("Elektrobudowa", "ELB");
     }
 }
