@@ -58,14 +58,16 @@ class CompanyController extends Controller
         $company            = $this->get('app.use_case.get_company')->byMarketId($marketId);
         $price              = $this->get('app.use_case.get_price')->lastByCompany($company);
         $historicalprices   = $this->get('app.use_case.get_price')->allByCompany($company);
-        $reports            = $this->get('app.use_case.get_report')->allByCompany($company);
+        $annualReports      = $this->get('app.use_case.get_report')->lastYearsByCompany($company);
+        $quarterlyReports      = $this->get('app.use_case.get_report')->lastQuartersByCompany($company, 5);
         $dividends          = $this->get('app.use_case.get_dividend')->allByCompany($company);
 
         return [
             'company'   => $company,
             'price'     => $price,
             'prices'    => $historicalprices,
-            'reports'   => $reports,
+            'annualReports'   => $annualReports,
+            'quarterlyReports'   => $quarterlyReports,
             'dividends' => $dividends
         ];
     }

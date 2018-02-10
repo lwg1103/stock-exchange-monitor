@@ -55,7 +55,7 @@ class CompanyContext implements Context
      */
     public function iSeeAllCompaniesInTheSystem()
     {
-        assertEquals(31, count($this->result));
+        assertEquals(30, count($this->result));
         assertContainsOnly('Company\Entity\Company', $this->result);
     }
 
