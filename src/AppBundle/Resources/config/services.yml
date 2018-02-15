@@ -54,6 +54,8 @@ services:
 
   app.translator.bossa_market_id_translator:
     class: Company\Translator\BossaMarketIdTranslator
+    arguments:
+      - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
 
   app.filter.bossa_filter:
     class: Price\Filter\BossaFilter
