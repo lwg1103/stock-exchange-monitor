@@ -41,27 +41,27 @@
                                     Min
                                 </td>
                                 <td>
-                                    <input id="czy-min" type="number"/>
+                                    <input class="js-filter-param" id="czy-min" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="cz4q-min" type="number"/>
+                                    <input class="js-filter-param" id="cz4q-min" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="cz7y-min" type="number"/>
+                                    <input class="js-filter-param" id="cz7y-min" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="cwk-min" type="number"/>
+                                    <input class="js-filter-param" id="cwk-min" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="czcwk-min" type="number"/>
+                                    <input class="js-filter-param" id="czcwk-min" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="div-min" type="number"/>
+                                    <input class="js-filter-param" id="div-min" type="number"/>
                                 </td>
                                 <td rowspan="2">
-                                    <input id="noloss" type="checkbox">
+                                    <input class="js-filter-param" id="noloss" type="checkbox">
                                 </td>
-                                <td rowspan="2">
+                                <td>
                                     <input id="filter-apply" type="button" value="apply"/>
                                 </td>
                             </tr>
@@ -70,22 +70,25 @@
                                     Max
                                 </td>
                                 <td>
-                                    <input id="czy-max" type="number"/>
+                                    <input class="js-filter-param" id="czy-max" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="cz4q-max" type="number"/>
+                                    <input class="js-filter-param" id="cz4q-max" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="cz7y-max" type="number"/>
+                                    <input class="js-filter-param" id="cz7y-max" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="cwk-max" type="number"/>
+                                    <input class="js-filter-param" id="cwk-max" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="czcwk-max" type="number"/>
+                                    <input class="js-filter-param" id="czcwk-max" type="number"/>
                                 </td>
                                 <td>
-                                    <input id="div-max" type="number"/>
+                                    <input class="js-filter-param" id="div-max" type="number"/>
+                                </td>
+                                <td>
+                                    <input id="filter-save" type="button" value="save"/>
                                 </td>
                             </tr>
                         </table>
@@ -140,7 +143,6 @@
                             </tr>
                         {% endfor %}
                     </table>
-    
                 </div>
             </div>
         </div>
@@ -150,45 +152,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        var table = $('#companies-table').DataTable();
-
-        $('#filter-apply').click( function() {
-
-            $.fn.dataTable.ext.search.push(
-                    function( settings, data, dataIndex ) {
-                        return (
-                            checkNumberColumn(data, 'czy', 3) &&
-                            checkNumberColumn(data, 'cz4q', 4) &&
-                            checkNumberColumn(data, 'cz7y', 5) &&
-                            checkNumberColumn(data, 'cwk', 6) &&
-                            checkNumberColumn(data, 'czcwk', 7) &&
-                            checkNumberColumn(data, 'div', 8) &&
-                            checkCheckboxColumn(data, 'noloss', 9)
-                        )
-                    }
-            );
-
-            table.draw();
-        } );
-
-        function checkNumberColumn(data, name, index) {
-            var min = ($('#'+name+'-min').val() ? $('#'+name+'-min').val() : -9999);
-            var max = ($('#'+name+'-max').val() ? $('#'+name+'-max').val() : 9999);
-            var value = parseFloat( data[index] ) || 0;
-
-            if ( min <= value && value <= max )
-            {
-                return true;
-            }
-            return false;
-        }
-
-        function checkCheckboxColumn(data, name, index) {
-            var enabled = $('#'+name)[0].checked;
-            var value = data[index];
-
-            return (!enabled || value === 'OK');
-        }
-    </script>
+    <script src="{{ asset('bundles/app/js/companiesDataTable.js') }}"></script>
 {% endblock %}

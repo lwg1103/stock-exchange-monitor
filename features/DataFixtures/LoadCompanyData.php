@@ -62,7 +62,6 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
         $this->addCompany("PKO BP", "PKO", Type::BANK);
         $this->addCompany("PKP Cargo", "PKP");
         $this->addCompany("PZU", "PZU");
-        $this->addCompany("Synthos", "SNS");
         $this->addCompany("Tauron Polska Energia", "TPE");
     }
 

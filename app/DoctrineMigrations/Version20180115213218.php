@@ -42,6 +42,7 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
 
     private function addCompany($name, $id, $type = Type::ORDINARY)
     {
+        var_dump($id);
         if($this->manager->getRepository('CompanyContext:Company')->find($id)) {
             return;
         }
@@ -122,7 +123,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Alumetal SA", "AML");
         $this->addCompany("Ambra SA", "AMB");
         $this->addCompany("AMICA Wronki SA", "AMC");
-        $this->addCompany("Ampli SA w upadłości układowej", "APL");
         $this->addCompany("AmRest Holdings SE", "EAT");
         $this->addCompany("Analizy Online SA", "AOL");
         $this->addCompany("Angel Business Capital SA", "MRA");
@@ -163,7 +163,7 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("ATM SA", "ATM");
         $this->addCompany("Aton-HT SA", "ATO");
         $this->addCompany("Atrem SA", "ATR");
-        $this->addCompany("AUGA Group AB", "AWG");
+        $this->addCompany("AUGA Group AB", "AUG");
         $this->addCompany("Auto Partner SA", "APR");
         $this->addCompany("Automatyka-Pomiary-Sterowanie SA", "APS");
         $this->addCompany("Auto-Spa SA", "ASP");
@@ -172,7 +172,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("AviaAM Leasing AB", "AAL");
         $this->addCompany("AWBUD SA", "AWB");
         $this->addCompany("Aztec International SA", "AZC");
-        $this->addCompany("B.A.C.D. SA", "BAC");
         $this->addCompany("B2BPartner SA", "B2B");
         $this->addCompany("B3System SA", "B3S");
         $this->addCompany("Baltic Bridge SA", "WIS");
@@ -199,7 +198,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("BioFactory SA", "BFC");
         $this->addCompany("Biogened SA", "BGD");
         $this->addCompany("Biomass Energy Project SA", "BEP");
-        $this->addCompany("Biomax SA", "BIM");
         $this->addCompany("BioMaxima SA", "BMX");
         $this->addCompany("Biomed-Lublin Wytwórnia Surowic i Szczepionek SA", "BML");
         $this->addCompany("Bioton SA", "BIO");
@@ -210,7 +208,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Bloober Team SA", "BLO");
         $this->addCompany("Blue Tax Group SA", "BTG");
         $this->addCompany("Blumerang Investors SA", "BLU");
-        $this->addCompany("bmp Holding AG", "BMP");
         $this->addCompany("BOA SA", "BOA");
         $this->addCompany("Boomerang SA", "BMR");
         $this->addCompany("Boruta-Zachem SA", "BRU");
@@ -219,7 +216,7 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("BPX SA", "BPX");
         $this->addCompany("Bras SA", "BSA");
         $this->addCompany("Braster SA", "BRA");
-        $this->addCompany("Briju SA", "BRI");
+        $this->addCompany("INTERMA TRADE S.A.", "ITM");
         $this->addCompany("Broad Gate SA", "BDG");
         $this->addCompany("Browar Czarnków SA", "BRO");
         $this->addCompany("BSC Drukarnia Opakowań SA", "BSC");
@@ -235,7 +232,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Capital Park SA", "CPG");
         $this->addCompany("Capital Partners SA", "CPA");
         $this->addCompany("Carlson Gaudi Investments SA", "MOB");
-        $this->addCompany("Cash Flow SA", "CFL");
         $this->addCompany("Caspar Asset Management SA", "CSR");
         $this->addCompany("CCC SA", "CCC");
         $this->addCompany("CD Projekt SA", "CDR");
@@ -279,7 +275,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Czerwona Torebka SA", "CZT");
         $this->addCompany("Damf Inwestycje SA", "DIN");
         $this->addCompany("Danks Europejskie Centrum Doradztwa Podatkowego SA", "DNS");
-        $this->addCompany("Dase SA", "DFG");
         $this->addCompany("Decora SA", "DCR");
         $this->addCompany("Dekpol SA", "DEK");
         $this->addCompany("Dektra SA", "DKR");
@@ -292,9 +287,8 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Dolnośląskie Centrum Deweloperskie SA", "DCD");
         $this->addCompany("Dom Development SA", "DOM");
         $this->addCompany("Dom Lekarski SA", "DLK");
-        $this->addCompany("Dom Maklerski IDM SA w upadłości układowej", "IDM");
         $this->addCompany("Domenomania.pl SA", "DOA");
-        $this->addCompany("Doradcy24 SA", "D24");
+        $this->addCompany("Dr. Finance SA", "DRF");
         $this->addCompany("Drewex SA", "DRE");
         $this->addCompany("Drop SA", "DRP");
         $this->addCompany("Drozapol-Profil SA", "DPL");
@@ -355,7 +349,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Everest Investments SA", "EVE");
         $this->addCompany("Examobile SA", "EXA");
         $this->addCompany("Excellence SA", "EXC");
-        $this->addCompany("Exillon Energy Plc", "EXL");
         $this->addCompany("EZO SA", "EZO");
         $this->addCompany("Fabryka Farb i Lakierów Śnieżka SA", "SKA");
         $this->addCompany("Fabryka Konstrukcji Drewnianych SA", "FKD");
@@ -380,11 +373,9 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Forever Entertainment SA", "FOR");
         $this->addCompany("Forposta SA", "FPO");
         $this->addCompany("Fortuna Entertainment Group NV", "FEG");
-        $this->addCompany("Fota SA w upadłości układowej", "FOT");
         $this->addCompany("Fundusz Hipoteczny Dom SA", "FHD");
         $this->addCompany("Futuris SA", "FUT");
         $this->addCompany("Galvo SA", "GAL");
-        $this->addCompany("GC Investment SA w upadłości układowej", "GCI");
         $this->addCompany("Gekoplast SA", "GKP");
         $this->addCompany("G-Energy SA", "GNG");
         $this->addCompany("Genomed SA", "GEN");
@@ -474,12 +465,9 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Infra SA", "IFA");
         $this->addCompany("ING Bank Śląski SA", "ING", Type::BANK);
         $this->addCompany("Inno-Gene SA", "IGN");
-        $this->addCompany("Innovative Commerce a.s.", "ICM");
-        $this->addCompany("InPost SA", "IPT");
         $this->addCompany("Inpro SA", "INP");
         $this->addCompany("Instal Kraków SA", "INK");
         $this->addCompany("Instytut Szkoleń i Analiz Gospodarczych SA", "ISG");
-        $this->addCompany("Integer.pl SA", "ITG");
         $this->addCompany("InteliWise SA", "ITL");
         $this->addCompany("Inter Cars SA", "CAR");
         $this->addCompany("Inter Rao Lietuva AB", "IRL");
@@ -496,7 +484,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Investment Friends SA", "IFR");
         $this->addCompany("Invico SA w restrukturyzacji", "IVC");
         $this->addCompany("Invista SA", "INV");
-        $this->addCompany("Inwestycje Alternatywne Profit SA", "IAP");
         $this->addCompany("Inwestycje.pl SA", "INW");
         $this->addCompany("IPO Doradztwo Kapitałowe SA", "IOD");
         $this->addCompany("Ipopema Securities SA", "IPE");
@@ -576,7 +563,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("M4B SA", "M4B");
         $this->addCompany("Mabion SA", "MAB");
         $this->addCompany("Macro Games SA", "MGS");
-        $this->addCompany("Macrologic SA", "MCL");
         $this->addCompany("Madkom SA", "MAD");
         $this->addCompany("Magna Polonia SA", "06N");
         $this->addCompany("Makarony Polskie SA", "MAK");
@@ -636,7 +622,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("MOJ SA", "MOJ");
         $this->addCompany("MOL Magyar Olaj - és Gázipari Részvénytársaság", "MOL");
         $this->addCompany("Momo SA", "MOM");
-        $this->addCompany("Monday Development SA", "MDV");
         $this->addCompany("Money Makers TFI SA", "MMF");
         $this->addCompany("Monnari Trade SA", "MON");
         $this->addCompany("Morizon SA", "MZN");
@@ -671,10 +656,8 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Octava SA", "08N");
         $this->addCompany("Odlewnie Polskie SA", "ODL");
         $this->addCompany("OEX SA", "OEX");
-        $this->addCompany("Olympic Entertainment Group AS", "OEG");
         $this->addCompany("Onico SA", "ONC");
         $this->addCompany("Open Finance SA", "OPF");
-        $this->addCompany("Open-Net SA", "OPE");
         $this->addCompany("Oponeo.pl SA", "OPN");
         $this->addCompany("OPTeam SA", "OPM");
         $this->addCompany("Optizen Labs SA", "OPT");
@@ -690,7 +673,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Outdoorzy SA", "OUT");
         $this->addCompany("Ovostar Union N.V.", "OVO");
         $this->addCompany("P.A. Nova SA", "NVA");
-        $this->addCompany("Paged SA", "PGD");
         $this->addCompany("Pamapol SA", "PMP");
         $this->addCompany("Parcel Technik SA", "PTE");
         $this->addCompany("Partner-Nieruchomości SA", "PRN");
@@ -702,9 +684,7 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("PCC Exol SA", "PCX");
         $this->addCompany("PCC Intermodal SA", "PCI");
         $this->addCompany("PCC Rokita SA", "PCR");
-        $this->addCompany("Pegas Nonwovens SA", "PGS");
         $this->addCompany("Peixin International Group NV", "PEX");
-        $this->addCompany("Pelion SA", "PEL");
         $this->addCompany("Pemug SA", "PMG");
         $this->addCompany("Perma-Fix Medical SA", "PFM");
         $this->addCompany("Petrolinvest SA", "OIL");
@@ -715,7 +695,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Photon Energy N.V.", "PEN");
         $this->addCompany("PIK SA", "PIK");
         $this->addCompany("Pilab SA", "PIL");
-        $this->addCompany("Pixel Venture Capital SA", "PXC");
         $this->addCompany("PKP Cargo SA", "PKP");
         $this->addCompany("Planet Innovation Group SA", "PIG");
         $this->addCompany("Plasma System SA", "PSM");
@@ -724,7 +703,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("PlayWay SA", "PLW");
         $this->addCompany("Plaza Centers NV", "PLZ");
         $this->addCompany("PMPG Polskie Media SA", "PGM");
-        $this->addCompany("Polcolorit SA", "PLT");
         $this->addCompany("Polenergia SA", "PEP");
         $this->addCompany("Polimex-Mostostal SA", "PXM");
         $this->addCompany("Polman SA", "PLM");
@@ -785,7 +763,7 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Radpol SA", "RDL");
         $this->addCompany("RAFAKO SA", "RFK");
         $this->addCompany("Rainbow Tours SA", "RBW");
-        $this->addCompany("RAJDY 4x4 SA", "4X4");
+        $this->addCompany("PL GROUP S.A.", "PLG");
         $this->addCompany("Rank Progress SA", "RNK");
         $this->addCompany("Rawlplug SA", "RWL");
         $this->addCompany("Read-Gene SA", "RDG");
@@ -795,7 +773,7 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Reinhold Europe AB", "RHD");
         $this->addCompany("Relpol SA", "RLP");
         $this->addCompany("Remedis SA", "REM");
-        $this->addCompany("Remor Solar Polska SA", "AGR");
+        $this->addCompany("Remor Solar Polska SA", "RSP");
         $this->addCompany("Resbud SA", "RES");
         $this->addCompany("Revitum SA", "REV");
         $this->addCompany("Robinson Europe SA", "RBS");
@@ -817,10 +795,10 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Sare SA", "SAR");
         $this->addCompany("SCO-PAK SA w restrukturyzacji", "SCO");
         $this->addCompany("Seco/Warwick SA", "SWG");
-        $this->addCompany("Seka SA", "SEA");
         $this->addCompany("Seko SA", "SEK");
         $this->addCompany("Selena FM SA", "SEL");
         $this->addCompany("Selvita SA", "SLV");
+        $this->addCompany("SLEEPZAG", "SLZ");
         $this->addCompany("Serinus Energy Inc.", "SEN");
         $this->addCompany("Sescom SA", "SES");
         $this->addCompany("Setanta SA", "SET");
@@ -828,8 +806,8 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("SFD SA", "SFD");
         $this->addCompany("SferaNET SA", "SFN");
         $this->addCompany("Sfinks Polska SA", "SFS");
-        $this->addCompany("Silesia One SA", "SSO");
-        $this->addCompany("Silva Capital Group SA", "SCG");
+        $this->addCompany("Fintech S.A.", "FTH");
+        $this->addCompany("Synerga.Fund S.A", "SNG");
         $this->addCompany("Silvano Fashion Group AS", "SFG");
         $this->addCompany("SIMPLE SA", "SME");
         $this->addCompany("Site SA", "STE");
@@ -848,13 +826,12 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("Stalprodukt SA", "STP");
         $this->addCompany("STALPROFIL SA", "STF");
         $this->addCompany("Standrew SA", "STD");
-        $this->addCompany("Stanusch Technologies SA", "STT");
         $this->addCompany("Star Fitness SA", "SFI");
         $this->addCompany("Starhedge SA", "SHG");
         $this->addCompany("Stelmet SA", "STL");
         $this->addCompany("Stem Cells Spin SA", "SCS");
         $this->addCompany("Stopklatka SA", "STK");
-        $this->addCompany("Stoppoint SA", "PRK");
+        $this->addCompany("Stoppoint SA", "STO");
         $this->addCompany("Summa Linguae SA", "SUL");
         $this->addCompany("Sunex SA", "SNX");
         $this->addCompany("Suntech SA", "SUN");
@@ -945,7 +922,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
         $this->addCompany("X-Trade Brokers Dom Maklerski SA", "XTB");
         $this->addCompany("Yolo SA", "YOL");
         $this->addCompany("Zakład Budowy Maszyn Zremb-Chojnice SA", "ZRE");
-        $this->addCompany("Zakłady Automatyki POLNA SA", "PLA");
         $this->addCompany("Zakłady Magnezytowe Ropczyce SA", "RPC");
         $this->addCompany("Zakłady Mięsne Henryk Kania SA", "KAN");
         $this->addCompany("Zakłady Przemysłu Cukierniczego Otmuchów SA", "OTM");
