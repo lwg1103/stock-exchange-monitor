@@ -68,9 +68,9 @@ class BossaParserTest extends \PHPUnit_Framework_TestCase
     {
         $prophet = new Prophet();
         $this->companyRepository = $prophet->prophesize(EntityRepository::class);
-        $this->companyRepository->findOneBy(['marketId' => 'PGN'])->willReturn(new Company('PGNiG', 'PGN', Type::ORDINARY));
+        $this->companyRepository->findOneBy(['marketId' => 'PGN'])->willReturn(new Company('PGNiG', 'PGN', Type::ORDINARY, 'PGNIG'));
 
-        $this->sut = new BossaParser($this->companyRepository->reveal(), new BossaMarketIdTranslator());
+        $this->sut = new BossaParser($this->companyRepository->reveal(), new BossaMarketIdTranslator($this->companyRepository));
         $this->filteredData = new FilteredData("PGNIG,20161025,26.55,27.28,26.55,27.10,2431225");
     }
 }
