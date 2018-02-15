@@ -28,8 +28,15 @@ class PullAllPrices
         /** @var Company[] $companies */
         $companies = $this->companyRepository->findAll();
 
-        foreach ($companies as $company) {
-            $this->pullPrice->pullPrice($company->getMarketId(), $date);
+        foreach ($companies as $company) 
+        {
+            try 
+            {
+                $this->pullPrice->pullPrice($company->getMarketId(), $date);
+            } catch (\Price\Filter\FilterException $e) {
+                continue;
+                //@TODO logger echo $company->getMarketId()." : ". $company->getLongMarketId()."\r\n";
+            }
         }
     }
 }
