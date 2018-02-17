@@ -6,6 +6,7 @@ use Company\Translator\BossaMarketIdTranslator;
 use Price\Downloader\RawData;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
+use Doctrine\ORM\EntityRepository;
 use Prophecy\Prophet;
 
 class BossaFilterTest extends \PHPUnit_Framework_TestCase

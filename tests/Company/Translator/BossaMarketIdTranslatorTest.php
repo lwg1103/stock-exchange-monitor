@@ -4,7 +4,9 @@ namespace Company\Translator;
 
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
+use Doctrine\ORM\EntityRepository;
 use Prophecy\Prophet;
+
 
 class BossaMarketIdTranslatorTest extends \PHPUnit_Framework_TestCase
 {
