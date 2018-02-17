@@ -60,6 +60,8 @@ class BossaMarketIdTranslatorTest extends \PHPUnit_Framework_TestCase
         $pgn = new Company('PGNiG', 'PGN', Type::ORDINARY, 'PGNIG');
         $this->companyRepository->findOneBy(['marketId' => 'PGN'])->willReturn($pgn);
         $this->companyRepository->findOneBy(['longMarketId' => 'PGNIG'])->willReturn($pgn);
+        $this->companyRepository->findOneBy(['longMarketId' => 'PGNIG'])->willReturn($pgn);
+        $this->companyRepository->findOneBy(['longMarketId' => 'missing_id'])->willReturn(null);
         
         $this->sut = new BossaMarketIdTranslator($this->companyRepository->reveal());
     }

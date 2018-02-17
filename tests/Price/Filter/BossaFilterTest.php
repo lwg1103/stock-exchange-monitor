@@ -4,6 +4,9 @@ namespace Price\Filter;
 
 use Company\Translator\BossaMarketIdTranslator;
 use Price\Downloader\RawData;
+use Company\Entity\Company;
+use Company\Entity\Company\Type;
+use Prophecy\Prophet;
 
 class BossaFilterTest extends \PHPUnit_Framework_TestCase
 {
