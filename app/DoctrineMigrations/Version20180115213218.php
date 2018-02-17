@@ -47,11 +47,6 @@ class Version20180115213218 extends AbstractMigration implements ContainerAwareI
             return;
         }
         $company = new Company($name, $id, $type);
-        try {
-            //$this->setMarketIdsFromBiznesradar($company);
-        } catch (\Exception $e) {
-            
-        }
 
         $this->manager->persist($company);
     }
