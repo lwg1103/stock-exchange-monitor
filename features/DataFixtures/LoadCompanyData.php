@@ -25,9 +25,9 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
         $this->manager->flush();
     }
 
-    private function addCompany($name, $id, $type = Type::ORDINARY)
+    private function addCompany($name, $id, $type = Type::ORDINARY, $longMarketId)
     {
-        $company = new Company($name, $id, $type);
+        $company = new Company($name, $id, $type, $longMarketId);
 
         $this->manager->persist($company);
     }
@@ -957,6 +957,6 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
 
     private function addWigBudowCompanies()
     {
-        $this->addCompany("Elektrobudowa", "ELB");
+        $this->addCompany("Elektrobudowa", "ELB", Type::ORDINARY, "ELBUDOWA");
     }
 }
