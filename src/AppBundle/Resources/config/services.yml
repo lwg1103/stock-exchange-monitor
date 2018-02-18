@@ -52,19 +52,13 @@ services:
   app.downloader.bossa_downloader:
     class: Price\Downloader\BossaDownloader
 
-  app.translator.bossa_market_id_translator:
-    class: Company\Translator\BossaMarketIdTranslator
-
   app.filter.bossa_filter:
     class: Price\Filter\BossaFilter
-    arguments:
-      - '@app.translator.bossa_market_id_translator'
 
   app.parser.bossa_parser:
     class: Price\Parser\BossaParser
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
-      - '@app.translator.bossa_market_id_translator'
 
 
   app.twig.application_extension:
