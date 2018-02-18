@@ -45,11 +45,11 @@ class PullPrice
         $this->parser               = $parser;
     }
 
-    public function pullPrice($marketId, $date)
+    public function pullPrice($company, $date)
     {
         try {
             $rawData = $this->downloader->download($date);
-            $filteredData = $this->filter->filter($rawData, $marketId);
+            $filteredData = $this->filter->filter($rawData, $company);
             $price = $this->parser->parse($filteredData);
 
             $this->storePrices($price);

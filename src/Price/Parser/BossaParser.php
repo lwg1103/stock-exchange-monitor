@@ -4,7 +4,6 @@ namespace Price\Parser;
 
 use Carbon\Carbon;
 use Company\Entity\Company;
-use Company\Translator\BossaMarketIdTranslator;
 use Doctrine\ORM\EntityRepository;
 use Price\Entity\Price;
 use Price\Filter\FilteredData;
@@ -14,17 +13,14 @@ class BossaParser implements Parser
 {
     /** @var EntityRepository */
     private $companyRepository;
-    /** @var BossaMarketIdTranslator */
-    private $bossaTranslator;
 
     /**
      * BossaParser constructor.
      * @param EntityRepository $companyRepository
      */
-    public function __construct(EntityRepository $companyRepository, BossaMarketIdTranslator $bossaTranslator)
+    public function __construct(EntityRepository $companyRepository)
     {
         $this->companyRepository = $companyRepository;
-        $this->bossaTranslator   = $bossaTranslator;
     }
 
     /**
@@ -53,7 +49,7 @@ class BossaParser implements Parser
     {
         $bossaMarketId = explode(",", $filteredString)[0];
 
-        return $this->bossaTranslator->translateToMarketId($bossaMarketId);
+        return $this->companyRepository->findOneBy(['longMarketId' => $bossaMarketId]);
     }
 
     /**

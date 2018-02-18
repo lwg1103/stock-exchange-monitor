@@ -4,14 +4,15 @@ namespace Price;
 
 use Price\Downloader\RawData;
 use Price\Filter\FilteredData;
+use Company\Entity\Company;
 
 interface Filter
 {
     /**
      * @param RawData $rawData
-     * @param string $marketId
+     * @param Company $company
      *
      * @return FilteredData
      */
-    public function filter(RawData $rawData, $marketId);
+    public function filter(RawData $rawData, $company);
 }

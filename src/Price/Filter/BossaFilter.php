@@ -2,30 +2,17 @@
 
 namespace Price\Filter;
 
-use Company\Translator\BossaMarketIdTranslator;
 use Price\Downloader\RawData;
 use Price\Filter;
 
 class BossaFilter implements Filter
 {
-    /** @var BossaMarketIdTranslator */
-    private $bossaTranslator;
-
-    /**
-     * BossaFilter constructor.
-     * @param BossaMarketIdTranslator $bossaTranslator
-     */
-    public function __construct(BossaMarketIdTranslator $bossaTranslator)
-    {
-        $this->bossaTranslator = $bossaTranslator;
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function filter(RawData $rawData, $marketId)
+    public function filter(RawData $rawData, $company)
     {
-        return $this->findCompanyRow($rawData, $this->bossaTranslator->translateFromMarketId($marketId));
+        return $this->findCompanyRow($rawData, $company->getLongMarketId());
     }
     
     private function findCompanyRow(RawData $rawData, $bossaId)
