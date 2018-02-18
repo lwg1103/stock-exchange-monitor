@@ -119,7 +119,7 @@ class PriceContext implements Context
     public function iRunScriptThatPullPriceFor($marketId)
     {
         $company = $this->getCompanyRepository()->findOneBy(['marketId' => $marketId]);
-        $this->pullPrice->pullPrice($company->getMarketId(), Carbon::yesterday());
+        $this->pullPrice->pullPrice($company, Carbon::yesterday());
     }
 
     /**
