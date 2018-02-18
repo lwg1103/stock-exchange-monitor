@@ -5,7 +5,6 @@ namespace Price\Parser;
 use Carbon\Carbon;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
-use Company\Translator\BossaMarketIdTranslator;
 use Doctrine\ORM\EntityRepository;
 use Price\Entity\Price;
 use Price\Filter\FilteredData;
@@ -72,7 +71,7 @@ class BossaParserTest extends \PHPUnit_Framework_TestCase
         $this->companyRepository->findOneBy(['marketId' => 'PGN'])->willReturn($pgn);
         $this->companyRepository->findOneBy(['longMarketId' => 'PGNIG'])->willReturn($pgn);
 
-        $this->sut = new BossaParser($this->companyRepository->reveal(), new BossaMarketIdTranslator($this->companyRepository->reveal()));
+        $this->sut = new BossaParser($this->companyRepository->reveal());
         $this->filteredData = new FilteredData("PGNIG,20161025,26.55,27.28,26.55,27.10,2431225");
     }
 }

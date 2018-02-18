@@ -2,7 +2,6 @@
 
 namespace Price\Filter;
 
-use Company\Translator\BossaMarketIdTranslator;
 use Price\Downloader\RawData;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
@@ -17,6 +16,12 @@ class BossaFilterTest extends \PHPUnit_Framework_TestCase
     private $testRawData;
     /** @var EntityRepository|ObjectProphecy */
     private $companyRepository;
+    
+    /** @var Company */
+    private $companyPko;
+    private $companyPgn;
+    private $companyAcp;
+    private $companyElb;
 
     /**
      * @test
@@ -25,7 +30,7 @@ class BossaFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             FilteredData::class,
-            $this->sut->filter($this->testRawData, "PKO")
+            $this->sut->filter($this->testRawData, $this->companyPko)
         );
     }
 
@@ -37,7 +42,7 @@ class BossaFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function throwsExceptionIfFilteringReturnsNoResult()
     {
-        $this->sut->filter($this->testRawData, "ELB");
+        $this->sut->filter($this->testRawData, $this->companyElb);
     }
 
     /**
@@ -48,7 +53,7 @@ class BossaFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function throwsExceptionIfFilteringReturnsTooManyResults()
     {
-        $this->sut->filter($this->testRawData, "ACP");
+        $this->sut->filter($this->testRawData, $this->companyAcp);
     }
 
     /**
@@ -58,7 +63,7 @@ class BossaFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             new FilteredData("PGNIG,20161025,26.55,27.28,26.55,27.10,2431225"),
-            $this->sut->filter($this->testRawData, "PGN")
+            $this->sut->filter($this->testRawData, $this->companyPgn)
         );
     }
 
@@ -66,20 +71,20 @@ class BossaFilterTest extends \PHPUnit_Framework_TestCase
     {
         $prophet = new Prophet();
         $this->companyRepository = $prophet->prophesize(EntityRepository::class);
-        $pgn = new Company('PGNiG', 'PGN', Type::ORDINARY, 'PGNIG');
-        $acp = new Company('ASSECOPOL', 'ACP', Type::ORDINARY, 'ASSECOPOL');
-        $elb = new Company('ELBUD', 'ELB', Type::ORDINARY, 'ELBUDOWA');
-        $pko = new Company('PKOBP', 'PKO', Type::ORDINARY, 'PKOBP');
-        $this->companyRepository->findOneBy(['marketId' => 'PGN'])->willReturn($pgn);
-        $this->companyRepository->findOneBy(['longMarketId' => 'PGNIG'])->willReturn($pgn);
-        $this->companyRepository->findOneBy(['marketId' => 'ACP'])->willReturn($acp);
-        $this->companyRepository->findOneBy(['longMarketId' => 'ASSECOPOL'])->willReturn($acp);
-        $this->companyRepository->findOneBy(['marketId' => 'ELB'])->willReturn($elb);
-        $this->companyRepository->findOneBy(['longMarketId' => 'ELBUDOWA'])->willReturn($elb);
-        $this->companyRepository->findOneBy(['marketId' => 'PKO'])->willReturn($pko);
-        $this->companyRepository->findOneBy(['longMarketId' => 'PKOBP'])->willReturn($pko);
+        $this->companyPgn = new Company('PGNiG', 'PGN', Type::ORDINARY, 'PGNIG');
+        $this->companyAcp = new Company('ASSECOPOL', 'ACP', Type::ORDINARY, 'ASSECOPOL');
+        $this->companyElb = new Company('ELBUD', 'ELB', Type::ORDINARY, 'ELBUDOWA');
+        $this->companyPko = new Company('PKOBP', 'PKO', Type::ORDINARY, 'PKOBP');
+        $this->companyRepository->findOneBy(['marketId' => 'PGN'])->willReturn($this->companyPgn);
+        $this->companyRepository->findOneBy(['longMarketId' => 'PGNIG'])->willReturn($this->companyPgn);
+        $this->companyRepository->findOneBy(['marketId' => 'ACP'])->willReturn($this->companyAcp);
+        $this->companyRepository->findOneBy(['longMarketId' => 'ASSECOPOL'])->willReturn($this->companyAcp);
+        $this->companyRepository->findOneBy(['marketId' => 'ELB'])->willReturn($this->companyElb);
+        $this->companyRepository->findOneBy(['longMarketId' => 'ELBUDOWA'])->willReturn($this->companyElb);
+        $this->companyRepository->findOneBy(['marketId' => 'PKO'])->willReturn($this->companyPko);
+        $this->companyRepository->findOneBy(['longMarketId' => 'PKOBP'])->willReturn($this->companyPko);
         
-        $this->sut          = new BossaFilter(new BossaMarketIdTranslator($this->companyRepository->reveal()));
+        $this->sut          = new BossaFilter();
         $this->testRawData  = new RawData("ASSECOPOL,20161025,26.55,27.28,26.55,27.10,2431225\nASSECOPOL,20161025,26.55,27.28,26.55,27.10,2431225\nPKOBP,20161025,26.55,27.28,26.55,27.10,2431225\nPGNIG,20161025,26.55,27.28,26.55,27.10,2431225");
     }
 }

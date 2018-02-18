@@ -32,7 +32,7 @@ class PullAllPrices
         {
             try 
             {
-                $this->pullPrice->pullPrice($company->getMarketId(), $date);
+                $this->pullPrice->pullPrice($company, $date);
             } catch (\Price\Filter\FilterException $e) {
                 continue;
                 //@TODO logger echo $company->getMarketId()." : ". $company->getLongMarketId()."\r\n";
