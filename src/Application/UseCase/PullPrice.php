@@ -11,7 +11,7 @@ use Price\Parser;
 
 /**
  * Class GetPrice
- * 
+ *
  * @package AppBundle\UseCase
  */
 class PullPrice
@@ -33,7 +33,7 @@ class PullPrice
      * @param Parser $parser
      */
     public function __construct(
-        EntityManager       $entityManager, 
+        EntityManager       $entityManager,
         Downloader          $downloader,
         Filter              $filter,
         Parser              $parser
@@ -47,6 +47,9 @@ class PullPrice
 
     public function pullPrice($company, $date)
     {
+        if(!is_object($company)) {
+            $company = $this->entityManager->getRepository('ComapnyContext:Comapny')->findOneBy(['marketId' => $company]);
+        }
         try {
             $rawData = $this->downloader->download($date);
             $filteredData = $this->filter->filter($rawData, $company);
