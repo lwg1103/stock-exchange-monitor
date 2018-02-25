@@ -57,6 +57,14 @@ class PullPrice
 
         }
     }
+    
+    public function pullPriceByMarketId($marketId, $date) {
+        $company = $this->entityManager->getRepository('ComapnyContext:Company')->findOneBy([
+            'marketId' => $marketId
+        ]);
+        
+        $this->pullPrice($company, $date);
+    }
 
     /**
      * @param Price $price
