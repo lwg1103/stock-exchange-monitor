@@ -38,12 +38,12 @@ class GetDividend
 
     /**
      * @param Company $company
+     * @param string $sort
      *
      * @return Dividend[]
      */
-    public function allByCompany(Company $company)
+    public function allByCompany(Company $company, $sort = 'desc')
     {
-        //latest are most interesting
-        return $this->entityRepository->findBy(['company' => $company], ['periodFrom' => 'desc']);
+        return $this->entityRepository->findBy(['company' => $company], ['periodFrom' => $sort]);
     }
 }

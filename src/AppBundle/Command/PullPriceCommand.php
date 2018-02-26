@@ -44,7 +44,7 @@ class PullPriceCommand extends ContainerAwareCommand
 
     private function pullPriceForCompany($marketId, $date)
     {
-        $this->getContainer()->get('app.use_case.pull_price')->pullPrice(strtoupper($marketId), $date);
+        $this->getContainer()->get('app.use_case.pull_price')->pullPriceByMarketId(strtoupper($marketId), $date);
     }
 
     private function pullPriceForAllCompanies($date)

@@ -31,9 +31,7 @@
                             </div>
                             <div class="col-md-9">
                                 <h3>Price history</h3>
-                                {% for pastPrice in prices %}
-                                    <div class="col-md-6">{{ pastPrice }} ({{ pastPrice.identifier|date("Y-m-d") }})</div>
-                                {% endfor %}
+                                <canvas id="company-price-chart" width="300" height="100"></canvas>
                             </div>
                         </div>
                     </div>
@@ -131,12 +129,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 <div class="ibox product-detail">
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-md-12">
-                                <h3>Dividends</h3>
+                                <h1>Dividends</h1>
+                                <canvas id="company-dividends-chart" width="300" height="110"></canvas>
+                                <h2>Dividends history</h2>
                                 {% for dividend in dividends %}
                                     <div class="col-lg-12">{{ dividend }}</div>
                                 {% endfor %}
@@ -147,4 +147,68 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+
+    <script>
+        var priceChartContext = document.getElementById("company-price-chart").getContext('2d');
+
+        var priceChart = new Chart(priceChartContext, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Price'
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+
+        {% for pastPrice in prices %}
+            priceChart.data.labels[{{ loop.index0 }}] = '{{ pastPrice.identifier|date("Y-m-d") }}';
+            priceChart.data.datasets[0].data[{{ loop.index0 }}] = {{ pastPrice }};
+        {% endfor %}
+
+        priceChart.update();
+    </script>
+
+
+    <script>
+        var dividendChartContext = document.getElementById("company-dividends-chart").getContext('2d');
+
+        var dividendChart = new Chart(dividendChartContext, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Dividend Rate'
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                },
+            }
+        });
+
+        {% for dividend in dividends %}
+            dividendChart.data.labels[{{ loop.index0 }}] = '{{ dividend.periodTo|date("Y") }}';
+            dividendChart.data.datasets[0].data[{{ loop.index0 }}] = {{ dividend.rate }};
+        {% endfor %}
+
+        dividendChart.update();
+    </script>
 {% endblock %}
