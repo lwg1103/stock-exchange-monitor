@@ -64,7 +64,7 @@ class Dividend
     /**
      * @var float
      *
-     * @ORM\Column(name="rate", type="decimal", precision=8, scale=5)
+     * @ORM\Column(name="rate", type="decimal", precision=10, scale=5)
      *
      * Dividend to price rate in percentages
      */
