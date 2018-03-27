@@ -4,11 +4,14 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Company\Entity\Company;
 use Company\Entity\Company\Type;
+use Company\Entity\Company\Group;
+use Company\Entity\Company\Group\Type as GroupType;
 
 class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
 {
 
     private $manager;
+    private $companyGroups;
 
     public function getOrder()
     {
@@ -19,26 +22,45 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
     {
         $this->manager = $manager;
 
+        $this->addFinancialCompanyGroups();
         $this->addWig30Companies();
         $this->addWigBudowCompanies();
 
         $this->manager->flush();
     }
 
-    private function addCompany($name, $id, $type = Type::ORDINARY, $longMarketId)
+    private function addCompany($name, $id, $type = Type::ORDINARY, $longMarketId, $groups = array())
     {
         $company = new Company($name, $id, $type, $longMarketId);
+        
+        if(count($groups)) {
+            $company->setGroups($groups);
+        }
 
         $this->manager->persist($company);
+    }
+    
+    private function addCompanyGroup($name, $type) {
+        $companyGroup = new Group($name, $type);
+        
+        $this->manager->persist($companyGroup);
+        
+        $this->companyGroups[$name] = $companyGroup;
+    }
+    
+    private function addFinancialCompanyGroups() {
+        $this->addCompanyGroup("WIG20", GroupType::INDEX);
+        $this->addCompanyGroup("Finanse", GroupType::INDUSTRY);
+        $this->addCompanyGroup("Banki", GroupType::SECTOR);
     }
 
     private function addWig30Companies()
     {
-        $this->addCompany("Alior Bank", "ALR", Type::BANK, "ALIOR");
+        $this->addCompany("Alior Bank", "ALR", Type::BANK, "ALIOR", $this->companyGroups);
         $this->addCompany("Asseco Poland", "ACP", Type::ORDINARY, "ASSECOPOL");
         $this->addCompany("Bank Millenium", "MIL", Type::BANK, "MILLENNIUM");
         $this->addCompany("Bogdanka", "LWB", Type::ORDINARY, "BOGDANKA");
-        $this->addCompany("BZ WBK", "BZW", Type::BANK, "BZWBK");
+        $this->addCompany("BZ WBK", "BZW", Type::BANK, "BZWBK", $this->companyGroups);
         $this->addCompany("CCC", "CCC", Type::ORDINARY, "CCC");
         $this->addCompany("CD Projekt", "CDR", Type::ORDINARY, "CDPROJEKT");
         $this->addCompany("Cyfrowy Polsat", "CPS", Type::ORDINARY, "CYFRPLSAT");
@@ -53,7 +75,7 @@ class LoadCompanyData implements OrderedFixtureInterface, FixtureInterface
         $this->addCompany("Kernel Holding", "KER", Type::ORDINARY, "KERNEL");
         $this->addCompany("KGHM Polska Miedz", "KGH", Type::ORDINARY, "KGHM");
         $this->addCompany("LPP", "LPP", Type::ORDINARY, "LPP");
-        $this->addCompany("MBANK", "MBK", Type::BANK, "MBANK");
+        $this->addCompany("MBANK", "MBK", Type::BANK, "MBANK", $this->companyGroups);
         $this->addCompany("Orange Polska", "OPL", Type::ORDINARY, "ORANGEPL");
         $this->addCompany("PEKAO", "PEO", Type::BANK, "PEKAO");
         $this->addCompany("PGE", "PGE", Type::ORDINARY, "PGE");

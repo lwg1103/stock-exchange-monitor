@@ -3,7 +3,9 @@
 namespace Company\Entity\Company;
 
 use Company\Entity\Group\Type;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * Group

@@ -12,10 +12,10 @@ use Application\BaseEnum;
 class Type extends BaseEnum
 {
     const INDEX = 1;
-    const SECTOR = 2;
-    const INDUSTRY = 3;
+    const INDUSTRY = 2;
+    const SECTOR = 3;
     
     public static function getTypes() {
-    	return array(self::INDEX, self::SECTOR, self::INDUSTRY);
+    	return array(self::INDEX, self::INDUSTRY, self::SECTOR);
     }
 }

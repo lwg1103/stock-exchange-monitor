@@ -56,7 +56,7 @@ class Company
      * @ORM\ManyToMany(targetEntity="Company\Entity\Company\Group", inversedBy="companies")
      * @ORM\JoinTable(name="companies_groups_rel",
      *      joinColumns={@ORM\JoinColumn(name="company_id", referencedColumnName="market_id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", unique=true)})
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")})
      */
     private $groups;
 
