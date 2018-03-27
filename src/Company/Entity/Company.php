@@ -50,6 +50,15 @@ class Company
      * @ORM\Column(name="type", type="smallint")
      */
     private $type;
+    
+    /**
+     * many Companies have many Groups.
+     * @ORM\ManyToMany(targetEntity="Company\Entity\Company\Group", inversedBy="companies")
+     * @ORM\JoinTable(name="companies_groups_rel",
+     *      joinColumns={@ORM\JoinColumn(name="company_id", referencedColumnName="market_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", unique=true)})
+     */
+    private $groups;
 
     /**
      * Company constructor.
@@ -67,6 +76,7 @@ class Company
         $this->type 	= $type;
         $this->longMarketId = $longMarketId;
         $this->reports  = new ArrayCollection();
+        $this->groups   = new ArrayCollection();
     }
 
     /**
@@ -140,6 +150,27 @@ class Company
 
         return $this;
     }
+
+    /**
+     * @return Group[]
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @param Group[] $groups
+     *
+     * @return self
+     */
+    public function setGroups($groups)
+    {
+        $this->groups = $groups;
+    
+        return $this;
+    }
+    
 
     /**
      * @return string
