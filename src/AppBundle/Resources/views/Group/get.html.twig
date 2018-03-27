@@ -1,0 +1,36 @@
+{%  extends '::base.html.twig' %}
+{% block body %}
+	<div class="row wrapper border-bottom white-bg page-heading ibox-content">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{{ path('homepage_index') }}">Home</a>
+                </li>
+                <li>
+                    <a href="{{ path('company_group_index') }}">Company Groups</a>
+                </li>
+                <li>
+                	{{ group.name }} ({{ group.typestring }})
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox product-detail">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-md-3">
+                            	<h2 class="font-bold m-b-xs">
+                                    {{ group.name }} ({{ group.typestring }})
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    	</div>
+    </div>
+{% endblock %}
+

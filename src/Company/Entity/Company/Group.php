@@ -2,7 +2,7 @@
 
 namespace Company\Entity\Company;
 
-use Company\Entity\Group\Type;
+use Company\Entity\Company\Group\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -62,6 +62,16 @@ class Group
     }
 
     /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Get name
      *
      * @return string
@@ -107,6 +117,11 @@ class Group
     public function __toString()
     {
         return $this->getName();
+    }
+    
+    public function getTypeString() 
+    {
+        return Type::toString($this->getType());
     }
 }
 

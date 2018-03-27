@@ -3,11 +3,27 @@ services:
     class: Application\UseCase\ListCompanies
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
+      
+  app.repository.company_group:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+        - Company\Entity\Company\Group
+      
+  app.use_case.list_company_groups:
+    class: Application\UseCase\ListCompanyGroups
+    arguments:
+      - '@app.repository.company_group'
 
   app.use_case.get_company:
     class: Application\UseCase\GetCompany
     arguments:
       - "@=service('doctrine.orm.entity_manager').getRepository('CompanyContext:Company')"
+
+  app.use_case.get_company_group:
+    class: Application\UseCase\GetCompanyGroup
+    arguments:
+      - '@app.repository.company_group'
 
   app.use_case.get_price:
     class: Application\UseCase\GetPrice
