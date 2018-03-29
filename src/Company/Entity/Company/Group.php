@@ -23,7 +23,7 @@ class Group
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @var string
      *
@@ -82,6 +82,20 @@ class Group
     }
 
     /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
      * Get type
      *
      * @return int
@@ -89,6 +103,24 @@ class Group
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     *
+     * @return Report
+     */
+    public function setType($type)
+    {
+        if (!Type::isValid($type)) {
+            throw new \InvalidArgumentException("Valid values are: " . Type::getValidKeys());
+        }
+
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -118,8 +150,8 @@ class Group
     {
         return $this->getName();
     }
-    
-    public function getTypeString() 
+
+    public function getTypeString()
     {
         return Type::toString($this->getType());
     }

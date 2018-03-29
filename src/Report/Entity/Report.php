@@ -446,6 +446,10 @@ class Report
      */
     public function __toString()
     {
+        if( null == $this->getIdentifier() ) {
+            return "";
+        }
+
         $date = $this->getIdentifier()->format('d-m-Y');
         $period = Period::toString($this->getPeriod());
         $type = Type::toString($this->getType());

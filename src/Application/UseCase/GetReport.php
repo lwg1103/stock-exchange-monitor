@@ -62,7 +62,7 @@ class GetReport
 
     /**
      * @param Company $company
-     * 
+     *
      * @return Report
      */
     public function lastByCompany(Company $company)
@@ -76,7 +76,7 @@ class GetReport
                 'identifier' => "DESC"
             ]
         );
-        
+
         if (null != $manualReport)
             return $manualReport;
 
@@ -89,11 +89,11 @@ class GetReport
                 'identifier' => "DESC"
             ]
         );
-        
+
         if(!$autoReport) {
             $autoReport = new Report();
         }
-        
+
         return $autoReport;
     }
 
@@ -180,7 +180,7 @@ class GetReport
             ],
             $limit
         );
-        
+
         return $autoReports;
     }
 }

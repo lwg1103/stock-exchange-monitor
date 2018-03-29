@@ -27,6 +27,16 @@
                                 </h2>
                                 <div class="m-t-md">
                                     <h2 class="product-main-price">{{ price }} zł</h2>
+                                    <h3>Groups:</h3>
+                                    {% if company.groups.count > 0 %}
+                                        <ul>
+                                        {% for group in company.groups %}
+                                            <li>{{ group.getName }}</li>
+                                        {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>Company has no groups</p>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-9">
