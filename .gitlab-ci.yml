@@ -1,6 +1,10 @@
 before_script:
   - cp app/config/parameters_test.yml.ci app/config/parameters_test.yml
   - cp app/config/parameters_test.yml.ci app/config/parameters.yml
+  
+  # Install & enable Xdebug
+  - pecl install xdebug 
+  - docker-php-ext-enable xdebug
 
 stages:
   - test
