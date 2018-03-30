@@ -136,7 +136,7 @@
         <exec executable="${basedir}/vendor/phpunit/phpunit/phpunit" failonerror="true">
             <arg value="-c" />
             <arg path="${basedir}/build/phpunit.xml" />
-            <arg value="--coverage-text --colors=never" />
+            <arg value="--coverage-text" />
         </exec>
     </target>
 
