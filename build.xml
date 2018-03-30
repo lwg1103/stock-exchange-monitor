@@ -137,6 +137,7 @@
             <arg value="-c" />
             <arg path="${basedir}/build/phpunit.xml" />
             <arg value="--coverage-text" />
+			<arg value="--colors=never" />
         </exec>
     </target>
 
